@@ -21,6 +21,14 @@ When ^I say that ^something, ^ I want to hold your h^and!
 
 A line containing chords must begin with a colon (`:`). To denote the positions of chords in a line, we use the carrot (`^`) character. Markato looks at the number of carrots and chords and matches them appropriately.
 
+###Whitespace in Chord Lines
+Whitespace in chord lines doesn't matter; the above lyric could easily be written:
+```
+: G D Em E7 Bm
+Oh yeah ^I'll tell you ^something ^ I think you'll ^under^stand
+```
+As a result, chords must not contain spaces.
+
 ###Attaching Chords
 A chord can be attached to a word in a few ways. If the chord and the word coincide, it makes sense to write the carrot immediately before the word, with no space. A Markato visualization engine might choose to print the chord directly above the word in question.
 ```
@@ -29,12 +37,12 @@ When I say that ^something,
 ```
 Chords may often come in the middle of words,
 ```
-                    Bm
+:                   Bm
 I think you'll under^stand
 ```
 or in the beats between words.
 ```
-                           Em
+:                          Em
 When I say that something, ^ I wanna hold your hand!
 ```
 Markato knows what each of these means and parses it accordingly.
@@ -84,11 +92,11 @@ Markato seeks to solve the issue of competing interpretations. When a user disag
 
 Alternate Chords are written at the end of a song, after a triple pound character (`###`). If there are two conflicts on the same base token, a double or even triple footnote can be used. Here is an example:
 ```
-:E'            C     E'      Am
+:E'            C     E''    Am
  ^ It's been a ^hard ^day's ^night
 ###
-E’  => Bm7#11, Bmaj7
-E'  => Bmin7, Bb9
+E'  => Bm7#11, Bmaj7
+E'' => Bmin7, Bb9
 ```
 
 
