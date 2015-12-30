@@ -1,0 +1,41 @@
+{
+  "name": "markato",
+  "version": "1.0.0",
+  "description": "A readable markup language for lyrics and chords",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsrmath/markato.git"
+  },
+  "keywords": [
+    "markup",
+    "music",
+    "chords",
+    "lyrics",
+    "songs",
+    "markdown",
+    "guitar"
+  ],
+  "author": "Julian Rosenblum <jsrmath@gmail.com>",
+  "contributors": [
+    {
+      "name": "James Buckland",
+      "email": "james.adam.buckland@gmail.com"
+    }
+  ],
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/jsrmath/markato/issues"
+  },
+  "homepage": "https://github.com/jsrmath/markato#readme",
+  "dependencies": {
+    "string": "^3.3.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.4"
+  }
+}
