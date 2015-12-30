@@ -2,9 +2,9 @@ var parser = require('../lib/parser');
 var assert = require('assert');
 
 describe('Parser', function () {
-  describe('#parseMarkatoString', function () {
+  describe('#parseString', function () {
     it('should return an object', function () {
-      assert(parser.parseMarkatoString('foo'));
+      assert(parser.parseString(''));
     });
   });
 });

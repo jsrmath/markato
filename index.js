@@ -1,1 +1,1 @@
-module.exports.parser = require('./lib/parser');
+module.exports.parseString = require('./lib/parser').parseString;
