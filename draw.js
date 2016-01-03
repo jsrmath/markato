@@ -7,7 +7,7 @@
     var canvas, cstring, i, j, k, len, len1, len2, line, lyric, ref, ref1, token;
     canvas = $(location);
     cstring = '';
-    cstring += "<div class='panel panel-info'><div class='panel-heading'>" + song.meta.TITLE + "<br/><small>" + song.meta.ARTIST + "</small></div><div class='panel-body'>";
+    cstring += "<div class='panel panel-info'><div class='panel-heading'>" + song.meta.TITLE + "<br/><small>" + song.meta.ARTIST + " - " + song.meta.ALBUM + "</small></div><div class='panel-body'>";
     ref = song.lyrics;
     for (i = 0, len = ref.length; i < len; i++) {
       lyric = ref[i];

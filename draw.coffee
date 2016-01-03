@@ -3,7 +3,7 @@ canvas
 window.draw = (location, song, state) ->
 	canvas = $(location)
 	cstring = ''
-	cstring += "<div class='panel panel-info'><div class='panel-heading'>#{song.meta.TITLE}<br/><small>#{song.meta.ARTIST}</small></div><div class='panel-body'>"
+	cstring += "<div class='panel panel-info'><div class='panel-heading'>#{song.meta.TITLE}<br/><small>#{song.meta.ARTIST} - #{song.meta.ALBUM}</small></div><div class='panel-body'>"
 	(
 		if state.showSections
 			cstring += "<div class='section'>#{lyric.section}</div><br/>"
