@@ -1,0 +1,42 @@
+.phrase{
+	background: white;
+	border: none;
+	padding: 0px !important;
+	margin: 0px !important;
+	margin-right: 0.3em !important;
+	border-radius: 0px;
+	line-height: 100%;
+	display: inline-block;
+	white-space: pre !important;
+	word-break: normal !important;
+	word-wrap: normal !important;
+}
+
+.mute{
+	opacity: 0.2;
+}
+.section{
+	text-align:center;
+	font-size: x-small;
+	opacity: 0.5;
+	text-transform:small-caps;
+}
+
+.join span.string{
+	margin-left: -4px !important;
+}
+
+.dl-horizontal dt{
+	width: 100px !important;
+}
+.dl-horizontal dd{
+	margin-left: 120px !important;
+}
+dt{
+	font-weight: normal;
+	color: lightgrey;
+}
+
+.panel-heading{
+	font-size: large;
+}
