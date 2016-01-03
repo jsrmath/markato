@@ -166,7 +166,7 @@ var parser = (function () {
       _.each(chords, function (chord, index) {
         addPhrase({
           chord: chord,
-          exception: _.contains(exceptionIndices, chordIndex)
+          exception: _.contains(exceptionIndices, index)
         });
       });
     }
