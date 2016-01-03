@@ -10,7 +10,7 @@ example = '''
 : G D Em Bm
 
 #VERSE
-:       G              D          Em               E7    Bm'
+:       G'             D          Em               E7    Bm'
 Oh yeah ^I'll tell you ^something ^ I think you'll ^under^stand
 :    G           D           Em                     B7
 When ^I say that ^something, ^ I want to hold your h^and!
@@ -22,7 +22,7 @@ When ^I say that ^something, ^ I want to hold your h^and!
 ^ I wanna ^hold your ^hand!
 
 #VERSE
-Oh ^please say to ^me, ^ you'll let me be your ^man
+Oh ^please say to ^me, ^ you'll let me ^be your ^man
 :  *              G    *                          *
 Oh ^please say to ^me, ^ you'll let me hold your h^and
 
@@ -49,6 +49,7 @@ When ^I feel that ^something, ^ I wanna hold your ^hand.
 ^ I wanna ^hold your ^hand!
 
 ###
+G' => Gsus4
 Bm'  => Bm7#11, Bmaj7
 Bm'' => Dm
 '''
@@ -57,6 +58,7 @@ $ ->
 	state =
 		showChords: true
 		showRepeats: false
+		showAlts: true
 		smartMode: true
 
 	refresh = () ->
@@ -80,6 +82,12 @@ $ ->
 		state.showSections = if idd=='on' then true else false
 		draw(location, file, state)
 
+	$('#showAlts').change ->
+		idd = $('#showAlts label.active').attr('id')
+		state.showAlts = if idd=='on' then true else false
+		draw(location,file,state)
+
 	$('#showChords #smart').click()
-	
 	$('#showSections #on').click()
+	$('#showAlts #on').click()
+

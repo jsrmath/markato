@@ -4,17 +4,18 @@
   var printToken;
 
   window.draw = function(location, song, state) {
-    var canvas, cstring, i, j, k, len, len1, len2, line, lyric, ref, ref1, token;
+    var canvas, cstring, i, j, k, len, len1, len2, line, ref, ref1, section, token;
     canvas = $(location);
     cstring = '';
     cstring += "<div class='panel panel-info'><div class='panel-heading'>" + song.meta.TITLE + "<br/><small>" + song.meta.ARTIST + " - " + song.meta.ALBUM + "</small></div><div class='panel-body'>";
     ref = song.lyrics;
     for (i = 0, len = ref.length; i < len; i++) {
-      lyric = ref[i];
+      section = ref[i];
       if (state.showSections) {
-        cstring += "<div class='section'>" + lyric.section + "</div><br/>";
+        cstring += "<div class='section-header'>" + section.section + "</div><hr/>";
       }
-      ref1 = lyric.lines;
+      cstring += "<div class='section'>";
+      ref1 = section.lines;
       for (j = 0, len1 = ref1.length; j < len1; j++) {
         line = ref1[j];
         for (k = 0, len2 = line.length; k < len2; k++) {
@@ -23,7 +24,7 @@
         }
         cstring += "<br/>";
       }
-      cstring += "<br/>";
+      cstring += "</div><br/>";
     }
     cstring += "</dl>";
     cstring += "</div></div>";
@@ -34,6 +35,8 @@
   printToken = function(token, state) {
     var chString, chord, pString, result, string;
     chord = token.chord == null ? ' ' : token.chord;
+    chord = chord.replace('#', '&#x266F;');
+    chord = chord.replace('b', '&#x266D;');
     string = token.string === '' ? ' ' : token.string.trim();
     pString = 'phrase';
     pString += token.wordExtension ? ' join' : '';
@@ -44,10 +47,18 @@
       if (state.smartMode) {
         chString += token.exception ? '' : ' mute';
       }
+      if (state.showAlts) {
+        chString += token.alts.length > 0 ? ' alts' : '';
+      }
       result += "<span class=\"" + chString + "\">" + chord + "</span><br/>";
     }
     result += "<span class='string'>" + string + "</span>";
     result += "</p>";
+    if (token.alts.length > 0 && token.exception && state.showAlts) {
+      result += "<span class='sidebar alts'>" + token.chord + " → (";
+      result += token.alts.join(', ');
+      result += ")</span><br/>";
+    }
     return result;
   };
 

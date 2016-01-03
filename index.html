@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-3">
+        <div class="col-xs-6 col-sm-3">
           <h5>Show Chords </h5>
           <div data-toggle="buttons" id="showChords" class="btn-group">
             <label id="all" class="btn btn-default btn-xs">
@@ -29,8 +29,8 @@
             </label>
           </div>
         </div>
-        <div class="col-xs-3">
-          <h5>Show Sections </h5>
+        <div class="col-xs-6 col-sm-3">
+          <h5>Show Section Headers</h5>
           <div data-toggle="buttons" id="showSections" class="btn-group">
             <label id="on" class="btn btn-default btn-xs">
               <input type="radio" name="showSections"><span>On</span>
@@ -40,13 +40,24 @@
             </label>
           </div>
         </div>
+        <div class="col-xs-6 col-sm-3">
+          <h5>Show Alternate Chords</h5>
+          <div data-toggle="buttons" id="showAlts" class="btn-group">
+            <label id="on" class="btn btn-default btn-xs">
+              <input type="radio" name="showAlts"><span>On</span>
+            </label>
+            <label id="off" class="btn btn-default btn-xs">
+              <input type="radio" name="showAlts"><span>Off</span>
+            </label>
+          </div>
+        </div>
       </div>
       <hr>
       <div class="row">
-        <div id="output" class="col-xs-6">
+        <div id="output" class="col-xs-12 col-sm-6">
           <div id="canvas"></div>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-12 col-sm-6">
           <textarea id="input" rows="30" class="form-control"></textarea>
         </div>
       </div>
