@@ -156,7 +156,7 @@ var parseLyricLine = function (state, line) {
       _.last(phrases).wordExtension = true;
     }
 
-    chordIndex++;
+    chordIndex += 1;
   });
   
   // Add new line to current lyric section
