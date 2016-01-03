@@ -58,27 +58,27 @@ $ ->
 		showChords: true
 		showRepeats: false
 		smartMode: true
-	
-	file = parser.parseString example
-	console.log file
-	$('#input').val(example)
-	draw(location, hold, state)
 
-	$('#input').keyup ->
-		file = parser.parseString this.value
+	refresh = () ->
+		file = parser.parseString $('#input').val()
 		console.log file
 		draw location, file, state
+
+	$('#input').val(example)
+	refresh()
+	
+	$('#input').keyup refresh
 
 	$('#showChords').change ->
 		idd = $('#showChords label.active').attr('id')
 		state.showChords = if idd=='none' then false else true
 		state.smartMode = if idd=='smart' then true else false
-		draw(location, hold, state)
+		draw(location, file, state)
 
 	$('#showSections').change ->
 		idd = $('#showSections label.active').attr('id')
 		state.showSections = if idd=='on' then true else false
-		draw(location, hold, state)
+		draw(location, file, state)
 
 	$('#showChords #smart').click()
 	

@@ -9,33 +9,32 @@
   example = '##TITLE  I Wanna Hold Your Hand\n##ARTIST The Beatles\n##ALBUM A Hard Day\'s Night\n\n#INTRO\n: G D Em Bm\n\n#VERSE\n:       G              D          Em               E7    Bm\'\nOh yeah ^I\'ll tell you ^something ^ I think you\'ll ^under^stand\n:    G           D           Em                     B7\nWhen ^I say that ^something, ^ I want to hold your h^and!\n\n#CHORUS\n:C         D          G  Em  \n^ I wanna ^hold your ^ha^nd!\n:C         D          G      \n^ I wanna ^hold your ^hand!\n\n#VERSE\nOh ^please say to ^me, ^ you\'ll let me be your ^man\n:  *              G    *                          *\nOh ^please say to ^me, ^ you\'ll let me hold your h^and\n\n#CHORUS\n^Now let me ^hold your ^ha^nd\n^ I wanna ^hold your ^hand\n\n#BRIDGE\n:Dm           G                 C        Am        \n^ And when I ^touch you I feel ^happy in^side\n:Bm\'\'          G                C              D   \n^ It\'s such a ^feeling that my ^love, I can\'t ^hide\n:C         D                                       \n^ I can\'t ^hide\n:C         D                                       \n^ I can\'t ^hide\n\n#VERSE\nYeah-ah ^you, got that ^something ^ I think you\'ll under^stand.\nWhen ^I feel that ^something, ^ I wanna hold your ^hand.\n\n#CHORUS\n^ I wanna ^hold your ^ha^and!\n^ I wanna ^hold your ^hand!\n\n###\nBm\'  => Bm7#11, Bmaj7\nBm\'\' => Dm';
 
   $(function() {
-    var state;
+    var refresh, state;
     state = {
       showChords: true,
       showRepeats: false,
       smartMode: true
     };
-    file = parser.parseString(example);
-    console.log(file);
-    $('#input').val(example);
-    draw(location, hold, state);
-    $('#input').keyup(function() {
-      file = parser.parseString(this.value);
+    refresh = function() {
+      file = parser.parseString($('#input').val());
       console.log(file);
       return draw(location, file, state);
-    });
+    };
+    $('#input').val(example);
+    refresh();
+    $('#input').keyup(refresh);
     $('#showChords').change(function() {
       var idd;
       idd = $('#showChords label.active').attr('id');
       state.showChords = idd === 'none' ? false : true;
       state.smartMode = idd === 'smart' ? true : false;
-      return draw(location, hold, state);
+      return draw(location, file, state);
     });
     $('#showSections').change(function() {
       var idd;
       idd = $('#showSections label.active').attr('id');
       state.showSections = idd === 'on' ? true : false;
-      return draw(location, hold, state);
+      return draw(location, file, state);
     });
     $('#showChords #smart').click();
     return $('#showSections #on').click();
