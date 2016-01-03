@@ -4,7 +4,7 @@ file = ''
 example = '''
 ##TITLE  I Wanna Hold Your Hand
 ##ARTIST The Beatles
-##ALBUM	 A Hard Day's Night
+##ALBUM A Hard Day's Night
 
 #INTRO
 : G D Em Bm
