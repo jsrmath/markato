@@ -163,8 +163,11 @@ var parser = (function () {
 
     // If there are no lyrics, just add a line of chords
     if (!lyrics) {
-      _.each(chords, function (chord) {
-        addPhrase({chord: chord});
+      _.each(chords, function (chord, index) {
+        addPhrase({
+          chord: chord,
+          exception: _.contains(exceptionIndices, chordIndex)
+        });
       });
     }
     // Otherwise, add lyrics based on carats
