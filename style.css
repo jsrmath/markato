@@ -40,3 +40,7 @@ dt{
 .panel-heading{
 	font-size: large;
 }
+
+textarea{
+	font-family: monospace;
+}
