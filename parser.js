@@ -150,16 +150,19 @@ var parser = (function () {
     sectionChords = state.chords[sectionName][state.current.line];
 
     // If there is no above line of chords, use the section chords
-    if (!chords.length) chords = sectionChords
+    if (!chords.length) {
+      chords = sectionChords;
+    }
+    // Otherwise, substitute * from chords where necessary
+    else {
+      chords = _.map(chords, function (chord, index) {
+        // For *, get the chord at the same index from the chord list
+        if (chord === '*') return sectionChords[index];
 
-    // Substitute * from sectionChords where necessary
-    chords = _.map(chords, function (chord, index) {
-      // For *, get the chord at the same index from the chord list
-      if (chord === '*') return sectionChords[index];
-
-      exceptionIndices.push(index);
-      return chord;
-    });
+        exceptionIndices.push(index);
+        return chord;
+      });
+    }
 
     // If there are no lyrics, just add a line of chords
     if (!lyrics) {
