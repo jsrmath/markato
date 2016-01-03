@@ -1,0 +1,60 @@
+doctype html
+html(lang="en")
+	head
+		title= "Markato Demo"
+		meta(charset='utf-8')
+		link(rel="stylesheet",
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", 
+			integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7",
+			crossorigin="anonymous")
+		//link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css", integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r", crossorigin="anonymous")
+		link(rel="stylesheet",
+			href="style.css")
+		//style
+		//	include style.css
+	body
+		.container
+			.row
+				.col-sm-12
+					h3 Markato Demo
+					hr
+			.row
+				.col-xs-3
+					h5 Show Chords 
+					div.btn-group(data-toggle='buttons')#showChords
+						label.btn.btn-default.btn-xs#all
+							input(type='radio' name='showChords') 
+							span All
+						label.btn.btn-default.btn-xs#smart
+							input(type='radio' name='showChords') 
+							span Smart
+						label.btn.btn-default.btn-xs#none
+							input(type='radio' name='showChords')
+							span None
+				.col-xs-3
+					h5 Show Sections 
+					div.btn-group(data-toggle='buttons')#showSections
+						label.btn.btn-default.btn-xs#on
+							input(type='radio' name='showSections')
+							span On
+						label.btn.btn-default.btn-xs#off
+							input(type='radio' name='showSections')
+							span Off
+			hr
+			.row
+				.col-xs-6#output
+					#canvas
+				.col-xs-6#input
+					textarea.form-control(rows='10')
+	
+	script(src="https://code.jquery.com/jquery-2.1.4.min.js")
+	script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", 
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS",
+		crossorigin="anonymous")
+	script(src='hold.js')
+	script(src='draw.js')
+	script(src='script.js')
+
+
+
+
