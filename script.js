@@ -36,30 +36,31 @@
       idd = $('#showChords label.active').attr('id');
       state.showChords = idd === 'none' ? false : true;
       state.smartMode = idd === 'smart' ? true : false;
-      return draw(location, file, state);
+      return refresh();
     });
     $('#showSections').change(function() {
       var idd;
       idd = $('#showSections label.active').attr('id');
       state.showSections = idd === 'on' ? true : false;
-      return draw(location, file, state);
+      return refresh();
     });
     $('#showAlts').change(function() {
       var idd;
       idd = $('#showAlts label.active').attr('id');
       state.showAlts = idd === 'on' ? true : false;
-      return draw(location, file, state);
+      return refresh();
     });
     $('#showSource').change(function() {
       var idd;
       idd = $('#showSource label.active').attr('id');
       if (idd === 'on') {
         $('#input').parent().show();
-        return $('#output').addClass('col-sm-6');
+        $('#output').addClass('col-sm-6');
       } else {
         $('#input').parent().hide();
-        return $('#output').removeClass('col-sm-6');
+        $('#output').removeClass('col-sm-6');
       }
+      return refresh();
     });
     $('#showChords #smart').click();
     $('#showSections #on').click();

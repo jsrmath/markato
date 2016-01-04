@@ -81,17 +81,17 @@ $ ->
 		idd = $('#showChords label.active').attr('id')
 		state.showChords = if idd=='none' then false else true
 		state.smartMode = if idd=='smart' then true else false
-		draw(location, file, state)
+		refresh()
 
 	$('#showSections').change ->
 		idd = $('#showSections label.active').attr('id')
 		state.showSections = if idd=='on' then true else false
-		draw(location, file, state)
+		refresh()
 
 	$('#showAlts').change ->
 		idd = $('#showAlts label.active').attr('id')
 		state.showAlts = if idd=='on' then true else false
-		draw(location,file,state)
+		refresh()
 
 	$('#showSource').change ->
 		idd = $('#showSource label.active').attr('id')
@@ -101,6 +101,7 @@ $ ->
 		else
 			$('#input').parent().hide()
 			$('#output').removeClass('col-sm-6')
+		refresh()
 
 	$('#showChords #smart').click()
 	$('#showSections #on').click()
