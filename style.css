@@ -19,6 +19,10 @@
 .alts{
 	color:sandybrown;
 }
+.alts a{
+	text-decoration:underline;
+	color:inherit;
+}
 .sidebar{
 	float:right;
 	padding:2px;

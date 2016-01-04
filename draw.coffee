@@ -1,7 +1,11 @@
 canvas
+alts = {}
 
 window.draw = (location, song, state) ->
 	canvas = $(location)
+	alts = song.alts
+	console.log alts
+
 	cstring = ''
 	cstring += "<div class='panel panel-info'><div class='panel-heading'>#{song.meta.TITLE}<br/><small>#{song.meta.ARTIST} - #{song.meta.ALBUM}</small></div><div class='panel-body'>"
 	(
@@ -22,11 +26,18 @@ window.draw = (location, song, state) ->
 	null
 
 printToken = (token, state) ->
-	
+	hasAlts = false
+	#console.log token
+	if token.chord.endsWith('\'')
+		hasAlts = true
 
 	chord = if not token.chord? then ' ' else token.chord
 	chord = chord.replace('#', '&#x266F;')
 	chord = chord.replace('b', '&#x266D;')
+	chord = chord.replace(/'/g,'')
+	allowable = token.chord.replace(/'/g,'')
+	num = token.chord.length - allowable.length
+	identifier = allowable + num
 	string = if token.string=='' then ' ' else token.string.trim()
 
 	pString = 'phrase'
@@ -38,16 +49,17 @@ printToken = (token, state) ->
 		chString = 'chord'
 		if state.smartMode
 			chString += if token.exception then '' else ' mute'
-		if state.showAlts
-			chString += if token.alts.length>0 then ' alts' else ''
-		result += "<span class=\"#{chString}\">#{chord}</span><br/>"
+		if state.showAlts and token.exception and alts[token.chord]?
+			chString += if hasAlts then ' alts' else ''
+		result += "<span class=\"#{chString}\" data-id-to=\"#{identifier}\">#{chord}</span><br/>"
 	result += "<span class='string'>#{string}</span>"
 	result += "</p>"
 
-	if token.alts.length>0 and token.exception and state.showAlts
-		result += "<span class='sidebar alts'>#{token.chord} → ("
-		result += token.alts.join(', ')
-		result += ")</span><br/>"
+	if hasAlts and token.exception and state.showAlts and alts[token.chord]?
+		result += "<span class='sidebar alts' data-id-from=\"#{identifier}\">"
+		result += "<a>#{chord}</a> → <a>"
+		result += alts[token.chord].join('</a>, <a>')
+		result += "</a></span><br/>"
 	
 	result
 

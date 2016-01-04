@@ -65,6 +65,13 @@ $ ->
 		file = parser.parseString $('#input').val()
 		console.log file
 		draw location, file, state
+		
+		#SWAP IN ALTERNATIVES ON CLICK
+		$('.alts a').click ->
+			id = $(this).parent().attr('data-id-from')
+			console.log id
+			console.log $("span[data-id-to='#{id}']")
+			$("span[data-id-to='#{id}']").html($(this).html())
 
 	$('#input').val(example)
 	refresh()
@@ -87,7 +94,17 @@ $ ->
 		state.showAlts = if idd=='on' then true else false
 		draw(location,file,state)
 
+	$('#showSource').change ->
+		idd = $('#showSource label.active').attr('id')
+		if idd == 'on' #show source
+			$('#input').parent().show()
+			$('#output').addClass('col-sm-6')
+		else
+			$('#input').parent().hide()
+			$('#output').removeClass('col-sm-6')
+
 	$('#showChords #smart').click()
 	$('#showSections #on').click()
 	$('#showAlts #on').click()
+	$('#showSource #off').click()
 

@@ -19,7 +19,14 @@
     refresh = function() {
       file = parser.parseString($('#input').val());
       console.log(file);
-      return draw(location, file, state);
+      draw(location, file, state);
+      return $('.alts a').click(function() {
+        var id;
+        id = $(this).parent().attr('data-id-from');
+        console.log(id);
+        console.log($("span[data-id-to='" + id + "']"));
+        return $("span[data-id-to='" + id + "']").html($(this).html());
+      });
     };
     $('#input').val(example);
     refresh();
@@ -43,9 +50,21 @@
       state.showAlts = idd === 'on' ? true : false;
       return draw(location, file, state);
     });
+    $('#showSource').change(function() {
+      var idd;
+      idd = $('#showSource label.active').attr('id');
+      if (idd === 'on') {
+        $('#input').parent().show();
+        return $('#output').addClass('col-sm-6');
+      } else {
+        $('#input').parent().hide();
+        return $('#output').removeClass('col-sm-6');
+      }
+    });
     $('#showChords #smart').click();
     $('#showSections #on').click();
-    return $('#showAlts #on').click();
+    $('#showAlts #on').click();
+    return $('#showSource #off').click();
   });
 
 }).call(this);
