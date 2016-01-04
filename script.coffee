@@ -65,7 +65,6 @@ $ ->
 		file = parser.parseString $('#input').val()
 		console.log file
 		draw location, file, state
-		
 		#SWAP IN ALTERNATIVES ON CLICK
 		$('.alts a').click ->
 			id = $(this).parent().attr('data-id-from')
@@ -108,3 +107,9 @@ $ ->
 	$('#showAlts #on').click()
 	$('#showSource #off').click()
 
+	#SWAP IN ALTERNATIVES ON CLICK
+	$('.alts a').click ->
+		id = $(this).parent().attr('data-id-from')
+		console.log id
+		console.log $("span[data-id-to='#{id}']")
+		$("span[data-id-to='#{id}']").html($(this).html())

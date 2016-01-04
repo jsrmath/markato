@@ -64,7 +64,14 @@
     $('#showChords #smart').click();
     $('#showSections #on').click();
     $('#showAlts #on').click();
-    return $('#showSource #off').click();
+    $('#showSource #off').click();
+    return $('.alts a').click(function() {
+      var id;
+      id = $(this).parent().attr('data-id-from');
+      console.log(id);
+      console.log($("span[data-id-to='" + id + "']"));
+      return $("span[data-id-to='" + id + "']").html($(this).html());
+    });
   });
 
 }).call(this);
