@@ -121,18 +121,12 @@ var parser = (function () {
     var sectionChords;
 
     var addPhrase = function (obj) {
-      obj = _.defaults(obj, {
+      phrases.push(_.defaults(obj, {
         string: '',
         chord: '',
         exception: false,
         wordExtension: false
-      });
-
-      // Fetch alternates
-      obj.alts = state.alts[obj.chord] || [];
-      obj.chord = S(obj.chord).strip('\'').s;
-
-      phrases.push(obj);
+      }));
     };
 
     // If we're not in a section, create one called untitled
