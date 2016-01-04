@@ -12,7 +12,7 @@ html(lang="en")
 					h3 Markato Demo
 					hr
 			.row
-				.col-xs-3
+				.col-xs-6.col-sm-3
 					h5 Show Chords 
 					div.btn-group(data-toggle='buttons')#showChords
 						label.btn.btn-default.btn-xs#all
@@ -24,8 +24,8 @@ html(lang="en")
 						label.btn.btn-default.btn-xs#none
 							input(type='radio' name='showChords')
 							span None
-				.col-xs-3
-					h5 Show Sections 
+				.col-xs-6.col-sm-3
+					h5 Show Section Headers
 					div.btn-group(data-toggle='buttons')#showSections
 						label.btn.btn-default.btn-xs#on
 							input(type='radio' name='showSections')
@@ -33,11 +33,20 @@ html(lang="en")
 						label.btn.btn-default.btn-xs#off
 							input(type='radio' name='showSections')
 							span Off
+				.col-xs-6.col-sm-3
+					h5 Show Alternate Chords
+					div.btn-group(data-toggle='buttons')#showAlts
+						label.btn.btn-default.btn-xs#on
+							input(type='radio' name='showAlts')
+							span On
+						label.btn.btn-default.btn-xs#off
+							input(type='radio' name='showAlts')
+							span Off
 			hr
 			.row
-				.col-xs-6#output
+				.col-xs-12.col-sm-6#output
 					#canvas
-				.col-xs-6
+				.col-xs-12.col-sm-6
 					textarea.form-control#input(rows='30')
 	script(src="https://code.jquery.com/jquery-2.1.4.min.js")
 	script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS", crossorigin="anonymous")

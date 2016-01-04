@@ -13,14 +13,24 @@
 }
 
 .mute{
-	opacity: 0.2;
+	color:lightgrey;
 }
-.section{
-	text-align:center;
-	font-size: x-small;
-	opacity: 0.5;
+
+.alts{
+	color:sandybrown;
+}
+.sidebar{
+	float:right;
+	padding:2px;
+	background:white;
+}
+.section-header{
+	float:left;
+	font-size: small;
+	color:lightgray;
 	text-transform:small-caps;
 }
+
 
 .join span.string{
 	margin-left: -4px !important;
@@ -39,4 +49,14 @@ dt{
 
 .panel-heading{
 	font-size: large;
+}
+
+textarea{
+	font-family: monospace;
+}
+
+hr{
+	margin-bottom:0px;
+	padding-bottom:5px;
+	padding-top:0px;
 }
