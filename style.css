@@ -29,7 +29,6 @@
 	background:white;
 }
 .section-header{
-	float:left;
 	font-size: small;
 	color:lightgray;
 	text-transform:small-caps;
@@ -60,7 +59,10 @@ textarea{
 }
 
 hr{
-	margin-bottom:0px;
-	padding-bottom:5px;
-	padding-top:0px;
+	margin:0px;
+	padding:0px; 
+	margin-bottom:5px;
+}
+h2{
+	margin-top:0px;
 }

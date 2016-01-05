@@ -5,84 +5,53 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-xs-12">
           <h3>Markato Demo</h3>
-          <hr>
+        </div>
+        <div class="col-xs-12 text-right">
+          <input type="checkbox" name="toggle-edit" data-label-text="Edit" data-inverse="true" checked class="bs">
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-6 col-sm-3">
-          <h5>Show Chords </h5>
-          <div data-toggle="buttons" id="showChords" class="btn-group">
-            <label id="all" class="btn btn-default btn-xs">
-              <input type="radio" name="showChords"><span>All</span>
-            </label>
-            <label id="smart" class="btn btn-default btn-xs">
-              <input type="radio" name="showChords"><span>Smart</span>
-            </label>
-            <label id="none" class="btn btn-default btn-xs">
-              <input type="radio" name="showChords"><span>None</span>
-            </label>
+        <div class="col-xs-12 col-sm-12 col-md-2">
+          <input type="checkbox" name="toggle-chords" data-label-text="Chords" data-inverse="true" checked class="bs">
+          <input type="checkbox" name="toggle-muted" data-label-text="Smart Fade" data-inverse="true" checked class="bs">
+          <input type="checkbox" name="toggle-section" data-label-text="Sections" data-inverse="true" checked class="bs">
+          <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" checked class="bs">
+          <div id="transpose" role="group" class="btn-group">
+            <button id="transposeUp" type="button" class="btn btn-default">&#x2191;</button>
+            <button id="transposeDown" type="button" class="btn btn-default">&#x2193;</button>
+            <button id="transposeReset" type="button" class="btn btn-default"><i>in </i><span id="key"></span></button>
           </div>
         </div>
-        <div class="col-xs-6 col-sm-3">
-          <h5>Show Section Headers</h5>
-          <div data-toggle="buttons" id="showSections" class="btn-group">
-            <label id="on" class="btn btn-default btn-xs">
-              <input type="radio" name="showSections"><span>On</span>
-            </label>
-            <label id="off" class="btn btn-default btn-xs">
-              <input type="radio" name="showSections"><span>Off</span>
-            </label>
+        <div class="col-xs-12 col-sm-12 col-md-10">
+          <div class="row">
+            <div id="output" class="col-xs-12 col-sm-6">
+              <div id="canvas"></div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <textarea id="input" rows="30" class="form-control"></textarea>
+            </div>
           </div>
-        </div>
-        <div class="col-xs-6 col-sm-3">
-          <h5>Show Alternate Chords</h5>
-          <div data-toggle="buttons" id="showAlts" class="btn-group">
-            <label id="on" class="btn btn-default btn-xs">
-              <input type="radio" name="showAlts"><span>On</span>
-            </label>
-            <label id="off" class="btn btn-default btn-xs">
-              <input type="radio" name="showAlts"><span>Off</span>
-            </label>
-          </div>
-        </div>
-        <div class="col-xs-6 col-sm-3">
-          <h5>Show Source</h5>
-          <div data-toggle="buttons" id="showSource" class="btn-group">
-            <label id="on" class="btn btn-default btn-xs">
-              <input type="radio" name="showSource"><span>On</span>
-            </label>
-            <label id="off" class="btn btn-default btn-xs">
-              <input type="radio" name="showSource"><span>Off</span>
-            </label>
-          </div>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div id="output" class="col-xs-12 col-sm-6">
-          <div id="canvas"></div>
-        </div>
-        <div class="col-xs-12 col-sm-6">
-          <textarea id="input" rows="30" class="form-control"></textarea>
         </div>
       </div>
     </div>
   </body>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.1/string.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <script src="hold.js"> </script>
-  <!--nicwe-->
+  <!--script(src='hold.js') -->
+  <script src="sharp11.js"></script>
+  <script src="transpose.js"></script>
   <script src="draw.js"></script>
   <script src="parser.js"></script>
   <script src="script.js"></script>
-  <script src="sharp11.js"></script>
-  <script src="transpose.js"></script>
 </html>

@@ -59,58 +59,73 @@ $ ->
 		showChords: true
 		showRepeats: false
 		showAlts: true
+		showSections: true
 		smartMode: true
+		transpose: 0
 
 	refresh = () ->
 		file = parser.parseString $('#input').val()
 		console.log file
 		draw location, file, state
+		
 		#SWAP IN ALTERNATIVES ON CLICK
 		$('.alts a').click ->
 			id = $(this).parent().attr('data-id-from')
-			console.log id
-			console.log $("span[data-id-to='#{id}']")
 			$("span[data-id-to='#{id}']").html($(this).html())
 
 	$('#input').val(example)
+
 	refresh()
+
+	#CONSTANT BEHAVIORAL ASSIGNMENTS
 	
 	$('#input').keyup refresh
 
-	$('#showChords').change ->
-		idd = $('#showChords label.active').attr('id')
-		state.showChords = if idd=='none' then false else true
-		state.smartMode = if idd=='smart' then true else false
+	$('#transpose button').click ->
+		id = $(this).attr('id')
+		switch id
+			when "transposeUp"
+				state.transpose++
+			when "transposeDown"
+				state.transpose--
+			else
+				state.transpose = 0
+		console.log state.transpose
 		refresh()
 
-	$('#showSections').change ->
-		idd = $('#showSections label.active').attr('id')
-		state.showSections = if idd=='on' then true else false
+	$("[name='toggle-chords']").on 'switchChange.bootstrapSwitch', (event, bool)->
+		state.showChords = if bool then true else false
+		if not bool #if toggling 'no', turn off related things automatically
+			$("input[name='toggle-muted']").bootstrapSwitch 'state', false
+			$("input[name='toggle-alts']").bootstrapSwitch 'state', false
 		refresh()
 
-	$('#showAlts').change ->
-		idd = $('#showAlts label.active').attr('id')
-		state.showAlts = if idd=='on' then true else false
+	$("[name='toggle-muted']").on 'switchChange.bootstrapSwitch', (event, bool)->
+		state.smartMode = if bool then true else false
+		refresh()
+	
+	$("[name='toggle-section']").on 'switchChange.bootstrapSwitch', (event, bool)->
+		state.showSections = if bool then true else false
 		refresh()
 
-	$('#showSource').change ->
-		idd = $('#showSource label.active').attr('id')
-		if idd == 'on' #show source
-			$('#input').parent().show()
-			$('#output').addClass('col-sm-6')
-		else
-			$('#input').parent().hide()
-			$('#output').removeClass('col-sm-6')
+	$("[name='toggle-alts']").on 'switchChange.bootstrapSwitch', (event, bool)->
+		state.showAlts = if bool then true else false
 		refresh()
 
-	$('#showChords #smart').click()
-	$('#showSections #on').click()
-	$('#showAlts #on').click()
-	$('#showSource #off').click()
+	$("[name='toggle-edit']").on 'switchChange.bootstrapSwitch', (event, bool)->
+		if bool then $('#input').parent().show() else $('#input').parent().hide()
+		if bool then $('#output').addClass('col-sm-6') else $('#output').removeClass('col-sm-6')
+		refresh()
 
-	#SWAP IN ALTERNATIVES ON CLICK
-	$('.alts a').click ->
-		id = $(this).parent().attr('data-id-from')
-		console.log id
-		console.log $("span[data-id-to='#{id}']")
-		$("span[data-id-to='#{id}']").html($(this).html())
+	#DONE ONCE AT STARTUP
+	
+	$("input.bs").bootstrapSwitch()
+
+	#$("input[name='toggle-chords']").bootstrapSwitch 'state', true
+	#$("input[name='toggle-muted']").bootstrapSwitch 'state', true
+	#$("input[name='toggle-section']").bootstrapSwitch 'state', true
+	#$("input[name='toggle-alts']").bootstrapSwitch 'state', true
+
+	#$("input[name='toggle-edit']").bootstrapSwitch 'state', true
+	#$("input[name='toggle-edit']").bootstrapSwitch 'state', false
+

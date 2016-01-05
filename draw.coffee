@@ -4,13 +4,17 @@ alts = {}
 window.draw = (location, song, state) ->
 	canvas = $(location)
 	alts = song.alts
-	console.log alts
+	key = determineKey song
+	$('#key').html key
 
 	cstring = ''
-	cstring += "<div class='panel panel-info'><div class='panel-heading'>#{song.meta.TITLE}<br/><small>#{song.meta.ARTIST} - #{song.meta.ALBUM}</small></div><div class='panel-body'>"
+	cstring += "<h2>#{title song}</h2>"
+	cstring += "<h4>#{byline song}</h4>"
+
 	(
 		if state.showSections
-			cstring += "<div class='section-header'>#{section.section}</div><hr/>"
+			cstring += "<div class='section-header'>#{section.section}</div>"
+			cstring += "<hr/>"
 		cstring += "<div class='section'>"
 		(
 			(
@@ -20,41 +24,41 @@ window.draw = (location, song, state) ->
 		) for line in section.lines
 		cstring += "</div><br/>"
 	) for section in song.lyrics
-	cstring += "</dl>"
-	cstring += "</div></div>"
 	canvas.html cstring
 	null
 
 printToken = (token, state) ->
-	hasAlts = false
-	#console.log token
-	if token.chord.endsWith('\'')
-		hasAlts = true
+	hasAlts = if token.chord.endsWith('\'') then true else false
 
 	chord = if not token.chord? then ' ' else token.chord
 	chord = chord.replace('#', '&#x266F;')
 	chord = chord.replace('b', '&#x266D;')
 	chord = chord.replace(/'/g,'')
-	allowable = token.chord.replace(/'/g,'')
-	num = token.chord.length - allowable.length
-	identifier = allowable + num
+	
 	string = if token.string=='' then ' ' else token.string.trim()
 
-	pString = 'phrase'
-	pString += if token.wordExtension then ' join' else ''
+	phrase_classes = ['phrase']
+	if token.wordExtension
+		phrase_classes.push('join')
+
+	chord_classes = ['chord']
+	if state.showAlts and hasAlts and token.exception and alts[token.chord]?
+		chord_classes.push('alts')
+	if state.smartMode and not token.exception
+		chord_classes.push('mute')
+
+	allowable = token.chord.replace(/'/g,'') #prints without ' footnotes
+	diff = token.chord.length - allowable.length #number of 's
+	identifier = allowable + diff #unique identifier
 
 	result = ''
-	result += "<p class=\"#{pString}\">"
+	result += "<p class=\"#{phrase_classes.join(' ')}\">"
 	if state.showChords
-		chString = 'chord'
-		if state.smartMode
-			chString += if token.exception then '' else ' mute'
-		if state.showAlts and token.exception and alts[token.chord]?
-			chString += if hasAlts then ' alts' else ''
-		result += "<span class=\"#{chString}\" data-id-to=\"#{identifier}\">#{chord}</span><br/>"
+		result += "<span class=\"#{chord_classes.join(' ')}\" data-id-to=\"#{identifier}\">#{chord}</span><br/>"
 	result += "<span class='string'>#{string}</span>"
 	result += "</p>"
 
+	#print alternate sidebar if necessary
 	if hasAlts and token.exception and state.showAlts and alts[token.chord]?
 		result += "<span class='sidebar alts' data-id-from=\"#{identifier}\">"
 		result += "<a>#{chord}</a> → <a>"
@@ -63,4 +67,34 @@ printToken = (token, state) ->
 	
 	result
 
-	
+determineKey = (song) ->
+	key = ''
+	#check if predefined
+	if song.meta.KEY?
+		key = song.meta.KEY
+	else #if not predefined
+		#guess from the last inferred chord
+		last_lines =song.lyrics[song.lyrics.length-1].lines
+		last_line = last_lines[last_lines.length-1]
+		last_phrase = last_line[last_line.length-1]
+		key = last_phrase.chord
+		if not key? #if nothing is inferred, check the last defined chord
+			last_section_name = song.sections[song.sections.length-1]
+			last_section = song.chords[last_section_name]
+			last_line = last_section[last_section.length-1]
+			last_chord = last_line[last_line.length-1]
+			key = last_chord
+	return key
+
+title = (song) ->
+	if song.meta.TITLE? then song.meta.TITLE else '?'
+
+byline = (song) ->
+	if song.meta.ARTIST? and song.meta.ALBUM?
+		"#{song.meta.ARTIST} — #{song.meta.ALBUM}"
+	else if song.meta.ARTIST?
+		"#{song.meta.ARTIST} — ?"
+	else if song.meta.ALBUM?
+		"? — #{song.meta.ALBUM}"
+	else
+		"? — ?"

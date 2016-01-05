@@ -5,64 +5,42 @@ html(lang="en")
 		meta(charset='utf-8')
 		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", crossorigin="anonymous")
 		link(rel="stylesheet", href="style.css")
+		link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css")
+		link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
 	body
 		.container
 			.row
-				.col-sm-12
+				.col-xs-12
 					h3 Markato Demo
-					hr
+				.col-xs-12.text-right
+					input.bs(type='checkbox' name='toggle-edit' data-label-text="Edit" data-inverse='true' checked)
 			.row
-				.col-xs-6.col-sm-3
-					h5 Show Chords 
-					div.btn-group(data-toggle='buttons')#showChords
-						label.btn.btn-default.btn-xs#all
-							input(type='radio' name='showChords') 
-							span All
-						label.btn.btn-default.btn-xs#smart
-							input(type='radio' name='showChords') 
-							span Smart
-						label.btn.btn-default.btn-xs#none
-							input(type='radio' name='showChords')
-							span None
-				.col-xs-6.col-sm-3
-					h5 Show Section Headers
-					div.btn-group(data-toggle='buttons')#showSections
-						label.btn.btn-default.btn-xs#on
-							input(type='radio' name='showSections')
-							span On
-						label.btn.btn-default.btn-xs#off
-							input(type='radio' name='showSections')
-							span Off
-				.col-xs-6.col-sm-3
-					h5 Show Alternate Chords
-					div.btn-group(data-toggle='buttons')#showAlts
-						label.btn.btn-default.btn-xs#on
-							input(type='radio' name='showAlts')
-							span On
-						label.btn.btn-default.btn-xs#off
-							input(type='radio' name='showAlts')
-							span Off
-				.col-xs-6.col-sm-3
-					h5 Show Source
-					div.btn-group(data-toggle='buttons')#showSource
-						label.btn.btn-default.btn-xs#on
-							input(type='radio' name='showSource')
-							span On
-						label.btn.btn-default.btn-xs#off
-							input(type='radio' name='showSource')
-							span Off
-			hr
-			.row
-				.col-xs-12.col-sm-6#output
-					#canvas
-				.col-xs-12.col-sm-6
-					textarea.form-control#input(rows='30')
+				.col-xs-12.col-sm-12.col-md-2
+					input.bs(type='checkbox' name='toggle-chords' data-label-text="Chords" data-inverse='true' checked)
+					input.bs(type='checkbox' name='toggle-muted' data-label-text="Smart Fade" data-inverse='true' checked)
+					input.bs(type='checkbox' name='toggle-section' data-label-text="Sections" data-inverse='true' checked)
+					input.bs(type='checkbox' name='toggle-alts' data-label-text="Alternates" data-inverse='true' checked)
+
+					.btn-group#transpose(role='group')
+						button.btn.btn-default#transposeUp(type='button') &#x2191;
+						button.btn.btn-default#transposeDown(type='button') &#x2193;
+						button.btn.btn-default#transposeReset(type='button')
+							i in 
+							span#key
+				.col-xs-12.col-sm-12.col-md-10
+					.row
+						.col-xs-12.col-sm-6#output
+							#canvas
+						.col-xs-12.col-sm-6
+							textarea.form-control#input(rows='30')
 	script(src="https://code.jquery.com/jquery-2.1.4.min.js")
 	script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS", crossorigin="anonymous")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.1/string.min.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js")
-	script(src='hold.js') 
-	//nicwe
+	//script(src='hold.js') 
+	script(src='sharp11.js')
+	script(src='transpose.js')
 	script(src='draw.js')
 	script(src='parser.js')
 	script(src='script.js')

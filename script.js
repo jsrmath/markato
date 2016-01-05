@@ -14,7 +14,9 @@
       showChords: true,
       showRepeats: false,
       showAlts: true,
-      smartMode: true
+      showSections: true,
+      smartMode: true,
+      transpose: 0
     };
     refresh = function() {
       file = parser.parseString($('#input').val());
@@ -23,56 +25,62 @@
       return $('.alts a').click(function() {
         var id;
         id = $(this).parent().attr('data-id-from');
-        console.log(id);
-        console.log($("span[data-id-to='" + id + "']"));
         return $("span[data-id-to='" + id + "']").html($(this).html());
       });
     };
     $('#input').val(example);
     refresh();
     $('#input').keyup(refresh);
-    $('#showChords').change(function() {
-      var idd;
-      idd = $('#showChords label.active').attr('id');
-      state.showChords = idd === 'none' ? false : true;
-      state.smartMode = idd === 'smart' ? true : false;
+    $('#transpose button').click(function() {
+      var id;
+      id = $(this).attr('id');
+      switch (id) {
+        case "transposeUp":
+          state.transpose++;
+          break;
+        case "transposeDown":
+          state.transpose--;
+          break;
+        default:
+          state.transpose = 0;
+      }
+      console.log(state.transpose);
       return refresh();
     });
-    $('#showSections').change(function() {
-      var idd;
-      idd = $('#showSections label.active').attr('id');
-      state.showSections = idd === 'on' ? true : false;
+    $("[name='toggle-chords']").on('switchChange.bootstrapSwitch', function(event, bool) {
+      state.showChords = bool ? true : false;
+      if (!bool) {
+        $("input[name='toggle-muted']").bootstrapSwitch('state', false);
+        $("input[name='toggle-alts']").bootstrapSwitch('state', false);
+      }
       return refresh();
     });
-    $('#showAlts').change(function() {
-      var idd;
-      idd = $('#showAlts label.active').attr('id');
-      state.showAlts = idd === 'on' ? true : false;
+    $("[name='toggle-muted']").on('switchChange.bootstrapSwitch', function(event, bool) {
+      state.smartMode = bool ? true : false;
       return refresh();
     });
-    $('#showSource').change(function() {
-      var idd;
-      idd = $('#showSource label.active').attr('id');
-      if (idd === 'on') {
+    $("[name='toggle-section']").on('switchChange.bootstrapSwitch', function(event, bool) {
+      state.showSections = bool ? true : false;
+      return refresh();
+    });
+    $("[name='toggle-alts']").on('switchChange.bootstrapSwitch', function(event, bool) {
+      state.showAlts = bool ? true : false;
+      return refresh();
+    });
+    $("[name='toggle-edit']").on('switchChange.bootstrapSwitch', function(event, bool) {
+      if (bool) {
         $('#input').parent().show();
-        $('#output').addClass('col-sm-6');
       } else {
         $('#input').parent().hide();
+      }
+      if (bool) {
+        $('#output').addClass('col-sm-6');
+      } else {
         $('#output').removeClass('col-sm-6');
       }
       return refresh();
     });
-    $('#showChords #smart').click();
-    $('#showSections #on').click();
-    $('#showAlts #on').click();
-    $('#showSource #off').click();
-    return $('.alts a').click(function() {
-      var id;
-      id = $(this).parent().attr('data-id-from');
-      console.log(id);
-      console.log($("span[data-id-to='" + id + "']"));
-      return $("span[data-id-to='" + id + "']").html($(this).html());
-    });
+    return $("input.bs").bootstrapSwitch();
   });
 
 }).call(this);
