@@ -21,24 +21,37 @@ html(lang="en")
 					input.bs(type='checkbox' name='toggle-section' data-label-text="Sections" data-inverse='true' checked)
 					input.bs(type='checkbox' name='toggle-alts' data-label-text="Alternates" data-inverse='true' checked)
 
-					.btn-group#transpose(role='group')
-						button.btn.btn-default#transposeUp(type='button') &#x2191;
-						button.btn.btn-default#transposeDown(type='button') &#x2193;
-						button.btn.btn-default#transposeReset(type='button')
-							i in 
-							span#key
+					.btn-group(role='group')
+						button.btn.btn-default.btn-md#transposeDown(type='button')
+							span &#xab;
+						button.btn.btn-info.btn-md(type='button' data-toggle='modal' data-target='#transposeModal')
+							span#key G
+						button.btn.btn-default.btn-md#transposeUp(type='button')
+							span &#xbb;
+
 				.col-xs-12.col-sm-12.col-md-10
 					.row
 						.col-xs-12.col-sm-6#output
 							#canvas
 						.col-xs-12.col-sm-6
 							textarea.form-control#input(rows='30')
+		.modal.fade#transposeModal(tabindex='-1', role='dialog', aria-labelledby='transposeLabel')
+			.modal-dialog.modal-sm(role='document')
+				.modal-content
+					.modal-header
+						button.close(type='button' data-dismiss='modal')
+							span &times;
+						h4.modal-title Tranpose
+					.modal-body.btn-toolbar#transposeToolbar(role='toolbar')
+						each chordGroup in [['C'],['C#','Db'],['D'],['D#','Eb'],['E'],['F'],['F#','Gb'],['G'],['G#','Ab'],['A'],['A#','Bb'],['B']]
+							.btn-group(role='group')
+								each chord in chordGroup
+									button.btn.btn-default(type='button' data-transposeChord=chord)= chord
 	script(src="https://code.jquery.com/jquery-2.1.4.min.js")
 	script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS", crossorigin="anonymous")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.1/string.min.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js")
-	//script(src='hold.js') 
 	script(src='sharp11.js')
 	script(src='transpose.js')
 	script(src='draw.js')

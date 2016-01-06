@@ -6,11 +6,15 @@
   alts = {};
 
   window.draw = function(location, song, state) {
-    var canvas, cstring, i, j, k, key, len, len1, len2, line, ref, ref1, section, token;
+    var canvas, cstring, i, j, k, key, len, len1, len2, line, printKey, ref, ref1, section, token;
     canvas = $(location);
     alts = song.alts;
     key = determineKey(song);
-    $('#key').html(key);
+    state.key = key;
+    printKey = state.requestedKey != null ? state.requestedKey : state.key;
+    $('#key').html(printKey);
+    $("#transposeToolbar button").removeClass('btn-info');
+    $("[data-transposeChord=" + printKey + "]").addClass('btn-info');
     cstring = '';
     cstring += "<h2>" + (title(song)) + "</h2>";
     cstring += "<h4>" + (byline(song)) + "</h4>";
@@ -41,8 +45,6 @@
     var allowable, chord, chord_classes, diff, hasAlts, identifier, phrase_classes, result, string;
     hasAlts = token.chord.endsWith('\'') ? true : false;
     chord = token.chord == null ? ' ' : token.chord;
-    chord = chord.replace('#', '&#x266F;');
-    chord = chord.replace('b', '&#x266D;');
     chord = chord.replace(/'/g, '');
     string = token.string === '' ? ' ' : token.string.trim();
     phrase_classes = ['phrase'];
@@ -59,6 +61,11 @@
     allowable = token.chord.replace(/'/g, '');
     diff = token.chord.length - allowable.length;
     identifier = allowable + diff;
+    if ((state.requestedKey != null) && chord !== '') {
+      chord = transpose(state.key, state.requestedKey, chord);
+    }
+    chord = chord.replace('#', '&#x266F;');
+    chord = chord.replace('b', '&#x266D;');
     result = '';
     result += "<p class=\"" + (phrase_classes.join(' ')) + "\">";
     if (state.showChords) {
@@ -66,12 +73,6 @@
     }
     result += "<span class='string'>" + string + "</span>";
     result += "</p>";
-    if (hasAlts && token.exception && state.showAlts && (alts[token.chord] != null)) {
-      result += "<span class='sidebar alts' data-id-from=\"" + identifier + "\">";
-      result += "<a>" + chord + "</a> → <a>";
-      result += alts[token.chord].join('</a>, <a>');
-      result += "</a></span><br/>";
-    }
     return result;
   };
 

@@ -24,10 +24,10 @@
           <input type="checkbox" name="toggle-muted" data-label-text="Smart Fade" data-inverse="true" checked class="bs">
           <input type="checkbox" name="toggle-section" data-label-text="Sections" data-inverse="true" checked class="bs">
           <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" checked class="bs">
-          <div id="transpose" role="group" class="btn-group">
-            <button id="transposeUp" type="button" class="btn btn-default">&#x2191;</button>
-            <button id="transposeDown" type="button" class="btn btn-default">&#x2193;</button>
-            <button id="transposeReset" type="button" class="btn btn-default"><i>in </i><span id="key"></span></button>
+          <div role="group" class="btn-group">
+            <button id="transposeDown" type="button" class="btn btn-default btn-md"><span>&#xab;</span></button>
+            <button type="button" data-toggle="modal" data-target="#transposeModal" class="btn btn-info btn-md"><span id="key">G</span></button>
+            <button id="transposeUp" type="button" class="btn btn-default btn-md"><span>&#xbb;</span></button>
           </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-10">
@@ -42,13 +42,65 @@
         </div>
       </div>
     </div>
+    <div id="transposeModal" tabindex="-1" role="dialog" aria-labelledby="transposeLabel" class="modal fade">
+      <div role="document" class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" data-dismiss="modal" class="close"><span>&times;</span></button>
+            <h4 class="modal-title">Tranpose</h4>
+          </div>
+          <div id="transposeToolbar" role="toolbar" class="modal-body btn-toolbar">
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="C" class="btn btn-default">C</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="C#" class="btn btn-default">C#</button>
+              <button type="button" data-transposeChord="Db" class="btn btn-default">Db</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="D" class="btn btn-default">D</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="D#" class="btn btn-default">D#</button>
+              <button type="button" data-transposeChord="Eb" class="btn btn-default">Eb</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="E" class="btn btn-default">E</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="F" class="btn btn-default">F</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="F#" class="btn btn-default">F#</button>
+              <button type="button" data-transposeChord="Gb" class="btn btn-default">Gb</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="G" class="btn btn-default">G</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="G#" class="btn btn-default">G#</button>
+              <button type="button" data-transposeChord="Ab" class="btn btn-default">Ab</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="A" class="btn btn-default">A</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="A#" class="btn btn-default">A#</button>
+              <button type="button" data-transposeChord="Bb" class="btn btn-default">Bb</button>
+            </div>
+            <div role="group" class="btn-group">
+              <button type="button" data-transposeChord="B" class="btn btn-default">B</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.1/string.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <!--script(src='hold.js') -->
   <script src="sharp11.js"></script>
   <script src="transpose.js"></script>
   <script src="draw.js"></script>

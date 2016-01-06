@@ -61,7 +61,9 @@ $ ->
 		showAlts: true
 		showSections: true
 		smartMode: true
-		transpose: 0
+		key: null
+		requestedKey: null
+	
 
 	refresh = () ->
 		file = parser.parseString $('#input').val()
@@ -81,16 +83,19 @@ $ ->
 	
 	$('#input').keyup refresh
 
-	$('#transpose button').click ->
-		id = $(this).attr('id')
-		switch id
-			when "transposeUp"
-				state.transpose++
-			when "transposeDown"
-				state.transpose--
-			else
-				state.transpose = 0
-		console.log state.transpose
+	$('#transposeUp').click ->
+		state.requestedKey = createNote( $('#key').html() ).sharp().clean().name
+		refresh()
+
+	$('#transposeDown').click ->
+		state.requestedKey = createNote( $('#key').html() ).flat().clean().name
+		refresh()
+
+	$('#transposeToolbar button').click ->
+		clickedChord = $(this).attr('data-transposeChord')
+		console.log clickedChord
+		state.requestedKey = clickedChord
+		$('#transposeModal').modal('hide')
 		refresh()
 
 	$("[name='toggle-chords']").on 'switchChange.bootstrapSwitch', (event, bool)->

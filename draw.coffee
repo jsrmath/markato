@@ -5,7 +5,11 @@ window.draw = (location, song, state) ->
 	canvas = $(location)
 	alts = song.alts
 	key = determineKey song
-	$('#key').html key
+	state.key = key
+	printKey = if state.requestedKey? then state.requestedKey else state.key
+	$('#key').html printKey
+	$("#transposeToolbar button").removeClass('btn-info')
+	$("[data-transposeChord=#{printKey}]").addClass('btn-info')
 
 	cstring = ''
 	cstring += "<h2>#{title song}</h2>"
@@ -31,8 +35,6 @@ printToken = (token, state) ->
 	hasAlts = if token.chord.endsWith('\'') then true else false
 
 	chord = if not token.chord? then ' ' else token.chord
-	chord = chord.replace('#', '&#x266F;')
-	chord = chord.replace('b', '&#x266D;')
 	chord = chord.replace(/'/g,'')
 	
 	string = if token.string=='' then ' ' else token.string.trim()
@@ -51,6 +53,12 @@ printToken = (token, state) ->
 	diff = token.chord.length - allowable.length #number of 's
 	identifier = allowable + diff #unique identifier
 
+	if state.requestedKey? and chord != ''
+		chord = transpose(state.key, state.requestedKey, chord)
+
+	chord = chord.replace('#', '&#x266F;')
+	chord = chord.replace('b', '&#x266D;')
+
 	result = ''
 	result += "<p class=\"#{phrase_classes.join(' ')}\">"
 	if state.showChords
@@ -59,11 +67,11 @@ printToken = (token, state) ->
 	result += "</p>"
 
 	#print alternate sidebar if necessary
-	if hasAlts and token.exception and state.showAlts and alts[token.chord]?
-		result += "<span class='sidebar alts' data-id-from=\"#{identifier}\">"
-		result += "<a>#{chord}</a> → <a>"
-		result += alts[token.chord].join('</a>, <a>')
-		result += "</a></span><br/>"
+	#if hasAlts and token.exception and state.showAlts and alts[token.chord]?
+	#	result += "<span class='sidebar alts' data-id-from=\"#{identifier}\">"
+	#	result += "<a>#{chord}</a> → <a>"
+	#	result += alts[token.chord].join('</a>, <a>')
+	#	result += "</a></span><br/>"
 	
 	result
 

@@ -16,7 +16,8 @@
       showAlts: true,
       showSections: true,
       smartMode: true,
-      transpose: 0
+      key: null,
+      requestedKey: null
     };
     refresh = function() {
       file = parser.parseString($('#input').val());
@@ -31,20 +32,20 @@
     $('#input').val(example);
     refresh();
     $('#input').keyup(refresh);
-    $('#transpose button').click(function() {
-      var id;
-      id = $(this).attr('id');
-      switch (id) {
-        case "transposeUp":
-          state.transpose++;
-          break;
-        case "transposeDown":
-          state.transpose--;
-          break;
-        default:
-          state.transpose = 0;
-      }
-      console.log(state.transpose);
+    $('#transposeUp').click(function() {
+      state.requestedKey = createNote($('#key').html()).sharp().clean().name;
+      return refresh();
+    });
+    $('#transposeDown').click(function() {
+      state.requestedKey = createNote($('#key').html()).flat().clean().name;
+      return refresh();
+    });
+    $('#transposeToolbar button').click(function() {
+      var clickedChord;
+      clickedChord = $(this).attr('data-transposeChord');
+      console.log(clickedChord);
+      state.requestedKey = clickedChord;
+      $('#transposeModal').modal('hide');
       return refresh();
     });
     $("[name='toggle-chords']").on('switchChange.bootstrapSwitch', function(event, bool) {
