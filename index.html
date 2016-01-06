@@ -14,20 +14,18 @@
         <div class="col-xs-12">
           <h3>Markato Demo</h3>
         </div>
-        <div class="col-xs-12 text-right">
-          <input type="checkbox" name="toggle-edit" data-label-text="Edit" data-inverse="true" checked class="bs">
-        </div>
       </div>
       <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-2">
+        <div id="settings" class="col-xs-12 col-sm-12 col-md-2">
+          <input type="checkbox" name="toggle-edit" data-label-text="Edit" data-inverse="true" checked class="bs"><br><br>
           <input type="checkbox" name="toggle-chords" data-label-text="Chords" data-inverse="true" checked class="bs">
           <input type="checkbox" name="toggle-muted" data-label-text="Smart Fade" data-inverse="true" checked class="bs">
           <input type="checkbox" name="toggle-section" data-label-text="Sections" data-inverse="true" checked class="bs">
-          <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" checked class="bs">
+          <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" checked class="bs"><br><br>
           <div role="group" class="btn-group">
-            <button id="transposeDown" type="button" class="btn btn-default btn-md"><span>&#xab;</span></button>
-            <button type="button" data-toggle="modal" data-target="#transposeModal" class="btn btn-info btn-md"><span id="key">G</span></button>
-            <button id="transposeUp" type="button" class="btn btn-default btn-md"><span>&#xbb;</span></button>
+            <button id="transposeDown" type="button" class="btn btn-default btn-md"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            <button id="transpose" type="button" data-toggle="modal" data-target="#transposeModal" class="btn btn-info btn-md"><span id="currentKey" class="key">G</span></button>
+            <button id="transposeUp" type="button" class="btn btn-default btn-md"><span class="glyphicon glyphicon-chevron-right"></span></button>
           </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-10">
@@ -91,6 +89,9 @@
             <div role="group" class="btn-group">
               <button type="button" data-transposeChord="B" class="btn btn-default">B</button>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button id="transposeReset" type="button" class="btn btn-default"><span>Reset to <span id="originalKey" class="key"></span></span></button>
           </div>
         </div>
       </div>

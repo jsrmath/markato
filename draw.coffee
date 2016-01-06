@@ -1,15 +1,14 @@
-canvas
-alts = {}
-
 window.draw = (location, song, state) ->
 	canvas = $(location)
-	alts = song.alts
+	#alts = song.alts
 	key = determineKey song
-	state.key = key
-	printKey = if state.requestedKey? then state.requestedKey else state.key
-	$('#key').html printKey
+	state.originalKey = key
+	drawKey = if state.requestedKey? then state.requestedKey else state.originalKey
+
+	$('#currentKey').html drawKey
+	$('#originalKey').html state.originalKey
 	$("#transposeToolbar button").removeClass('btn-info')
-	$("[data-transposeChord=#{printKey}]").addClass('btn-info')
+	$("[data-transposeChord=#{drawKey}]").addClass('btn-info')
 
 	cstring = ''
 	cstring += "<h2>#{title song}</h2>"
@@ -44,25 +43,24 @@ printToken = (token, state) ->
 		phrase_classes.push('join')
 
 	chord_classes = ['chord']
-	if state.showAlts and hasAlts and token.exception and alts[token.chord]?
-		chord_classes.push('alts')
+	#if state.showAlts and hasAlts and token.exception and alts[token.chord]?
+	#	chord_classes.push('alts')
 	if state.smartMode and not token.exception
 		chord_classes.push('mute')
 
-	allowable = token.chord.replace(/'/g,'') #prints without ' footnotes
-	diff = token.chord.length - allowable.length #number of 's
-	identifier = allowable + diff #unique identifier
+	#allowable = token.chord.replace(/'/g,'') #prints without ' footnotes
+	#diff = token.chord.length - allowable.length #number of 's
+	#identifier = allowable + diff #unique identifier
 
 	if state.requestedKey? and chord != ''
-		chord = transpose(state.key, state.requestedKey, chord)
+		chord = transpose(state.originalKey, state.requestedKey, chord)
 
-	chord = chord.replace('#', '&#x266F;')
-	chord = chord.replace('b', '&#x266D;')
+	chord = chord.replace('#', '&#x266F;').replace('b', '&#x266D;')
 
 	result = ''
 	result += "<p class=\"#{phrase_classes.join(' ')}\">"
 	if state.showChords
-		result += "<span class=\"#{chord_classes.join(' ')}\" data-id-to=\"#{identifier}\">#{chord}</span><br/>"
+		result += "<span class=\"#{chord_classes.join(' ')}\">#{chord}</span><br/>"
 	result += "<span class='string'>#{string}</span>"
 	result += "</p>"
 
@@ -76,22 +74,23 @@ printToken = (token, state) ->
 	result
 
 determineKey = (song) ->
-	key = ''
 	#check if predefined
 	if song.meta.KEY?
 		key = song.meta.KEY
 	else #if not predefined
 		#guess from the last inferred chord
-		last_lines =song.lyrics[song.lyrics.length-1].lines
-		last_line = last_lines[last_lines.length-1]
-		last_phrase = last_line[last_line.length-1]
-		key = last_phrase.chord
-		if not key? #if nothing is inferred, check the last defined chord
-			last_section_name = song.sections[song.sections.length-1]
-			last_section = song.chords[last_section_name]
-			last_line = last_section[last_section.length-1]
-			last_chord = last_line[last_line.length-1]
-			key = last_chord
+		lastLines =song.lyrics[song.lyrics.length-1].lines
+		lastLine = lastLines[lastLines.length-1]
+		lastPhrase = lastLine[lastLine.length-1]
+		key = lastPhrase.chord
+		if key=='' #if nothing is inferred, check the last defined chord
+			lastSectionTitle = song.sections[song.sections.length-1]
+			lastSection = song.chords[lastSectionTitle]
+			lastLine = lastSection[lastSection.length-1]
+			lastChord = lastLine[lastLine.length-1]
+			key = lastChord
+	if key==''
+		key = 'C' #last ditch resort 
 	return key
 
 title = (song) ->

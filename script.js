@@ -6,7 +6,7 @@
 
   file = '';
 
-  example = '##TITLE  I Wanna Hold Your Hand\n##ARTIST The Beatles\n##ALBUM A Hard Day\'s Night\n\n#INTRO\n: G D Em Bm\n\n#VERSE\n:       G\'             D          Em               E7    Bm\'\nOh yeah ^I\'ll tell you ^something ^ I think you\'ll ^under^stand\n:    G           D           Em                     B7\nWhen ^I say that ^something, ^ I want to hold your h^and!\n\n#CHORUS\n:C         D          G  Em  \n^ I wanna ^hold your ^ha^nd!\n:C         D          G      \n^ I wanna ^hold your ^hand!\n\n#VERSE\nOh ^please say to ^me, ^ you\'ll let me ^be your ^man\n:  *              G    *                          *\nOh ^please say to ^me, ^ you\'ll let me hold your h^and\n\n#CHORUS\n^Now let me ^hold your ^ha^nd\n^ I wanna ^hold your ^hand\n\n#BRIDGE\n:Dm           G                 C        Am        \n^ And when I ^touch you I feel ^happy in^side\n:Bm\'\'          G                C              D   \n^ It\'s such a ^feeling that my ^love, I can\'t ^hide\n:C         D                                       \n^ I can\'t ^hide\n:C         D                                       \n^ I can\'t ^hide\n\n#VERSE\nYeah-ah ^you, got that ^something ^ I think you\'ll under^stand.\nWhen ^I feel that ^something, ^ I wanna hold your ^hand.\n\n#CHORUS\n^ I wanna ^hold your ^ha^and!\n^ I wanna ^hold your ^hand!\n\n###\nG\' => Gsus4\nBm\'  => Bm7#11, Bmaj7\nBm\'\' => Dm';
+  example = '##TITLE   I Wanna Hold Your Hand\n##ARTIST  The Beatles\n##ALBUM   A Hard Day\'s Night\n\n#INTRO\n: G D Em Bm\n\n#VERSE\n:       G\'             D          Em               E7    Bm\'\nOh yeah ^I\'ll tell you ^something ^ I think you\'ll ^under^stand\n:    G           D           Em                     B7\nWhen ^I say that ^something, ^ I want to hold your h^and!\n\n#CHORUS\n:C         D          G  Em  \n^ I wanna ^hold your ^ha^nd!\n:C         D          G      \n^ I wanna ^hold your ^hand!\n\n#VERSE\nOh ^please say to ^me, ^ you\'ll let me ^be your ^man\n:  *              G    *                          *\nOh ^please say to ^me, ^ you\'ll let me hold your h^and\n\n#CHORUS\n^Now let me ^hold your ^ha^nd\n^ I wanna ^hold your ^hand\n\n#BRIDGE\n:Dm           G                 C        Am        \n^ And when I ^touch you I feel ^happy in^side\n:Bm\'\'          G                C              D   \n^ It\'s such a ^feeling that my ^love, I can\'t ^hide\n:C         D                                       \n^ I can\'t ^hide\n:C         D                                       \n^ I can\'t ^hide\n\n#VERSE\nYeah-ah ^you, got that ^something ^ I think you\'ll under^stand.\nWhen ^I feel that ^something, ^ I wanna hold your ^hand.\n\n#CHORUS\n^ I wanna ^hold your ^ha^and!\n^ I wanna ^hold your ^hand!\n\n###\nG\' => Gsus4\nBm\'  => Bm7#11, Bmaj7\nBm\'\' => Dm';
 
   $(function() {
     var refresh, state;
@@ -16,7 +16,6 @@
       showAlts: true,
       showSections: true,
       smartMode: true,
-      key: null,
       requestedKey: null
     };
     refresh = function() {
@@ -33,17 +32,21 @@
     refresh();
     $('#input').keyup(refresh);
     $('#transposeUp').click(function() {
-      state.requestedKey = createNote($('#key').html()).sharp().clean().name;
+      state.requestedKey = createNote($('#currentKey').html()).sharp().clean().name;
       return refresh();
     });
     $('#transposeDown').click(function() {
-      state.requestedKey = createNote($('#key').html()).flat().clean().name;
+      state.requestedKey = createNote($('#currentKey').html()).flat().clean().name;
+      return refresh();
+    });
+    $('#transposeReset').click(function() {
+      state.requestedKey = null;
+      $('#transposeModal').modal('hide');
       return refresh();
     });
     $('#transposeToolbar button').click(function() {
       var clickedChord;
       clickedChord = $(this).attr('data-transposeChord');
-      console.log(clickedChord);
       state.requestedKey = clickedChord;
       $('#transposeModal').modal('hide');
       return refresh();

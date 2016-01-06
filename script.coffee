@@ -2,9 +2,9 @@ location = '#canvas'
 file = ''
 
 example = '''
-##TITLE  I Wanna Hold Your Hand
-##ARTIST The Beatles
-##ALBUM A Hard Day's Night
+##TITLE   I Wanna Hold Your Hand
+##ARTIST  The Beatles
+##ALBUM   A Hard Day's Night
 
 #INTRO
 : G D Em Bm
@@ -61,9 +61,7 @@ $ ->
 		showAlts: true
 		showSections: true
 		smartMode: true
-		key: null
 		requestedKey: null
-	
 
 	refresh = () ->
 		file = parser.parseString $('#input').val()
@@ -79,24 +77,38 @@ $ ->
 
 	refresh()
 
-	#CONSTANT BEHAVIORAL ASSIGNMENTS
+	#
+	# CONSTANT BEHAVIORAL ASSIGNMENTS
+	#
 	
 	$('#input').keyup refresh
 
+	#
+	# TRANSPOSE
+	#
+
 	$('#transposeUp').click ->
-		state.requestedKey = createNote( $('#key').html() ).sharp().clean().name
+		state.requestedKey = createNote( $('#currentKey').html() ).sharp().clean().name
 		refresh()
 
 	$('#transposeDown').click ->
-		state.requestedKey = createNote( $('#key').html() ).flat().clean().name
+		state.requestedKey = createNote( $('#currentKey').html() ).flat().clean().name
+		refresh()
+	
+	$('#transposeReset').click ->
+		state.requestedKey = null
+		$('#transposeModal').modal('hide')
 		refresh()
 
 	$('#transposeToolbar button').click ->
 		clickedChord = $(this).attr('data-transposeChord')
-		console.log clickedChord
 		state.requestedKey = clickedChord
 		$('#transposeModal').modal('hide')
 		refresh()
+
+	#
+	# SWITCH BEHAVIOR
+	#
 
 	$("[name='toggle-chords']").on 'switchChange.bootstrapSwitch', (event, bool)->
 		state.showChords = if bool then true else false
@@ -121,16 +133,10 @@ $ ->
 		if bool then $('#input').parent().show() else $('#input').parent().hide()
 		if bool then $('#output').addClass('col-sm-6') else $('#output').removeClass('col-sm-6')
 		refresh()
-
-	#DONE ONCE AT STARTUP
+	
+	#
+	# DONE ONCE AT STARTUP
+	#
 	
 	$("input.bs").bootstrapSwitch()
-
-	#$("input[name='toggle-chords']").bootstrapSwitch 'state', true
-	#$("input[name='toggle-muted']").bootstrapSwitch 'state', true
-	#$("input[name='toggle-section']").bootstrapSwitch 'state', true
-	#$("input[name='toggle-alts']").bootstrapSwitch 'state', true
-
-	#$("input[name='toggle-edit']").bootstrapSwitch 'state', true
-	#$("input[name='toggle-edit']").bootstrapSwitch 'state', false
 

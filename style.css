@@ -1,5 +1,7 @@
+/*
+ * INSIDE CANVAS
+ */
 .phrase{
-	background: white;
 	border: none;
 	padding: 0px !important;
 	margin: 0px !important;
@@ -11,44 +13,37 @@
 	word-break: normal !important;
 	word-wrap: normal !important;
 }
-
 .mute{ color:lightgrey; } 
 .alts{ color:sandybrown; }
-
-.alts a{
-	text-decoration:underline;
-	color:inherit;
-}
-.sidebar{
-	float:right;
-	padding:2px;
-	background:white;
-}
-.section-header{
-	font-size: small;
-	color:lightgray;
-	text-transform:small-caps;
-}
-
+.alts a{ text-decoration:underline; color:inherit; }
 .join span.string{ margin-left: -4px !important; } 
-.dl-horizontal dt{ width: 100px !important; }
-.dl-horizontal dd{ margin-left: 120px !important; }
-
-dt{
-	font-weight: normal;
-	color: lightgrey;
-}
-
-.panel-heading{ font-size: large; }
-
-textarea{ font-family: monospace; }
-
-hr{
-	margin:0px;
-	padding:0px; 
-	margin-bottom:5px;
-}
-
 h2{ margin-top:0px; }
-
+/*
+ * PAGEWIDE
+ */
+.sidebar{ float:right; padding:2px; background:white; }
+.section-header{ font-size: small; color:lightgray; text-transform:small-caps; }
+hr{ margin:0px; padding:0px; margin-bottom:5px; }
+/*
+ * EDIT
+ */
+textarea{ font-family: monospace; }
+/*
+ * SETTINGS
+ */
+#transpose{width:50px;}
 button{ margin-bottom:4px; margin-top:4px;}
+#settings .bootstrap-switch-label{ width:100px; }
+
+/*
+ * NIGHT MODE
+ */
+
+/* body{ background-color: #263238; }
+ * textarea{ background-color: #37474f !important; }
+ * *{ border-color: black !important; color: #607d8b !important; }
+ * .bootstrap-switch-container span{ background-color: #455a64 !important; }
+ * button{ background-color: #37474f !important; }
+ * .bootstrap-switch-container span.bootstrap-switch-label{ background-color: #37474f !important; }
+ * .modal-content{ background-color: #37474f; }
+ */

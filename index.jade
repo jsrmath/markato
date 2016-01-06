@@ -7,28 +7,32 @@ html(lang="en")
 		link(rel="stylesheet", href="style.css")
 		link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css")
 		link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+
+
+
 	body
 		.container
 			.row
 				.col-xs-12
 					h3 Markato Demo
-				.col-xs-12.text-right
-					input.bs(type='checkbox' name='toggle-edit' data-label-text="Edit" data-inverse='true' checked)
 			.row
-				.col-xs-12.col-sm-12.col-md-2
+				.col-xs-12.col-sm-12.col-md-2#settings
+					input.bs(type='checkbox' name='toggle-edit' data-label-text="Edit" data-inverse='true' checked)
+					br
+					br
 					input.bs(type='checkbox' name='toggle-chords' data-label-text="Chords" data-inverse='true' checked)
 					input.bs(type='checkbox' name='toggle-muted' data-label-text="Smart Fade" data-inverse='true' checked)
 					input.bs(type='checkbox' name='toggle-section' data-label-text="Sections" data-inverse='true' checked)
 					input.bs(type='checkbox' name='toggle-alts' data-label-text="Alternates" data-inverse='true' checked)
-
+					br
+					br
 					.btn-group(role='group')
 						button.btn.btn-default.btn-md#transposeDown(type='button')
-							span &#xab;
-						button.btn.btn-info.btn-md(type='button' data-toggle='modal' data-target='#transposeModal')
-							span#key G
+							span.glyphicon.glyphicon-chevron-left
+						button.btn.btn-info.btn-md#transpose(type='button' data-toggle='modal' data-target='#transposeModal')
+							span.key#currentKey G
 						button.btn.btn-default.btn-md#transposeUp(type='button')
-							span &#xbb;
-
+							span.glyphicon.glyphicon-chevron-right
 				.col-xs-12.col-sm-12.col-md-10
 					.row
 						.col-xs-12.col-sm-6#output
@@ -47,6 +51,13 @@ html(lang="en")
 							.btn-group(role='group')
 								each chord in chordGroup
 									button.btn.btn-default(type='button' data-transposeChord=chord)= chord
+					.modal-footer
+						button.btn.btn-default#transposeReset(type='button')
+							span Reset to 
+								span.key#originalKey
+	
+
+
 	script(src="https://code.jquery.com/jquery-2.1.4.min.js")
 	script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS", crossorigin="anonymous")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js")
