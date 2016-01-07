@@ -12,22 +12,23 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
-          <h3>Markato Demo</h3>
+          <h3 class="text-center">Markato</h3>
         </div>
       </div>
       <div class="row">
         <div id="settings" class="col-xs-12 col-sm-12 col-md-2">
-          <input type="checkbox" name="toggle-edit" data-label-text="Edit" data-inverse="true" checked class="bs"><br><br>
+          <input type="checkbox" name="toggle-edit" data-label-text="Edit" data-inverse="true" checked class="bs"><br class="hidden-sm hidden-xs"><br class="hidden-sm hidden-xs">
           <input type="checkbox" name="toggle-chords" data-label-text="Chords" data-inverse="true" checked class="bs">
-          <input type="checkbox" name="toggle-lyrics" data-label-text="Lyrics" data-inverse="true" checked class="bs">
-          <input type="checkbox" name="toggle-muted" data-label-text="Smart Fade" data-inverse="true" checked class="bs">
-          <input type="checkbox" name="toggle-section" data-label-text="Sections" data-inverse="true" checked class="bs">
-          <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" class="bs"><br><br>
+          <input type="checkbox" name="toggle-lyrics" data-label-text="Lyrics" data-inverse="true" checked class="bs"><br class="hidden-sm hidden-xs"><br class="hidden-sm hidden-xs">
           <div role="group" class="btn-group">
             <button id="transposeDown" type="button" class="btn btn-default btn-md"><span class="glyphicon glyphicon-chevron-left"></span></button>
             <button id="transpose" type="button" data-toggle="modal" data-target="#transposeModal" class="btn btn-info btn-md"><span id="currentKey" class="key">G</span></button>
             <button id="transposeUp" type="button" class="btn btn-default btn-md"><span class="glyphicon glyphicon-chevron-right"></span></button>
-          </div>
+          </div><br class="hidden-sm hidden-xs"><br class="hidden-sm hidden-xs">
+          <input type="checkbox" name="toggle-muted" data-label-text="Smart Fade" data-inverse="true" checked class="bs">
+          <input type="checkbox" name="toggle-section" data-label-text="Sections" data-inverse="true" checked class="bs">
+          <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" class="bs"><br class="hidden-md hidden-lg"><br class="hidden-md hidden-lg">
+          <hr class="hidden-md hidden-lg">
         </div>
         <div class="col-xs-12 col-sm-12 col-md-10">
           <div class="row">

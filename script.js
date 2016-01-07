@@ -53,10 +53,6 @@
     });
     $("[name='toggle-chords']").on('switchChange.bootstrapSwitch', function(event, bool) {
       state.showChords = bool ? true : false;
-      if (!bool) {
-        $("input[name='toggle-muted']").bootstrapSwitch('state', false);
-        $("input[name='toggle-alts']").bootstrapSwitch('state', false);
-      }
       return refresh();
     });
     $("[name='toggle-lyrics']").on('switchChange.bootstrapSwitch', function(event, bool) {

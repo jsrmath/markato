@@ -64,9 +64,6 @@ $ ->
 
 	$("[name='toggle-chords']").on 'switchChange.bootstrapSwitch', (event, bool)->
 		state.showChords = if bool then true else false
-		if not bool #if toggling 'no', turn off related things automatically
-			$("input[name='toggle-muted']").bootstrapSwitch 'state', false
-			$("input[name='toggle-alts']").bootstrapSwitch 'state', false
 		refresh()
 
 	$("[name='toggle-lyrics']").on 'switchChange.bootstrapSwitch', (event, bool)->

@@ -14,19 +14,16 @@ html(lang="en")
 		.container
 			.row
 				.col-xs-12
-					h3 Markato Demo
+					h3.text-center Markato
 			.row
 				.col-xs-12.col-sm-12.col-md-2#settings
 					input.bs(type='checkbox' name='toggle-edit' data-label-text="Edit" data-inverse='true' checked)
-					br
-					br
+					br.hidden-sm.hidden-xs
+					br.hidden-sm.hidden-xs
 					input.bs(type='checkbox' name='toggle-chords' data-label-text="Chords" data-inverse='true' checked)
 					input.bs(type='checkbox' name='toggle-lyrics' data-label-text="Lyrics" data-inverse='true' checked)
-					input.bs(type='checkbox' name='toggle-muted' data-label-text="Smart Fade" data-inverse='true' checked)
-					input.bs(type='checkbox' name='toggle-section' data-label-text="Sections" data-inverse='true' checked)
-					input.bs(type='checkbox' name='toggle-alts' data-label-text="Alternates" data-inverse='true' )
-					br
-					br
+					br.hidden-sm.hidden-xs
+					br.hidden-sm.hidden-xs
 					.btn-group(role='group')
 						button.btn.btn-default.btn-md#transposeDown(type='button')
 							span.glyphicon.glyphicon-chevron-left
@@ -34,6 +31,14 @@ html(lang="en")
 							span.key#currentKey G
 						button.btn.btn-default.btn-md#transposeUp(type='button')
 							span.glyphicon.glyphicon-chevron-right
+					br.hidden-sm.hidden-xs
+					br.hidden-sm.hidden-xs
+					input.bs(type='checkbox' name='toggle-muted' data-label-text="Smart Fade" data-inverse='true' checked)
+					input.bs(type='checkbox' name='toggle-section' data-label-text="Sections" data-inverse='true' checked)
+					input.bs(type='checkbox' name='toggle-alts' data-label-text="Alternates" data-inverse='true' )
+					br.hidden-md.hidden-lg
+					br.hidden-md.hidden-lg
+					hr.hidden-md.hidden-lg
 				.col-xs-12.col-sm-12.col-md-10
 					.row
 						.col-xs-12.col-sm-6#output

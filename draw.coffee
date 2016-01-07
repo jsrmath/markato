@@ -86,7 +86,6 @@ generateToken = (token, state) ->
 	
 	result
 
-#ACTUALLY PRETTY BROKEN
 determineKey = (song) ->
 	validKeys = [ 'C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#','Ab','A','A#','Bb','B' ]
 	key = song.meta.KEY if song.meta.KEY?
@@ -100,17 +99,15 @@ determineKey = (song) ->
 
 #this is some tricky JSON-specific logic and it's ugly and i hate it
 lastInferredChord = (song) ->
-	lastLines =song.lyrics[song.lyrics.length-1].lines
-	lastLine = lastLines[lastLines.length-1]
-	lastPhrase = lastLine[lastLine.length-1]
-	lastPhrase.chord
+	lastLines = _.last(song.lyrics).lines
+	lastLine = _.last(lastLines)
+	_.last(lastLine).chord
 
 lastDefinedChord = (song) ->
-	lastSectionTitle = song.sections[song.sections.length-1]
+	lastSectionTitle = _.last(song.sections)
 	lastSection = song.chords[lastSectionTitle]
-	lastLine = lastSection[lastSection.length-1]
-	lastChord = lastLine[lastLine.length-1]
-	lastChord
+	lastLine = _.last(lastSection)
+	_.last(lastLine)
 
 #returns a title string
 title = (song) ->
@@ -118,11 +115,4 @@ title = (song) ->
 
 #returns a byline string
 byline = (song) ->
-	if song.meta.ARTIST? and song.meta.ALBUM?
-		"#{song.meta.ARTIST} — #{song.meta.ALBUM}"
-	else if song.meta.ARTIST?
-		"#{song.meta.ARTIST} — ?"
-	else if song.meta.ALBUM?
-		"? — #{song.meta.ALBUM}"
-	else
-		"? — ?"
+	"#{song.meta.ARTIST || "?"} — #{song.meta.ALBUM || "?"}"

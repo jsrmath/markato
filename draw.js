@@ -97,20 +97,18 @@
   };
 
   lastInferredChord = function(song) {
-    var lastLine, lastLines, lastPhrase;
-    lastLines = song.lyrics[song.lyrics.length - 1].lines;
-    lastLine = lastLines[lastLines.length - 1];
-    lastPhrase = lastLine[lastLine.length - 1];
-    return lastPhrase.chord;
+    var lastLine, lastLines;
+    lastLines = _.last(song.lyrics).lines;
+    lastLine = _.last(lastLines);
+    return _.last(lastLine).chord;
   };
 
   lastDefinedChord = function(song) {
-    var lastChord, lastLine, lastSection, lastSectionTitle;
-    lastSectionTitle = song.sections[song.sections.length - 1];
+    var lastLine, lastSection, lastSectionTitle;
+    lastSectionTitle = _.last(song.sections);
     lastSection = song.chords[lastSectionTitle];
-    lastLine = lastSection[lastSection.length - 1];
-    lastChord = lastLine[lastLine.length - 1];
-    return lastChord;
+    lastLine = _.last(lastSection);
+    return _.last(lastLine);
   };
 
   title = function(song) {
@@ -122,15 +120,7 @@
   };
 
   byline = function(song) {
-    if ((song.meta.ARTIST != null) && (song.meta.ALBUM != null)) {
-      return song.meta.ARTIST + " — " + song.meta.ALBUM;
-    } else if (song.meta.ARTIST != null) {
-      return song.meta.ARTIST + " — ?";
-    } else if (song.meta.ALBUM != null) {
-      return "? — " + song.meta.ALBUM;
-    } else {
-      return "? — ?";
-    }
+    return (song.meta.ARTIST || "?") + " — " + (song.meta.ALBUM || "?");
   };
 
 }).call(this);
