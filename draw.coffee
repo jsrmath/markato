@@ -86,6 +86,7 @@ generateToken = (token, state) ->
 	
 	result
 
+#much less broken
 determineKey = (song) ->
 	validKeys = [ 'C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#','Ab','A','A#','Bb','B' ]
 	key = song.meta.KEY if song.meta.KEY?
