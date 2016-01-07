@@ -19,9 +19,10 @@
         <div id="settings" class="col-xs-12 col-sm-12 col-md-2">
           <input type="checkbox" name="toggle-edit" data-label-text="Edit" data-inverse="true" checked class="bs"><br><br>
           <input type="checkbox" name="toggle-chords" data-label-text="Chords" data-inverse="true" checked class="bs">
+          <input type="checkbox" name="toggle-lyrics" data-label-text="Lyrics" data-inverse="true" checked class="bs">
           <input type="checkbox" name="toggle-muted" data-label-text="Smart Fade" data-inverse="true" checked class="bs">
           <input type="checkbox" name="toggle-section" data-label-text="Sections" data-inverse="true" checked class="bs">
-          <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" checked class="bs"><br><br>
+          <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" class="bs"><br><br>
           <div role="group" class="btn-group">
             <button id="transposeDown" type="button" class="btn btn-default btn-md"><span class="glyphicon glyphicon-chevron-left"></span></button>
             <button id="transpose" type="button" data-toggle="modal" data-target="#transposeModal" class="btn btn-info btn-md"><span id="currentKey" class="key">G</span></button>
@@ -104,6 +105,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script src="sharp11.js"></script>
   <script src="transpose.js"></script>
+  <script src="example.js"></script>
   <script src="draw.js"></script>
   <script src="parser.js"></script>
   <script src="script.js"></script>

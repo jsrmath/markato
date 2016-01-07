@@ -21,9 +21,10 @@ html(lang="en")
 					br
 					br
 					input.bs(type='checkbox' name='toggle-chords' data-label-text="Chords" data-inverse='true' checked)
+					input.bs(type='checkbox' name='toggle-lyrics' data-label-text="Lyrics" data-inverse='true' checked)
 					input.bs(type='checkbox' name='toggle-muted' data-label-text="Smart Fade" data-inverse='true' checked)
 					input.bs(type='checkbox' name='toggle-section' data-label-text="Sections" data-inverse='true' checked)
-					input.bs(type='checkbox' name='toggle-alts' data-label-text="Alternates" data-inverse='true' checked)
+					input.bs(type='checkbox' name='toggle-alts' data-label-text="Alternates" data-inverse='true' )
 					br
 					br
 					.btn-group(role='group')
@@ -65,6 +66,7 @@ html(lang="en")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js")
 	script(src='sharp11.js')
 	script(src='transpose.js')
+	script(src='example.js')
 	script(src='draw.js')
 	script(src='parser.js')
 	script(src='script.js')
