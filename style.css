@@ -14,7 +14,7 @@
 	word-wrap: normal !important;
 }
 .mute{ color:lightgrey; } 
-.alts{ color:sandybrown; }
+.alts{ color:#5bc0de; }
 .alts a{ text-decoration:underline; color:inherit; }
 .join span.string{ margin-left: -4px !important; } 
 h2{ margin-top:0px; }
@@ -34,6 +34,13 @@ textarea{ font-family: monospace; }
 #transpose{width:50px;}
 button{ margin-bottom:4px; margin-top:4px;}
 #settings .bootstrap-switch-label{ width:100px; }
+/*
+ * ALTERNATES
+ */
+#alternatesModal .btn-link{
+	color: inherit;
+	cursor: inherit;
+}
 
 /*
  * NIGHT MODE

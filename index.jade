@@ -15,15 +15,20 @@ html(lang="en")
 			.row
 				.col-xs-12
 					h3.text-center Markato
+					br
 			.row
 				.col-xs-12.col-sm-12.col-md-2#settings
 					input.bs(type='checkbox' name='toggle-edit' data-label-text="Edit" data-inverse='true' checked)
+					
 					br.hidden-sm.hidden-xs
 					br.hidden-sm.hidden-xs
+					
 					input.bs(type='checkbox' name='toggle-chords' data-label-text="Chords" data-inverse='true' checked)
 					input.bs(type='checkbox' name='toggle-lyrics' data-label-text="Lyrics" data-inverse='true' checked)
+					
 					br.hidden-sm.hidden-xs
 					br.hidden-sm.hidden-xs
+					
 					.btn-group(role='group')
 						button.btn.btn-default.btn-md#transposeDown(type='button')
 							span.glyphicon.glyphicon-chevron-left
@@ -31,11 +36,14 @@ html(lang="en")
 							span.key#currentKey G
 						button.btn.btn-default.btn-md#transposeUp(type='button')
 							span.glyphicon.glyphicon-chevron-right
+								
 					br.hidden-sm.hidden-xs
 					br.hidden-sm.hidden-xs
+					
 					input.bs(type='checkbox' name='toggle-muted' data-label-text="Smart Fade" data-inverse='true' checked)
 					input.bs(type='checkbox' name='toggle-section' data-label-text="Sections" data-inverse='true' checked)
-					input.bs(type='checkbox' name='toggle-alts' data-label-text="Alternates" data-inverse='true' )
+					input.bs(type='checkbox' name='toggle-alts' data-label-text="Alternates" data-inverse='true' checked)
+					
 					br.hidden-md.hidden-lg
 					br.hidden-md.hidden-lg
 					hr.hidden-md.hidden-lg
@@ -46,7 +54,7 @@ html(lang="en")
 						.col-xs-12.col-sm-6
 							textarea.form-control#input(rows='30')
 		.modal.fade#transposeModal(tabindex='-1', role='dialog', aria-labelledby='transposeLabel')
-			.modal-dialog.modal-sm(role='document')
+			.modal-dialog(role='document')
 				.modal-content
 					.modal-header
 						button.close(type='button' data-dismiss='modal')
@@ -56,11 +64,22 @@ html(lang="en")
 						each chordGroup in [['C'],['C#','Db'],['D'],['D#','Eb'],['E'],['F'],['F#','Gb'],['G'],['G#','Ab'],['A'],['A#','Bb'],['B']]
 							.btn-group(role='group')
 								each chord in chordGroup
-									button.btn.btn-default(type='button' data-transposeChord=chord)= chord
+									button.btn.btn-lg.btn-default(type='button' data-transposeChord=chord)= chord
 					.modal-footer
 						button.btn.btn-default#transposeReset(type='button')
 							span Reset to 
 								span.key#originalKey
+		.modal.fade#alternatesModal(tabindex='-1', role='dialog', aria-labelledby='alternatesLabel')
+			.modal-dialog(role='document')
+				.modal-content
+					.modal-header
+						button.close(type='button' data-dismiss='modal')
+							span &times;
+						h4.modal-title Alternates
+					.modal-body
+					.modal-footer
+						button.btn.btn-default(type='button', data-dismiss='modal')
+							span Close
 	
 
 

@@ -8,6 +8,10 @@ window.draw = (location, song, state) ->
 	#state.requestedKey
 	state.drawKey = if state.requestedKey? then state.requestedKey else state.originalKey
 
+	state.alts = song.alts
+
+	console.log state
+
 	#PRINT KEYS TO DOM
 	$('#currentKey').html state.drawKey
 	$('#originalKey').html state.originalKey
@@ -15,6 +19,7 @@ window.draw = (location, song, state) ->
 	$("[data-transposeChord=#{state.drawKey}]").addClass('btn-info')
 
 	canvas.html generateHTML(song, state)
+
 	null
 
 #generates the string to be printed in the DOM
@@ -39,9 +44,11 @@ generateHTML = (song, state) ->
 
 #generates the HTML of a given phrase token
 generateToken = (token, state) ->
-	#hasAlts = if token.chord.endsWith('\'') then true else false
+	token.hasAlts = if state.alts[token.chord]? then true else false
 
 	chord = if not token.chord? then ' ' else token.chord
+
+	chord = state.alts[chord][state.replacements[chord]] if state.replacements[chord]? #replace if an alternative is toggled
 	chord = chord.replace(/'/g,'')
 	
 	string = if token.string=='' then ' ' else token.string.trim()
@@ -51,14 +58,8 @@ generateToken = (token, state) ->
 
 	chord_classes = ['chord']
 	chord_classes.push('mute') if state.smartMode and not token.exception
+	chord_classes.push('alts') if token.hasAlts and token.exception and state.showAlts
 	
-	#if state.showAlts and hasAlts and token.exception and alts[token.chord]?
-	#	chord_classes.push('alts')
-
-	#allowable = token.chord.replace(/'/g,'') #prints without ' footnotes
-	#diff = token.chord.length - allowable.length #number of 's
-	#identifier = allowable + diff #unique identifier
-
 	if state.drawKey != state.originalKey and chord != ''
 		chord = transpose(state.originalKey, state.drawKey, chord)
 
@@ -72,18 +73,11 @@ generateToken = (token, state) ->
 	result = ''
 	result += "<p class='#{phrase_classes.join(' ')}'>"
 	if state.showChords
-		result += "<span class='#{chord_classes.join(' ')}'>#{chord}</span><br/>"
+		result += "<span class='#{chord_classes.join(' ')}' data-chord='#{_.escape token.chord}'>#{chord}</span><br/>"
 	if string? and state.showLyrics
 		result += "<span class='string'>#{string}</span>"
 	result += "</p>"
 
-	#print alternate sidebar if necessary
-	#if hasAlts and token.exception and state.showAlts and alts[token.chord]?
-	#	result += "<span class='sidebar alts' data-id-from=\"#{identifier}\">"
-	#	result += "<a>#{chord}</a> → <a>"
-	#	result += alts[token.chord].join('</a>, <a>')
-	#	result += "</a></span><br/>"
-	
 	result
 
 #much less broken
@@ -117,3 +111,15 @@ title = (song) ->
 #returns a byline string
 byline = (song) ->
 	"#{song.meta.ARTIST || "?"} — #{song.meta.ALBUM || "?"}"
+
+
+
+
+
+
+
+
+
+
+
+

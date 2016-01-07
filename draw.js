@@ -8,6 +8,8 @@
     canvas = $(location);
     state.originalKey = determineKey(song);
     state.drawKey = state.requestedKey != null ? state.requestedKey : state.originalKey;
+    state.alts = song.alts;
+    console.log(state);
     $('#currentKey').html(state.drawKey);
     $('#originalKey').html(state.originalKey);
     $("#transposeToolbar button").removeClass('btn-info');
@@ -45,7 +47,11 @@
 
   generateToken = function(token, state) {
     var chord, chord_classes, phrase_classes, result, string;
+    token.hasAlts = state.alts[token.chord] != null ? true : false;
     chord = token.chord == null ? ' ' : token.chord;
+    if (state.replacements[chord] != null) {
+      chord = state.alts[chord][state.replacements[chord]];
+    }
     chord = chord.replace(/'/g, '');
     string = token.string === '' ? ' ' : token.string.trim();
     phrase_classes = ['phrase'];
@@ -55,6 +61,9 @@
     chord_classes = ['chord'];
     if (state.smartMode && !token.exception) {
       chord_classes.push('mute');
+    }
+    if (token.hasAlts && token.exception && state.showAlts) {
+      chord_classes.push('alts');
     }
     if (state.drawKey !== state.originalKey && chord !== '') {
       chord = transpose(state.originalKey, state.drawKey, chord);
@@ -69,7 +78,7 @@
     result = '';
     result += "<p class='" + (phrase_classes.join(' ')) + "'>";
     if (state.showChords) {
-      result += "<span class='" + (chord_classes.join(' ')) + "'>" + chord + "</span><br/>";
+      result += "<span class='" + (chord_classes.join(' ')) + "' data-chord='" + (_.escape(token.chord)) + "'>" + chord + "</span><br/>";
     }
     if ((string != null) && state.showLyrics) {
       result += "<span class='string'>" + string + "</span>";
