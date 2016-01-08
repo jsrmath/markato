@@ -5,7 +5,7 @@
 
   window.draw = function(location, song, state) {
     state.originalKey = determineKey(song);
-    state.drawKey = state.requestedKey != null ? state.requestedKey : state.originalKey;
+    state.drawKey = state.requestedKey || state.originalKey;
     state.alts = song.alts;
     printKeysToDOM(state);
     $(location).html(generateHTML(song, state));
@@ -50,13 +50,13 @@
 
   generateToken = function(token, state) {
     var chord, chord_classes, phrase_classes, result, string;
-    token.hasAlts = state.alts[token.chord] != null ? true : false;
-    chord = token.chord == null ? ' ' : token.chord;
+    token.hasAlts = state.alts[token.chord] != null;
+    chord = token.chord;
     if (state.replacements[chord] != null) {
       chord = state.alts[chord][state.replacements[chord]];
     }
     chord = chord.replace(/'/g, '');
-    string = token.string === '' ? ' ' : token.string.trim();
+    string = token.string.trim();
     phrase_classes = ['phrase'];
     if (token.wordExtension) {
       phrase_classes.push('join');
@@ -68,44 +68,35 @@
     if (token.hasAlts && token.exception && state.showAlts) {
       chord_classes.push('alts');
     }
-    if (state.drawKey !== state.originalKey && chord !== '') {
+    if (state.drawKey !== state.originalKey && chord) {
       chord = transpose(state.originalKey, state.drawKey, chord);
     }
     chord = chord.replace('#', '&#x266F;').replace('b', '&#x266D;');
-    if (!state.showLyrics && chord === '') {
+    if (!state.showLyrics && !chord) {
       return '';
     }
-    if (string === ' ' && !state.showChords) {
+    if (!string && !state.showChords) {
       return '';
     }
     result = '';
     result += "<p class='" + (phrase_classes.join(' ')) + "'>";
     if (state.showChords) {
-      result += "<span class='" + (chord_classes.join(' ')) + "' data-chord='" + (_.escape(token.chord)) + "'>" + chord + "</span><br/>";
+      result += "<span class='" + (chord_classes.join(' ')) + "' data-chord='" + (_.escape(token.chord)) + "'>" + (chord || ' ') + "</span><br/>";
     }
     if ((string != null) && state.showLyrics) {
-      result += "<span class='string'>" + string + "</span>";
+      result += "<span class='string'>" + (string || ' ') + "</span>";
     }
     result += "</p>";
     return result;
   };
 
   determineKey = function(song) {
-    var key, validKeys;
+    var possibleKeys, validKeys;
     validKeys = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B'];
-    if (song.meta.KEY != null) {
-      key = song.meta.KEY;
-    }
-    if (indexOf.call(validKeys, key) < 0) {
-      key = createNote(lastInferredChord(song)).clean().name;
-    }
-    if (indexOf.call(validKeys, key) < 0) {
-      key = createNote(lastDefinedChord(song)).clean().name;
-    }
-    if (indexOf.call(validKeys, key) < 0) {
-      key = 'C';
-    }
-    return key;
+    possibleKeys = [song.meta.KEY, createNote(lastInferredChord(song)).clean().name, createNote(lastDefinedChord(song)).clean().name, 'C'];
+    return _.find(possibleKeys, function(key) {
+      return indexOf.call(validKeys, key) >= 0;
+    });
   };
 
   lastInferredChord = function(song) {
@@ -117,11 +108,7 @@
   };
 
   title = function(song) {
-    if (song.meta.TITLE != null) {
-      return song.meta.TITLE;
-    } else {
-      return '?';
-    }
+    return song.meta.TITLE || '?';
   };
 
   byline = function(song) {

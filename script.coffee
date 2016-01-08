@@ -101,26 +101,20 @@ $ ->
 
 	#
 	# SWITCH BEHAVIOR
-	$("[name='toggle-chords']").on 'switchChange.bootstrapSwitch', (event, bool)->
-		state.showChords = if bool then true else false
-		refresh()
+	switchHandler = (attr) ->
+		(event, bool) ->
+			state[attr] = bool
+			refresh()
 
-	$("[name='toggle-lyrics']").on 'switchChange.bootstrapSwitch', (event, bool)->
-		state.showLyrics = if bool then true else false
-		refresh()
+	$("[name='toggle-chords']").on 'switchChange.bootstrapSwitch', switchHandler('showChords')
+
+	$("[name='toggle-lyrics']").on 'switchChange.bootstrapSwitch', switchHandler('showLyrics')
 	
-	$("[name='toggle-muted']").on 'switchChange.bootstrapSwitch', (event, bool)->
-		state.smartMode = if bool then true else false
-		refresh()
+	$("[name='toggle-muted']").on 'switchChange.bootstrapSwitch', switchHandler('smartMode')
 	
-	$("[name='toggle-section']").on 'switchChange.bootstrapSwitch', (event, bool)->
-		state.showSections = if bool then true else false
-		refresh()
+	$("[name='toggle-section']").on 'switchChange.bootstrapSwitch', switchHandler('showSections')
 
-	$("[name='toggle-alts']").on 'switchChange.bootstrapSwitch', (event, bool)->
-		state.showAlts = if bool then true else false
-		refresh()
-
+	$("[name='toggle-alts']").on 'switchChange.bootstrapSwitch', switchHandler('showAlts')
 	
 	#
 	# DONE ONCE AT STARTUP
@@ -142,10 +136,3 @@ generateAltsModal = (alts, chord, state) ->
 	#fstring += "    <button type='button' class='btn btn-md btn-link'>Reset to</button>"
 	#fstring += "    <button type='button' class='btn btn-md btn-default'>#{chord}</button>"
 	return fstring
-
-
-
-
-
-
-

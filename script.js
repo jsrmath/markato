@@ -74,6 +74,7 @@
   };
 
   $(function() {
+    var switchHandler;
     $('#input').val(window.example);
     refresh();
     $('#input').keyup(refresh);
@@ -109,26 +110,17 @@
       $('#transposeModal').modal('hide');
       return refresh();
     });
-    $("[name='toggle-chords']").on('switchChange.bootstrapSwitch', function(event, bool) {
-      state.showChords = bool ? true : false;
-      return refresh();
-    });
-    $("[name='toggle-lyrics']").on('switchChange.bootstrapSwitch', function(event, bool) {
-      state.showLyrics = bool ? true : false;
-      return refresh();
-    });
-    $("[name='toggle-muted']").on('switchChange.bootstrapSwitch', function(event, bool) {
-      state.smartMode = bool ? true : false;
-      return refresh();
-    });
-    $("[name='toggle-section']").on('switchChange.bootstrapSwitch', function(event, bool) {
-      state.showSections = bool ? true : false;
-      return refresh();
-    });
-    $("[name='toggle-alts']").on('switchChange.bootstrapSwitch', function(event, bool) {
-      state.showAlts = bool ? true : false;
-      return refresh();
-    });
+    switchHandler = function(attr) {
+      return function(event, bool) {
+        state[attr] = bool;
+        return refresh();
+      };
+    };
+    $("[name='toggle-chords']").on('switchChange.bootstrapSwitch', switchHandler('showChords'));
+    $("[name='toggle-lyrics']").on('switchChange.bootstrapSwitch', switchHandler('showLyrics'));
+    $("[name='toggle-muted']").on('switchChange.bootstrapSwitch', switchHandler('smartMode'));
+    $("[name='toggle-section']").on('switchChange.bootstrapSwitch', switchHandler('showSections'));
+    $("[name='toggle-alts']").on('switchChange.bootstrapSwitch', switchHandler('showAlts'));
     return $("input.bs").bootstrapSwitch();
   });
 
