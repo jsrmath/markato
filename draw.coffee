@@ -85,6 +85,7 @@ determineKey = (song) ->
 		createNote( lastDefinedChord song ).clean().name,
 		'C'
 	]
+	#return first from possibleKeys where key is in validKeys
 	_.find possibleKeys, (key) -> key in validKeys
 
 #this is some tricky JSON-specific logic and it's ugly and i hate it
