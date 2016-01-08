@@ -11,7 +11,9 @@
     showAlts: true,
     showSections: true,
     smartMode: true,
-    requestedKey: null
+    requestedKey: null,
+    isEditing: true,
+    showSettings: true
   };
 
   replacements = null;
@@ -35,6 +37,20 @@
     }
     state.replacements = replacements;
     draw(location, file, state);
+    $('#edit').click(function() {
+      state.isEditing = !state.isEditing;
+      if (state.isEditing) {
+        $('#inputCol').show();
+      } else {
+        $('#inputCol').hide();
+      }
+      if (state.isEditing) {
+        $('#outputCol').addClass('col-md-6');
+      } else {
+        $('#outputCol').removeClass('col-md-6');
+      }
+      return refresh();
+    });
     return $('.alts').click(function() {
       var chord;
       chord = _.unescape($(this).attr('data-chord'));
@@ -61,6 +77,18 @@
     $('#input').val(window.example);
     refresh();
     $('#input').keyup(refresh);
+    $('#settings').click(function() {
+      return $("[name='toggle-settings']").bootstrapSwitch('toggleState');
+    });
+    $("[name='toggle-settings']").on('switchChange.bootstrapSwitch', function(event, bool) {
+      state.showSettings = !state.showSettings;
+      bool = state.showSettings;
+      if (bool) {
+        return $('#switches').slideDown();
+      } else {
+        return $('#switches').slideUp();
+      }
+    });
     $('#transposeUp').click(function() {
       state.requestedKey = createNote($('#currentKey').html()).sharp().clean().name;
       return refresh();
@@ -99,19 +127,6 @@
     });
     $("[name='toggle-alts']").on('switchChange.bootstrapSwitch', function(event, bool) {
       state.showAlts = bool ? true : false;
-      return refresh();
-    });
-    $("[name='toggle-edit']").on('switchChange.bootstrapSwitch', function(event, bool) {
-      if (bool) {
-        $('#input').parent().show();
-      } else {
-        $('#input').parent().hide();
-      }
-      if (bool) {
-        $('#output').addClass('col-sm-6');
-      } else {
-        $('#output').removeClass('col-sm-6');
-      }
       return refresh();
     });
     return $("input.bs").bootstrapSwitch();

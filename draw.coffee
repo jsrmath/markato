@@ -1,31 +1,27 @@
 #GLOBAL draw function -- takes a canvas location, a song data file, and a current state
 window.draw = (location, song, state) ->
-	canvas = $(location)
-	#alts = song.alts
-
-	#three keys in play here: the original, the requested, and the key in which the thing will actually be drawn.
 	state.originalKey = determineKey song
-	#state.requestedKey
 	state.drawKey = if state.requestedKey? then state.requestedKey else state.originalKey
-
 	state.alts = song.alts
 
-	console.log state
+	printKeysToDOM state
+	$(location).html generateHTML song, state
 
-	#PRINT KEYS TO DOM
+	null
+
+#PRINT KEYS TO DOM
+printKeysToDOM = (state) ->
 	$('#currentKey').html state.drawKey
 	$('#originalKey').html state.originalKey
 	$("#transposeToolbar button").removeClass('btn-info')
 	$("[data-transposeChord=#{state.drawKey}]").addClass('btn-info')
-
-	canvas.html generateHTML(song, state)
-
 	null
 
 #generates the string to be printed in the DOM
 generateHTML = (song, state) ->
 	cstring = ''
-	cstring += "<h2>#{title song}</h2>"
+	cstring += "<button type='button' class='btn #{if state.isEditing then 'btn-success' else 'btn-info btn-md'}' id='edit'> <span class='glyphicon #{if state.isEditing then 'glyphicon-check' else 'glyphicon-edit'}' aria-hidden='true'></span> #{if state.isEditing then 'Save' else 'Edit'} </button>"
+	cstring += "<h2>#{title song} <small>in #{state.drawKey}</small></h2>"
 	cstring += "<h4>#{byline song}</h4>"
 	(
 		if state.showSections
@@ -94,15 +90,17 @@ determineKey = (song) ->
 
 #this is some tricky JSON-specific logic and it's ugly and i hate it
 lastInferredChord = (song) ->
-	lastLines = _.last(song.lyrics).lines
-	lastLine = _.last(lastLines)
-	_.last(lastLine).chord
+	#lastLines = _.last(song.lyrics).lines
+	#lastLine = _.last(lastLines)
+	#_.last(lastLine).chord
+	_.last( _.last( _.last( song.lyrics).lines ) ).chord
 
 lastDefinedChord = (song) ->
-	lastSectionTitle = _.last(song.sections)
-	lastSection = song.chords[lastSectionTitle]
-	lastLine = _.last(lastSection)
-	_.last(lastLine)
+	#lastSectionTitle = _.last(song.sections)
+	#lastSection = song.chords[lastSectionTitle]
+	#lastLine = _.last(lastSection)
+	#_.last(lastLine)
+	_.last _.last song.chords[_.last song.sections]
 
 #returns a title string
 title = (song) ->
@@ -110,7 +108,7 @@ title = (song) ->
 
 #returns a byline string
 byline = (song) ->
-	"#{song.meta.ARTIST || "?"} — #{song.meta.ALBUM || "?"}"
+	"#{song.meta.ARTIST || "?"} <i> #{song.meta.ALBUM || "?"}</i>"
 
 
 

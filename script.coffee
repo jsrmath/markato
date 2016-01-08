@@ -8,6 +8,8 @@ state =
 	showSections: true
 	smartMode: true
 	requestedKey: null
+	isEditing: true
+	showSettings: true
 
 replacements = null
 
@@ -17,24 +19,30 @@ initAlts = (obj) ->
 	replacements
 
 #REDRAW function - calls upon draw() from /draw.coffee
-refresh = () ->
+refresh = ->
 	file = parser.parseString $('#input').val()
 
 	replacements = initAlts file.alts if _.isNull replacements
 	state.replacements = replacements
 
 	draw location, file, state
+
+	$('#edit').click ->
+		state.isEditing = not state.isEditing
+		if state.isEditing then $('#inputCol').show() else $('#inputCol').hide()
+		if state.isEditing then $('#outputCol').addClass('col-md-6') else $('#outputCol').removeClass('col-md-6')
+		refresh()
 	
 	#SWAP IN alts ON CLICK
 	$('.alts').click ->
 		chord = _.unescape $(this).attr('data-chord')
+
 		$('#alternatesModal .modal-body').html generateAltsModal file.alts, chord
 
 		if _.isNull state.replacements[chord]
 			$('#resetChord').addClass('btn-info')
 		else
 			$("#alternatesModal .modal-body [data-index=#{state.replacements[chord]}]").addClass('btn-info')
-
 
 		$('#alternatesModal').modal('show')
 	
@@ -58,6 +66,17 @@ $ ->
 	#
 	# CONSTANT BEHAVIORAL ASSIGNMENTS
 	$('#input').keyup refresh
+
+	$('#settings').click ->
+		$("[name='toggle-settings']").bootstrapSwitch('toggleState')
+
+	$("[name='toggle-settings']").on 'switchChange.bootstrapSwitch', (event, bool)->
+		state.showSettings = not state.showSettings
+		bool = state.showSettings
+		if bool
+			$('#switches').slideDown()
+		else
+			$('#switches').slideUp()
 
 	#
 	# TRANSPOSE
@@ -102,10 +121,6 @@ $ ->
 		state.showAlts = if bool then true else false
 		refresh()
 
-	$("[name='toggle-edit']").on 'switchChange.bootstrapSwitch', (event, bool)->
-		if bool then $('#input').parent().show() else $('#input').parent().hide()
-		if bool then $('#output').addClass('col-sm-6') else $('#output').removeClass('col-sm-6')
-		refresh()
 	
 	#
 	# DONE ONCE AT STARTUP

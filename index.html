@@ -9,36 +9,37 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <h3 class="text-center">Markato</h3><br>
-        </div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container"><a class="navbar-brand">Markato</a>
+        <!--button.btn.btn-primary.navbar-btn.pull-right#settings(type='button')-->
+        <!--	span#cog.glyphicon.glyphicon-cog-->
+        <!--	span &nbsp; Settings-->
+        <input id="settingsSwitch" type="checkbox" name="toggle-settings" data-label-text="Settings" data-on-text="Show" data-off-text="Hide" data-inverse="true" checked class="bs">
       </div>
-      <div class="row">
-        <div id="settings" class="col-xs-12 col-sm-12 col-md-2">
-          <input type="checkbox" name="toggle-edit" data-label-text="Edit" data-inverse="true" checked class="bs"><br class="hidden-sm hidden-xs"><br class="hidden-sm hidden-xs">
-          <input type="checkbox" name="toggle-chords" data-label-text="Chords" data-inverse="true" checked class="bs">
-          <input type="checkbox" name="toggle-lyrics" data-label-text="Lyrics" data-inverse="true" checked class="bs"><br class="hidden-sm hidden-xs"><br class="hidden-sm hidden-xs">
+    </nav>
+    <div id="body" class="container">
+      <div id="switches" class="row text-center">
+        <div class="jumbotron">
           <div role="group" class="btn-group">
             <button id="transposeDown" type="button" class="btn btn-default btn-md"><span class="glyphicon glyphicon-chevron-left"></span></button>
             <button id="transpose" type="button" data-toggle="modal" data-target="#transposeModal" class="btn btn-info btn-md"><span id="currentKey" class="key">G</span></button>
             <button id="transposeUp" type="button" class="btn btn-default btn-md"><span class="glyphicon glyphicon-chevron-right"></span></button>
-          </div><br class="hidden-sm hidden-xs"><br class="hidden-sm hidden-xs">
-          <input type="checkbox" name="toggle-muted" data-label-text="Smart Fade" data-inverse="true" checked class="bs">
+          </div><br class="hidden-sm hidden-md hidden-lg"><br class="hidden-sm hidden-md hidden-lg">
+          <input type="checkbox" name="toggle-chords" data-label-text="Chords" data-inverse="true" checked class="bs">
+          <input type="checkbox" name="toggle-lyrics" data-label-text="Lyrics" data-inverse="true" checked class="bs"><br class="hidden-sm hidden-md hidden-lg"><br class="hidden-sm hidden-md hidden-lg">
+          <input type="checkbox" name="toggle-muted" data-label-text="Fade" data-inverse="true" checked class="bs">
           <input type="checkbox" name="toggle-section" data-label-text="Sections" data-inverse="true" checked class="bs">
-          <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" checked class="bs"><br class="hidden-md hidden-lg"><br class="hidden-md hidden-lg">
-          <hr class="hidden-md hidden-lg">
+          <input type="checkbox" name="toggle-alts" data-label-text="Alternates" data-inverse="true" checked class="bs"><span class="hidden-lg hidden-md hidden-sm"><br>
+            <hr>
+            <button id="settings" type="button" class="btn btn-link"><span class="glyphicon glyphicon-chevron-up"></span></button></span>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-10">
-          <div class="row">
-            <div id="output" class="col-xs-12 col-sm-6">
-              <div id="canvas"></div>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-              <textarea id="input" rows="30" class="form-control"></textarea>
-            </div>
-          </div>
+      </div>
+      <div class="row">
+        <div id="outputCol" class="col-sm-12 col-md-6">
+          <div id="canvas"></div>
+        </div>
+        <div id="inputCol" class="col-sm-12 col-md-6">
+          <textarea id="input" rows="30" class="form-control"></textarea>
         </div>
       </div>
     </div>
