@@ -54,7 +54,7 @@
     return $('.alts').click(function() {
       var chord;
       chord = _.unescape($(this).attr('data-chord'));
-      $('#alternatesModal .modal-body').html(generateAltsModal(file.alts, chord));
+      $('#alternatesModal .modal-body').html(generateAltsModal(file.alts, chord, state));
       if (_.isNull(state.replacements[chord])) {
         $('#resetChord').addClass('btn-info');
       } else {
@@ -132,9 +132,10 @@
     return $("input.bs").bootstrapSwitch();
   });
 
-  generateAltsModal = function(alts, chord) {
+  generateAltsModal = function(alts, chord, state) {
     var fstring, i, index, len, printChord, ref, rep;
     printChord = chord.replace(/'/g, '');
+    printChord = transpose(state.originalKey, state.drawKey, printChord);
     fstring = '';
     fstring += "    <button type='button' class='btn btn-lg btn-link' disabled='disabled'>Replace</button>";
     fstring += "    <button type='button' class='btn btn-lg btn-default' id='resetChord' data-chord='" + (_.escape(chord)) + "'>" + printChord + "</button>";
@@ -142,7 +143,7 @@
     ref = alts[chord];
     for (index = i = 0, len = ref.length; i < len; index = ++i) {
       rep = ref[index];
-      fstring += "  <button type='button' class='btn btn-lg btn-default' data-chord='" + (_.escape(chord)) + "' data-index='" + index + "'>" + rep + "</button>";
+      fstring += "  <button type='button' class='btn btn-lg btn-default' data-chord='" + (_.escape(chord)) + "' data-index='" + index + "'>" + (transpose(state.originalKey, state.drawKey, rep)) + "</button>";
     }
     return fstring;
   };
