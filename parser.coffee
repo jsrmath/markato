@@ -3,9 +3,9 @@
 # Dependencies: underscore.js, string.js
 
 window.parser = (->
-	isChordLine = (line) -> S(line).startsWith ':'
+  isChordLine = (line) -> S(line).startsWith ':'
 
-	preParseFooterStartLine = (state, line) ->
+  preParseFooterStartLine = (state, line) ->
     state.current.footer = true
     state
   
@@ -21,9 +21,9 @@ window.parser = (->
     parts = S(line).strip(' ').split('=>')
 
     if parts.length is 2
-    	chord = parts[0]
-    	alts = parts[1].split ','
-    	state.alts[chord] = alts
+      chord = parts[0]
+      alts = parts[1].split ','
+      state.alts[chord] = alts
 
     state
 
@@ -126,10 +126,10 @@ window.parser = (->
       chords = _.map chords, (chord, index) ->
         # For *, get the chord at the same index from the chord list
         if chord is '*'
-        	sectionChords[index]
+          sectionChords[index]
         else
-        	exceptionIndices.push index
-        	chord
+          exceptionIndices.push index
+          chord
 
     # If there are no lyrics, just add a line of chords
     if not lyrics
