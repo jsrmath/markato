@@ -4,11 +4,11 @@
 
 isChordLine = (line) -> S(line).startsWith ':'
 
-preParseFooterStartLine = (state, line) ->
+parseFooterStartLine = (state, line) ->
   state.current.footer = true
   state
 
-preParseMetaLine = (state, line) ->
+parseMetaLine = (state, line) ->
   prefix = line.split(' ')[0]
   metaName = prefix.slice 2 # Remove ##
   metaValue = S(line).chompLeft(prefix).trim().s
@@ -16,7 +16,7 @@ preParseMetaLine = (state, line) ->
   state.meta[metaName] = metaValue
   state
 
-preParseFooterLine = (state, line) ->
+parseFooterLine = (state, line) ->
   parts = S(line).strip(' ').split '=>'
 
   if parts.length is 2
@@ -26,76 +26,74 @@ preParseFooterLine = (state, line) ->
 
   state
 
-preParseTextLine = (state, line) ->
-  lastLine = _.last state.lines if state.lines.length
+parseSectionLine = (state, line) ->
+  sectionName = S(line.slice 1).trim().s
+  # It's a new section if we don't already have it on the list
+  firstTime = not _.contains state.sections, sectionName
 
-  # If we have a section header
-  if S(line).startsWith '#'
-    state.lines.push
-      type: 'section'
-      name: S(line.slice 1).trim().s
+  state.sections.push sectionName
+  lyrics =
+    section: sectionName
+    firstTime: firstTime
+    lines: []
+
+  state.lyrics.push lyrics
+  
+  if firstTime then state.chords[sectionName] = []
+
+  state.current.lastLine = null # We're in a new section, so forget last lyric/chord line
+  state
+
+parseLyricChordLine = (state, line) ->
+  lastLine = state.current.lastLine
+
+  # If we're not in a section, create one called untitled
+  if not state.sections.length
+    state = parseSectionLine state, "#UNTITLED"
 
   # If we have a chord line
-  else if isChordLine line
-    state.lines.push
-      type: 'lyricChord'
+  if isChordLine line
+    _.last(state.lyrics).lines.push
       chords: S(line.slice 1).trim().s.split ' '
       lyrics: ''
 
   # If we have a lyric line
   else
     # If last line is a chord line, add lyrics to it
-    if lastLine and lastLine.type is 'lyricChord' and not lastLine.lyrics
+    if lastLine and not lastLine.lyrics
       lastLine.lyrics = line
 
     # Otherwise, we have a solitary line of lyrics
     else
-      state.lines.push
-        type: 'lyricChord'
+      _.last(state.lyrics).lines.push
         chords: []
         lyrics: line
 
+  state.current.lastLine = _.last(_.last(state.lyrics).lines)
   state
 
-# Given a preparse state, preparses a line of Markato and returns updated state
-preParseLine = (state, line) ->
+# Given a parse state, parses a line of Markato and returns updated state
+parseLine = (state, line) ->
   # Remove extraneous whitespace
   line = S(line).trim().collapseWhitespace().s
 
   if not line then return state
 
-  if S(line).startsWith '###' then return preParseFooterStartLine state, line
+  if S(line).startsWith '###' then return parseFooterStartLine state, line
 
-  if S(line).startsWith '##' then return preParseMetaLine state, line
+  if S(line).startsWith '##' then return parseMetaLine state, line
 
-  if state.current.footer then return preParseFooterLine state, line
+  if S(line).startsWith '#' then return parseSectionLine state, line
 
-  return preParseTextLine state, line
+  if state.current.footer then return parseFooterLine state, line
 
-addSection = (state, sectionName) ->
-  state.current.sectionName = sectionName
+  return parseLyricChordLine state, line
 
-  # It's a new section if we don't already have it on the list
-  state.current.newSection = not _.contains state.sections, sectionName
-
-  state.current.line = 0
-
-  state.sections.push sectionName
-  state.lyrics.push
-    section: sectionName
-    firstTime: state.current.newSection
-    lines: []
-  
-  if state.current.newSection then state.chords[sectionName] = []
-
-  state
-
-addLyricChord = (state, lyrics, chords) ->
-  sectionName = state.current.sectionName
-  caratSplit = lyrics.split '^' # Used to figure out phrases
-  chordIndex = 0 # Index in list of chords as we assemble phrases
+interpretLyricChordLine = (state, section, lineObj, lineNum) ->
+  sectionName = section.section
+  lyrics = lineObj.lyrics
+  chords = lineObj.chords
   phrases = []
-  exceptionIndices = [] # Chord indices that are exceptions in this section
 
   addPhrase = (obj) ->
     phrases.push _.defaults obj,
@@ -104,17 +102,16 @@ addLyricChord = (state, lyrics, chords) ->
       exception: false
       wordExtension: false
 
-  # If we're not in a section, create one called untitled
-  if sectionName is null
-    sectionName = 'UNTITLED'
-    state = addSection state, sectionName
-
   # If this is a new section, add the chords to that section
-  if state.current.newSection
+  if section.firstTime
     state.chords[sectionName].push chords
 
   # Get the chords stored for the section
-  sectionChords = state.chords[sectionName][state.current.line]
+  sectionChords = state.chords[sectionName][lineNum]
+
+  caretSplit = lyrics.split '^' # Used to figure out phrases
+  chordIndex = 0 # Index in list of chords as we assemble phrases
+  exceptionIndices = [] # Chord indices that are exceptions in this section
 
   # If there is no above line of chords, use the section chords
   if not chords.length
@@ -137,16 +134,16 @@ addLyricChord = (state, lyrics, chords) ->
         chord: chord
         exception: _.contains exceptionIndices, index
 
-  # Otherwise, add lyrics based on carats
+  # Otherwise, add lyrics based on carets
   else
-    _.each caratSplit, (phrase, index) ->
+    _.each caretSplit, (phrase, index) ->
       # Special case first phrase
       if index is 0
         if phrase
-          addPhrase string: caratSplit[0]
+          addPhrase string: caretSplit[0]
         return
 
-      lastPhrase = caratSplit[index - 1]
+      lastPhrase = caretSplit[index - 1]
 
       # Get next chord
       chord = chords[chordIndex]
@@ -169,20 +166,23 @@ addLyricChord = (state, lyrics, chords) ->
         _.last(phrases).wordExtension = true
 
       chordIndex += 1
-  
-  # Add new line to current lyric section
-  _.last(state.lyrics).lines.push phrases
 
-  state.current.line += 1
-  state
+  phrases
 
-# Given a parse state, parses a line of Markato and returns updated state
-parseLine = (state, line) ->
-  if line.type is 'section' then return addSection state, line.name
+# Given a parse state, interpret the lyric/chord lines
+interpretLyricSection = (state, section) ->
+  section.lines = _.map section.lines, _.partial interpretLyricChordLine, state, section
 
-  if line.type is 'lyricChord' then return addLyricChord state, line.lyrics, line.chords
+  # If this is an empty section, retrieve the lyrics/chords from the first instance of that section
+  if not section.lines.length
+    section.lines = _.findWhere(state.lyrics, section: section.section).lines.concat()
 
-  state # Should not ever reach this
+    # None of the phrases are exceptions since we're copying them
+    # We also have to clone the phrase objects so that we don't overwrite the other versions
+    section.lines = _.map section.lines, (line) ->
+      _.map line, (phrase) -> _.extend(_.clone(phrase), exception: false)
+
+  section
 
 # Given a finished parse state, return a markato object
 markatoObjectFromState = (state) -> _.omit state, 'current'
@@ -192,28 +192,20 @@ window.parser =
   parseString: (str) ->
     lines = S(str).lines()
 
-    preParseState =
-      current:
-        footer: false # Are we in the footer?
-      meta: {}
-      alts: {}
-      lines: []
-
     parseState =
       current:
-        sectionName: null # Current section we're in
-        newSection: true # Is this a section being newly defined?
-        line: 0 # What line of the section are we in (incremented on parseLyric)
+        footer: false # Are we in the footer?
+        lastLine: null # Previous lyric/chord line in this section
+      meta: {}
+      alts: {}
       sections: []
       chords: {}
       lyrics: []
 
-    # Run preparser
-    preParseState = _.reduce lines, preParseLine, preParseState
+    # Run parser
+    parseState = _.reduce lines, parseLine, parseState
 
-    # Extract relevant information from preParseState
-    parseState.meta = preParseState.meta
-    parseState.alts = preParseState.alts
+    # Interpret lyric/chord lines
+    parseState.lyrics = _.map parseState.lyrics, _.partial interpretLyricSection, parseState
 
-    parseState = _.reduce preParseState.lines, parseLine, parseState
     markatoObjectFromState parseState
