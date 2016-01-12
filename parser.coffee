@@ -26,8 +26,7 @@ parseFooterLine = (state, line) ->
 
   state
 
-parseSectionLine = (state, line) ->
-  sectionName = S(line.slice 1).trim().s
+addSection = (state, sectionName) ->
   # It's a new section if we don't already have it on the list
   firstTime = not _.contains state.sections, sectionName
 
@@ -44,12 +43,15 @@ parseSectionLine = (state, line) ->
   state.current.lastLine = null # We're in a new section, so forget last lyric/chord line
   state
 
+parseSectionLine = (state, line) ->
+  addSection state, S(line.slice 1).trim().s
+
 parseLyricChordLine = (state, line) ->
   lastLine = state.current.lastLine
 
   # If we're not in a section, create one called untitled
   if not state.sections.length
-    state = parseSectionLine state, "#UNTITLED"
+    state = addSection state, "UNTITLED"
 
   # If we have a chord line
   if isChordLine line
@@ -91,8 +93,7 @@ parseLine = (state, line) ->
 
 interpretLyricChordLine = (state, section, lineObj, lineNum) ->
   sectionName = section.section
-  lyrics = lineObj.lyrics
-  chords = lineObj.chords
+  {lyrics, chords} = lineObj
   phrases = []
 
   addPhrase = (obj) ->
