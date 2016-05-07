@@ -6,27 +6,32 @@ var uglify = require('gulp-uglify');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
 var rename = require('gulp-rename');
+var del = require('del');
 
 
 gulp.task('coffee', function () {
-  gulp.src('*.coffee')
+  return gulp.src('scripts/*.coffee')
     .pipe(coffee({bare: true}))
-    .pipe(gulp.dest('.'));
+    .pipe(gulp.dest('build'));
 });
 
-gulp.task('jade', function() { 
-  gulp.src('*.jade')
+gulp.task('jade', function () { 
+  return gulp.src('index.jade')
     .pipe(jade())
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('browserify', function() {
-  var bundleStream = browserify('./main.js').bundle();
+gulp.task('browserify', ['coffee'], function () {
+  var bundleStream = browserify('build/main.js').bundle();
 
-  bundleStream.pipe(source('main.js'))
+  return bundleStream.pipe(source('build/main.js'))
     .pipe(streamify(uglify()))
     .pipe(rename('markato_bundle.js'))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('build'));
 });
 
-gulp.task('default', ['coffee', 'jade', 'browserify']);
+gulp.task('clean', function () {
+  return del(['build', 'index.html']);
+});
+
+gulp.task('default', ['clean', 'browserify', 'jade']);
