@@ -1,3 +1,10 @@
+draw = require './draw'
+example = require './example'
+parser = require './parser'
+transpose = require './transpose'
+_ = require 'underscore'
+s11 = require 'sharp11'
+
 location = '#canvas'
 
 state =
@@ -57,7 +64,7 @@ refresh = ->
 $ ->
   #
   # EXAMPLE is imported from /example.coffee
-  $('#input').val(window.example)
+  $('#input').val(example)
   
   #
   # INITIAL draw
@@ -81,11 +88,11 @@ $ ->
   #
   # TRANSPOSE
   $('#transposeUp').click ->
-    state.requestedKey = createNote( $('#currentKey').html() ).sharp().clean().name
+    state.requestedKey = s11.note.create( $('#currentKey').html() ).sharp().clean().name
     refresh()
 
   $('#transposeDown').click ->
-    state.requestedKey = createNote( $('#currentKey').html() ).flat().clean().name
+    state.requestedKey = s11.note.create( $('#currentKey').html() ).flat().clean().name
     refresh()
   
   $('#transposeReset').click ->

@@ -1,5 +1,9 @@
-#GLOBAL draw function -- takes a canvas location, a song data file, and a current state
-window.draw = (location, song, state) ->
+transpose = require './transpose'
+_ = require 'underscore'
+s11 = require 'sharp11'
+
+# Exported draw function -- takes a canvas location, a song data file, and a current state
+module.exports = (location, song, state) ->
     state.originalKey = determineKey song
     state.drawKey = state.requestedKey || state.originalKey
     state.alts = song.alts
@@ -81,8 +85,8 @@ determineKey = (song) ->
     validKeys = [ 'C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#','Ab','A','A#','Bb','B' ]
     possibleKeys = [
         song.meta.KEY,
-        createNote( lastInferredChord song ).clean().name,
-        createNote( lastDefinedChord song ).clean().name,
+        s11.note.create( lastInferredChord song ).clean().name,
+        s11.note.create( lastDefinedChord song ).clean().name,
         'C'
     ]
     #return first from possibleKeys where key is in validKeys

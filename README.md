@@ -1,2 +1,3 @@
 # markato
-A readable markup language for lyrics and chords
+A single, unifying data format for chord charts, modeled after Markdown.
+

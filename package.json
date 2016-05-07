@@ -1,0 +1,53 @@
+{
+  "name": "markato",
+  "version": "1.0.0",
+  "description": "A single, unifying data format for chord charts, modeled after Markdown.",
+  "main": "main.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markato/markato.git"
+  },
+  "keywords": [
+    "lyrics",
+    "chords",
+    "chord",
+    "charts",
+    "markdown"
+  ],
+  "contributors": [
+    {
+      "name": "Julian Rosenblum",
+      "email": "jsrmath@gmail.com"
+    },
+    {
+      "name": "James Buckland",
+      "email": "james.adam.buckland@gmail.com"
+    }
+  ],
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/markato/markato/issues"
+  },
+  "homepage": "https://github.com/markato/markato#readme",
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "gulp": "^3.9.1",
+    "gulp-coffee": "^2.3.2",
+    "gulp-jade": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-streamify": "^1.0.2",
+    "gulp-uglify": "^1.5.3",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "sharp11": "^1.0.0",
+    "string": "^3.3.1",
+    "underscore": "^1.8.3"
+  }
+}

@@ -1,4 +1,4 @@
-window.example = '''
+module.exports = '''
 ##TITLE  I Wanna Hold Your Hand
 ##ARTIST The Beatles
 ##ALBUM  A Hard Day's Night

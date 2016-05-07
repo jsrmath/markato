@@ -1,25 +1,23 @@
-// transpose.js - Julian Rosenblum
-// Given an original key and a new key, transpose a given note
-// Dependencies: string.js
+var S, s11, trimChord;
 
-var trimChord = function (chord) {
-  var matches = chord.match(/^[A-G][#b]?/);
+S = require('string');
 
+s11 = require('sharp11');
+
+trimChord = function(chord) {
+  var matches;
+  matches = chord.match(/^[A-G][#b]?/);
   if (!matches) {
     throw new Error('Invalid chord name ' + chord);
   }
-
   return matches[0];
 };
 
-var transpose = function (origKey, newKey, chord) {
-  var interval = createNote(origKey).getInterval(newKey);
-  var note;
-
+module.exports = function(origKey, newKey, chord) {
+  var interval, note;
+  interval = s11.note.create(origKey).getInterval(newKey);
   note = trimChord(chord);
   chord = S(chord).chompLeft(note).s;
-
-  // Transpose and concatenate
-  note = createNote(note).transpose(interval).clean();
+  note = s11.note.create(note).transpose(interval).clean();
   return note.name + chord;
 };

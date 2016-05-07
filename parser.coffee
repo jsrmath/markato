@@ -1,6 +1,8 @@
 # parser.coffee - Julian Rosenblum
 # Parses Markato files into Markato object
-# Dependencies: underscore.js, string.js
+
+_ = require 'underscore'
+S = require 'string'
 
 isChordLine = (line) -> S(line).startsWith ':'
 
@@ -188,7 +190,7 @@ interpretLyricSection = (state, section) ->
 # Given a finished parse state, return a markato object
 markatoObjectFromState = (state) -> _.omit state, 'current'
 
-window.parser =
+module.exports =
   # Parses a string of Markato and returns a Markato object
   parseString: (str) ->
     lines = S(str).lines()
