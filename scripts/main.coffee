@@ -2,8 +2,12 @@ draw = require './draw'
 example = require './example'
 parser = require './parser'
 transpose = require './transpose'
+window.$ = window.jQuery = require 'jquery'
 _ = require 'underscore'
 s11 = require 'sharp11'
+
+require 'bootstrap/dist/js/bootstrap'
+require 'bootstrap-switch/dist/js/bootstrap-switch'
 
 location = '#canvas'
 

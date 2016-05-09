@@ -18,7 +18,7 @@ printKeysToDOM = (state) ->
     $('#currentKey').html state.drawKey
     $('#originalKey').html state.originalKey
     $("#transposeToolbar button").removeClass('btn-info')
-    $("[data-transposeChord=#{state.drawKey}]").addClass('btn-info')
+    $("[data-transposeChord='#{state.drawKey}']").addClass('btn-info')
     null
 
 #generates the string to be printed in the DOM
