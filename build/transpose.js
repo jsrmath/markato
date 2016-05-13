@@ -1,23 +1,11 @@
-var S, s11, trimChord;
-
-S = require('string');
+var s11;
 
 s11 = require('sharp11');
 
-trimChord = function(chord) {
-  var matches;
-  matches = chord.match(/^[A-G][#b]?/);
-  if (!matches) {
-    throw new Error('Invalid chord name ' + chord);
-  }
-  return matches[0];
-};
-
-module.exports = function(origKey, newKey, chord) {
-  var interval, note;
+module.exports = function(origKey, newKey, chordStr) {
+  var chord, interval, newNote;
+  chord = s11.chord.create(chordStr);
   interval = s11.note.create(origKey).getInterval(newKey);
-  note = trimChord(chord);
-  chord = S(chord).chompLeft(note).s;
-  note = s11.note.create(note).transpose(interval).clean();
-  return note.name + chord;
+  newNote = chord.root.transpose(interval).clean();
+  return chordStr.replace(new RegExp('^' + chord.root), newNote);
 };
