@@ -37,17 +37,22 @@
   "homepage": "https://github.com/markato/markato#readme",
   "devDependencies": {
     "browserify": "^13.0.1",
+    "coffeeify": "^2.0.1",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
-    "gulp-coffeeify": "^0.1.8",
-    "gulp-jade": "^1.1.0"
+    "gulp-browserify": "^0.5.1",
+    "gulp-jade": "^1.1.0",
+    "gulp-rename": "^1.2.2"
   },
   "dependencies": {
+    "async": "^1.5.2",
+    "base64-arraybuffer": "^0.1.5",
     "bootstrap": "^3.3.6",
     "bootstrap-switch": "^3.3.2",
     "jquery": "^2.2.3",
     "sharp11": "^1.0.0",
     "string": "^3.3.1",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "waaclock": "^0.5.3"
   }
 }

@@ -1,7 +1,8 @@
 var gulp = require('gulp');
 var jade = require('gulp-jade');
 var del = require('del');
-var coffeeify = require('gulp-coffeeify');
+var browserify = require('gulp-browserify');
+var rename = require('gulp-rename');
 
 gulp.task('jade', function () { 
   return gulp.src('index.jade')
@@ -10,9 +11,13 @@ gulp.task('jade', function () {
 });
 
 gulp.task('build', ['jade'], function () {
-  return gulp.src('scripts/main.coffee')
-    .pipe(coffeeify())
-    .pipe(gulp.dest('.'));
+  gulp.src('scripts/main.coffee', { read: false })
+    .pipe(browserify({
+      transform: ['coffeeify'],
+      extensions: ['.coffee']
+    }))
+    .pipe(rename('bundle.js'))
+    .pipe(gulp.dest('.'))
 });
 
 gulp.task('clean', function () {
