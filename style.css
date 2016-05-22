@@ -58,3 +58,7 @@ button{ margin-bottom:4px; margin-top:4px;}
  * .bootstrap-switch-container span.bootstrap-switch-label{ background-color: #37474f !important; }
  * .modal-content{ background-color: #37474f; }
  */
+
+ .playback-active {
+ 	color: red;
+ }

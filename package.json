@@ -50,7 +50,7 @@
     "bootstrap": "^3.3.6",
     "bootstrap-switch": "^3.3.2",
     "jquery": "^2.2.3",
-    "sharp11": "^1.0.0",
+    "sharp11": "^1.1.1",
     "string": "^3.3.1",
     "underscore": "^1.8.3",
     "waaclock": "^0.5.3"
