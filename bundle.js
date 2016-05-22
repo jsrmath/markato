@@ -16672,7 +16672,8 @@ var handleAliases = function (symbol) {
   return symbol.replace(/maj/i, 'M')
                .replace(/min/i, 'm')
                .replace(/^-/, 'm')
-               .replace(/dom/, '');
+               .replace(/dom/, '')
+               .replace(/[\(\)]/g, '');
 };
 
 // Rotate an array so that the given index is first
@@ -16759,7 +16760,7 @@ var getIntervals = function (chord) {
   }
   else if ((/11/).test(chord)) {
     intervals[11] = 'P';
-    intervals[9] = 'M';  
+    intervals[9] = intervals[9] || 'M';  
   }
   // 13ths
   if ((/[-b]13/).test(chord)) {
@@ -16771,8 +16772,8 @@ var getIntervals = function (chord) {
   }
   else if ((/13/).test(chord)) {
     intervals[13] = 'M';
-    intervals[11] = 'P';
-    intervals[9] = 'M';
+    intervals[11] = intervals[11] || 'P';
+    intervals[9] = intervals[9] || 'M';
   }
   return intervals;
 };
