@@ -24,7 +24,7 @@ printKeysToDOM = (state) ->
 #generates the string to be printed in the DOM
 generateHTML = (song, state) ->
     cstring = ''
-    cstring += "<button type='button' class='btn #{if state.isEditing then 'btn-success' else 'btn-info btn-md'}' id='edit'> <span class='glyphicon #{if state.isEditing then 'glyphicon-check' else 'glyphicon-edit'}' aria-hidden='true'></span> #{if state.isEditing then 'Save' else 'Edit'} </button>"
+    cstring += "<button type='button' class='btn #{if state.isEditing then 'btn-success' else 'btn-info btn-md'}' id='edit'> <span class='glyphicon #{if state.isEditing then 'glyphicon-ok' else 'glyphicon-pencil'}' aria-hidden='true'></span> #{if state.isEditing then 'Save' else 'Edit'} </button>"
     cstring += "<h2>#{title song} <small>in #{state.drawKey}</small></h2>"
     cstring += "<h4>#{byline song}</h4>"
     (
@@ -108,8 +108,8 @@ lastDefinedChord = (song) ->
 
 #returns a title string
 title = (song) ->
-    song.meta.TITLE || '?'
+    song.meta.TITLE || 'Untitled'
 
 #returns a byline string
 byline = (song) ->
-    "#{song.meta.ARTIST || "?"} <i> #{song.meta.ALBUM || "?"}</i>"
+    "#{song.meta.ARTIST || "Unknown"} <i> #{song.meta.ALBUM || ""}</i>"

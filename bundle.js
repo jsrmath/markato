@@ -22360,7 +22360,7 @@ printKeysToDOM = function(state) {
 generateHTML = function(song, state) {
   var cstring, i, j, k, len, len1, len2, line, ref, ref1, section, token;
   cstring = '';
-  cstring += "<button type='button' class='btn " + (state.isEditing ? 'btn-success' : 'btn-info btn-md') + "' id='edit'> <span class='glyphicon " + (state.isEditing ? 'glyphicon-check' : 'glyphicon-edit') + "' aria-hidden='true'></span> " + (state.isEditing ? 'Save' : 'Edit') + " </button>";
+  cstring += "<button type='button' class='btn " + (state.isEditing ? 'btn-success' : 'btn-info btn-md') + "' id='edit'> <span class='glyphicon " + (state.isEditing ? 'glyphicon-ok' : 'glyphicon-pencil') + "' aria-hidden='true'></span> " + (state.isEditing ? 'Save' : 'Edit') + " </button>";
   cstring += "<h2>" + (title(song)) + " <small>in " + state.drawKey + "</small></h2>";
   cstring += "<h4>" + (byline(song)) + "</h4>";
   ref = song.lyrics;
@@ -22445,11 +22445,11 @@ lastDefinedChord = function(song) {
 };
 
 title = function(song) {
-  return song.meta.TITLE || '?';
+  return song.meta.TITLE || 'Untitled';
 };
 
 byline = function(song) {
-  return (song.meta.ARTIST || "?") + " <i> " + (song.meta.ALBUM || "?") + "</i>";
+  return (song.meta.ARTIST || "Unknown") + " <i> " + (song.meta.ALBUM || "") + "</i>";
 };
 
 
@@ -22483,7 +22483,7 @@ require('bootstrap/dist/js/bootstrap');
 require('bootstrap-switch/dist/js/bootstrap-switch');
 
 audio.init(function(play, stop) {
-  var currentChord, currentChordData, generateAltsModal, incrementChordIndex, initAlts, location, playChord, refresh, replacements, state;
+  var currentChord, currentChordData, decrementChord, generateAltsModal, incrementChord, initAlts, location, playChord, refresh, replacements, state;
   location = '#canvas';
   state = {
     showChords: true,
@@ -22509,27 +22509,42 @@ audio.init(function(play, stop) {
     return replacements;
   };
   currentChord = function() {
-    return $('.chord:not(.mute)').eq(state.playbackChordIndex);
+    return $('.chord').eq(state.playbackChordIndex);
   };
   currentChordData = function() {
     return currentChord().text();
   };
-  incrementChordIndex = function() {
+  incrementChord = function() {
+    currentChord().removeClass('playback-active');
     state.playbackChordIndex += 1;
     if (state.playbackChordIndex === $('.chord').length) {
-      return state.playbackChordIndex = 0;
+      state.playbackChordIndex = 0;
     }
-  };
-  playChord = function() {
-    play(s11.chord.create(currentChordData(), 4));
-    currentChord().removeClass('playback-active');
-    incrementChordIndex();
     return currentChord().addClass('playback-active');
   };
+  decrementChord = function() {
+    currentChord().removeClass('playback-active');
+    state.playbackChordIndex -= 1;
+    if (state.playbackChordIndex === -1) {
+      state.playbackChordIndex = $('.chord').length - 1;
+    }
+    return currentChord().addClass('playback-active');
+  };
+  playChord = function() {
+    return play(s11.chord.create(currentChordData(), 4));
+  };
   $('body').keydown(function(e) {
-    if (!state.isEditing && e.keyCode === 32) {
+    if (!state.isEditing) {
       e.preventDefault();
-      return playChord();
+      if (e.keyCode === 32) {
+        playChord();
+      }
+      if (e.keyCode === 37) {
+        decrementChord();
+      }
+      if (e.keyCode === 39) {
+        return incrementChord();
+      }
     }
   });
   refresh = function() {

@@ -34,23 +34,38 @@ audio.init (play, stop) ->
     replacements
 
   # Playback
-  currentChord = -> $('.chord:not(.mute)').eq(state.playbackChordIndex);
+  currentChord = -> $('.chord').eq(state.playbackChordIndex);
   currentChordData = -> currentChord().text()
-  incrementChordIndex = ->
+  incrementChord = ->
+    currentChord().removeClass('playback-active')
+
     state.playbackChordIndex += 1
     if state.playbackChordIndex == $('.chord').length
       state.playbackChordIndex = 0
 
-  playChord = ->
-    play s11.chord.create(currentChordData(), 4)
-    currentChord().removeClass('playback-active')
-    incrementChordIndex()
     currentChord().addClass('playback-active')
 
+  decrementChord = ->
+    currentChord().removeClass('playback-active')
+
+    state.playbackChordIndex -= 1
+    if state.playbackChordIndex == -1
+      state.playbackChordIndex = $('.chord').length - 1
+
+    currentChord().addClass('playback-active')
+
+  playChord = ->
+    play s11.chord.create(currentChordData(), 4)
+
   $('body').keydown (e) ->
-    if not state.isEditing and e.keyCode == 32
+    if not state.isEditing
       e.preventDefault()
-      playChord()
+      if e.keyCode == 32 # Space
+        playChord()
+      if e.keyCode == 37 # Left
+        decrementChord()
+      if e.keyCode == 39 # Right
+        incrementChord()
 
   #REDRAW function - calls upon draw() from /draw.coffee
   refresh = ->
