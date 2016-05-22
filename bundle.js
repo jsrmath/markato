@@ -22417,8 +22417,8 @@ generateToken = function(token, state) {
   }
   result = '';
   result += "<p class='" + (phrase_classes.join(' ')) + "'>";
-  if (state.showChords) {
-    result += "<span class='" + (chord_classes.join(' ')) + "' data-chord='" + (_.escape(token.chord)) + "'>" + (chord || ' ') + "</span><br/>";
+  if (chord && state.showChords) {
+    result += "<span class='" + (chord_classes.join(' ')) + "' data-chord='" + (_.escape(token.chord)) + "'>" + chord + "</span><br/>";
   }
   if ((string != null) && state.showLyrics) {
     result += "<span class='string'>" + (string || ' ') + "</span>";
@@ -22458,7 +22458,7 @@ module.exports = '##TITLE  I Wanna Hold Your Hand\n##ARTIST The Beatles\n##ALBUM
 
 
 },{}],35:[function(require,module,exports){
-var _, audio, draw, example, parser, s11, transpose;
+var S, _, audio, draw, example, parser, s11, transpose;
 
 draw = require('./draw');
 
@@ -22474,6 +22474,8 @@ window.$ = window.jQuery = require('jquery');
 
 _ = require('underscore');
 
+S = require('string');
+
 s11 = require('sharp11');
 
 require('bootstrap/dist/js/bootstrap');
@@ -22481,7 +22483,7 @@ require('bootstrap/dist/js/bootstrap');
 require('bootstrap-switch/dist/js/bootstrap-switch');
 
 audio.init(function(play, stop) {
-  var generateAltsModal, initAlts, location, refresh, replacements, state;
+  var currentChord, currentChordData, generateAltsModal, incrementChordIndex, initAlts, location, playChord, refresh, replacements, state;
   location = '#canvas';
   state = {
     showChords: true,
@@ -22493,7 +22495,6 @@ audio.init(function(play, stop) {
     requestedKey: null,
     isEditing: true,
     showSettings: true,
-    playback: false,
     playbackChordIndex: 0
   };
   replacements = null;
@@ -22507,6 +22508,30 @@ audio.init(function(play, stop) {
     }
     return replacements;
   };
+  currentChord = function() {
+    return $('.chord:not(.mute)').eq(state.playbackChordIndex);
+  };
+  currentChordData = function() {
+    return currentChord().text();
+  };
+  incrementChordIndex = function() {
+    state.playbackChordIndex += 1;
+    if (state.playbackChordIndex === $('.chord').length) {
+      return state.playbackChordIndex = 0;
+    }
+  };
+  playChord = function() {
+    play(s11.chord.create(currentChordData(), 4));
+    currentChord().removeClass('playback-active');
+    incrementChordIndex();
+    return currentChord().addClass('playback-active');
+  };
+  $('body').keydown(function(e) {
+    if (!state.isEditing && e.keyCode === 32) {
+      e.preventDefault();
+      return playChord();
+    }
+  });
   refresh = function() {
     var file;
     file = parser.parseString($('#input').val());
@@ -22517,19 +22542,19 @@ audio.init(function(play, stop) {
     draw(location, file, state);
     $('#edit').click(function() {
       state.isEditing = !state.isEditing;
+      refresh();
       if (state.isEditing) {
         $('#inputCol').show();
+        $('#outputCol').addClass('col-md-6');
+        currentChord().removeClass('playback-active');
+        return state.playbackChordIndex = 0;
       } else {
         $('#inputCol').hide();
-      }
-      if (state.isEditing) {
-        $('#outputCol').addClass('col-md-6');
-      } else {
         $('#outputCol').removeClass('col-md-6');
+        return currentChord().addClass('playback-active');
       }
-      return refresh();
     });
-    return $('.alts').click(function() {
+    $('.alts').click(function() {
       var chord;
       chord = _.unescape($(this).attr('data-chord'));
       $('#alternatesModal .modal-body').html(generateAltsModal(file.alts, chord, state));
@@ -22549,9 +22574,12 @@ audio.init(function(play, stop) {
         return refresh();
       });
     });
+    if (!state.isEditing) {
+      return currentChord().addClass('playback-active');
+    }
   };
   $(function() {
-    var currentChord, currentChordData, incrementChordIndex, playChord, switchHandler;
+    var switchHandler;
     $('#input').val(example);
     refresh();
     $('#input').keyup(refresh);
@@ -22565,41 +22593,6 @@ audio.init(function(play, stop) {
         return $('#switches').slideDown();
       } else {
         return $('#switches').slideUp();
-      }
-    });
-    currentChord = function() {
-      return $('.chord').eq(state.playbackChordIndex);
-    };
-    currentChordData = function() {
-      return currentChord().attr('data-chord');
-    };
-    incrementChordIndex = function() {
-      state.playbackChordIndex += 1;
-      if (state.playbackChordIndex === $('.chord').length) {
-        return state.playbackChordIndex = 0;
-      }
-    };
-    playChord = function() {
-      play(s11.chord.create(currentChordData(), 4));
-      currentChord().removeClass('playback-active');
-      incrementChordIndex();
-      while (!currentChordData()) {
-        incrementChordIndex();
-      }
-      return currentChord().addClass('playback-active');
-    };
-    $('body').keydown(function(e) {
-      if (state.playback && e.keyCode === 32) {
-        e.preventDefault();
-        return playChord();
-      }
-    });
-    $('#playback').click(function() {
-      state.playback = !state.playback;
-      if (state.playback) {
-        return currentChord().addClass('playback-active');
-      } else {
-        return currentChord().removeClass('playback-active');
       }
     });
     $('#transposeUp').click(function() {
@@ -22653,7 +22646,7 @@ audio.init(function(play, stop) {
 });
 
 
-},{"./audio":32,"./draw":33,"./example":34,"./parser":36,"./transpose":37,"bootstrap-switch/dist/js/bootstrap-switch":3,"bootstrap/dist/js/bootstrap":4,"jquery":14,"sharp11":15,"underscore":29}],36:[function(require,module,exports){
+},{"./audio":32,"./draw":33,"./example":34,"./parser":36,"./transpose":37,"bootstrap-switch/dist/js/bootstrap-switch":3,"bootstrap/dist/js/bootstrap":4,"jquery":14,"sharp11":15,"string":28,"underscore":29}],36:[function(require,module,exports){
 var S, _, addSection, interpretLyricChordLine, interpretLyricSection, isChordLine, markatoObjectFromState, parseFooterLine, parseFooterStartLine, parseLine, parseLyricChordLine, parseMetaLine, parseSectionLine;
 
 _ = require('underscore');

@@ -72,8 +72,8 @@ generateToken = (token, state) ->
 
     result = ''
     result += "<p class='#{phrase_classes.join(' ')}'>"
-    if state.showChords
-        result += "<span class='#{chord_classes.join(' ')}' data-chord='#{_.escape token.chord}'>#{chord || ' '}</span><br/>"
+    if chord and state.showChords
+        result += "<span class='#{chord_classes.join(' ')}' data-chord='#{_.escape token.chord}'>#{chord}</span><br/>"
     if string? and state.showLyrics
         result += "<span class='string'>#{string || ' '}</span>"
     result += "</p>"

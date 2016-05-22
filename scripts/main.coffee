@@ -5,6 +5,7 @@ transpose = require './transpose'
 audio = require './audio'
 window.$ = window.jQuery = require 'jquery'
 _ = require 'underscore'
+S = require 'string'
 s11 = require 'sharp11'
 
 require 'bootstrap/dist/js/bootstrap'
@@ -23,7 +24,6 @@ audio.init (play, stop) ->
     requestedKey: null
     isEditing: true
     showSettings: true
-    playback: false
     playbackChordIndex: 0
 
   replacements = null
@@ -32,6 +32,25 @@ audio.init (play, stop) ->
     replacements = {}
     ( replacements[chord] = null ) for chord in _.keys obj
     replacements
+
+  # Playback
+  currentChord = -> $('.chord:not(.mute)').eq(state.playbackChordIndex);
+  currentChordData = -> currentChord().text()
+  incrementChordIndex = ->
+    state.playbackChordIndex += 1
+    if state.playbackChordIndex == $('.chord').length
+      state.playbackChordIndex = 0
+
+  playChord = ->
+    play s11.chord.create(currentChordData(), 4)
+    currentChord().removeClass('playback-active')
+    incrementChordIndex()
+    currentChord().addClass('playback-active')
+
+  $('body').keydown (e) ->
+    if not state.isEditing and e.keyCode == 32
+      e.preventDefault()
+      playChord()
 
   #REDRAW function - calls upon draw() from /draw.coffee
   refresh = ->
@@ -44,9 +63,16 @@ audio.init (play, stop) ->
 
     $('#edit').click ->
       state.isEditing = not state.isEditing
-      if state.isEditing then $('#inputCol').show() else $('#inputCol').hide()
-      if state.isEditing then $('#outputCol').addClass('col-md-6') else $('#outputCol').removeClass('col-md-6')
       refresh()
+      if state.isEditing
+        $('#inputCol').show()
+        $('#outputCol').addClass('col-md-6')
+        currentChord().removeClass('playback-active')
+        state.playbackChordIndex = 0
+      else
+        $('#inputCol').hide()
+        $('#outputCol').removeClass('col-md-6')
+        currentChord().addClass('playback-active')
     
     #SWAP IN alts ON CLICK
     $('.alts').click ->
@@ -68,6 +94,9 @@ audio.init (play, stop) ->
         state.replacements = replacements
         $('#alternatesModal').modal('hide')
         refresh()
+
+    if not state.isEditing
+      currentChord().addClass('playback-active')
 
   $ ->
     #
@@ -92,37 +121,6 @@ audio.init (play, stop) ->
         $('#switches').slideDown()
       else
         $('#switches').slideUp()
-
-    # Playback
-    currentChord = -> $('.chord').eq(state.playbackChordIndex);
-    currentChordData = -> currentChord().attr('data-chord')
-    incrementChordIndex = ->
-      state.playbackChordIndex += 1
-      if state.playbackChordIndex == $('.chord').length
-        state.playbackChordIndex = 0
-
-    playChord = ->
-      play s11.chord.create(currentChordData(), 4)
-      currentChord().removeClass('playback-active');
-      
-      incrementChordIndex()
-      # Skip null chords
-      while (!currentChordData())
-        incrementChordIndex()
-
-      currentChord().addClass('playback-active');
-
-    $('body').keydown (e) ->
-      if state.playback and e.keyCode == 32
-        e.preventDefault()
-        playChord()
-
-    $('#playback').click ->
-      state.playback = not state.playback
-      if state.playback
-        currentChord().addClass('playback-active')
-      else
-        currentChord().removeClass('playback-active')
 
     #
     # TRANSPOSE
