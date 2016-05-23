@@ -2,16 +2,20 @@ draw = require './draw'
 example = require './example'
 parser = require './parser'
 transpose = require './transpose'
-audio = require './audio'
 window.$ = window.jQuery = require 'jquery'
 _ = require 'underscore'
 S = require 'string'
 s11 = require 'sharp11'
+audio = require 'sharp11-web-audio'
 
 require 'bootstrap/dist/js/bootstrap'
 require 'bootstrap-switch/dist/js/bootstrap-switch'
 
-audio.init (play, stop) ->
+audio.init (err, fns) ->
+  if err then alert err
+
+  {play, stop} = fns
+
   location = '#canvas'
 
   state =
@@ -55,7 +59,7 @@ audio.init (play, stop) ->
     currentChord().addClass('playback-active')
 
   playChord = ->
-    play s11.chord.create(currentChordData(), 4)
+    play s11.chord.create(currentChordData())
 
   $('body').keydown (e) ->
     if not state.isEditing
