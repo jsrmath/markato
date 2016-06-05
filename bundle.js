@@ -22681,7 +22681,7 @@ require('bootstrap/dist/js/bootstrap');
 require('bootstrap-switch/dist/js/bootstrap-switch');
 
 audio.init(function(err, fns) {
-  var currentChord, currentChordData, decrementChord, generateAltsModal, incrementChord, initAlts, location, play, playChord, refresh, replacements, state, stop;
+  var currentChord, currentChordData, decrementChord, generateAltsModal, incrementChord, initAlts, location, play, playChord, refresh, refreshChordIndex, replacements, state, stop;
   if (err) {
     alert(err);
   }
@@ -22716,21 +22716,23 @@ audio.init(function(err, fns) {
   currentChordData = function() {
     return currentChord().text();
   };
+  refreshChordIndex = function() {
+    $('.chord').removeClass('playback-active');
+    return currentChord().addClass('playback-active');
+  };
   incrementChord = function() {
-    currentChord().removeClass('playback-active');
     state.playbackChordIndex += 1;
     if (state.playbackChordIndex === $('.chord').length) {
       state.playbackChordIndex = 0;
     }
-    return currentChord().addClass('playback-active');
+    return refreshChordIndex();
   };
   decrementChord = function() {
-    currentChord().removeClass('playback-active');
     state.playbackChordIndex -= 1;
     if (state.playbackChordIndex === -1) {
       state.playbackChordIndex = $('.chord').length - 1;
     }
-    return currentChord().addClass('playback-active');
+    return refreshChordIndex();
   };
   playChord = function() {
     return play(s11.chord.create(currentChordData()));
@@ -22764,11 +22766,12 @@ audio.init(function(err, fns) {
         $('#inputCol').show();
         $('#outputCol').addClass('col-md-6');
         currentChord().removeClass('playback-active');
-        return state.playbackChordIndex = 0;
+        return $('#canvas').removeClass('chord-clickable');
       } else {
         $('#inputCol').hide();
         $('#outputCol').removeClass('col-md-6');
-        return currentChord().addClass('playback-active');
+        refreshChordIndex();
+        return $('#canvas').addClass('chord-clickable');
       }
     });
     $('.alts').click(function() {
@@ -22790,6 +22793,12 @@ audio.init(function(err, fns) {
         $('#alternatesModal').modal('hide');
         return refresh();
       });
+    });
+    $('.chord').click(function(e) {
+      if (!state.isEditing) {
+        state.playbackChordIndex = $(this).index('.chord');
+        return refreshChordIndex();
+      }
     });
     if (!state.isEditing) {
       return currentChord().addClass('playback-active');

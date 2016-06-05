@@ -59,9 +59,13 @@ button{ margin-bottom:4px; margin-top:4px;}
  * .modal-content{ background-color: #37474f; }
  */
 
- .playback-active {
- 	margin-left: -4px;
- 	margin-right: -4px;
- 	border: 4px solid #CCFBCC;
- 	background: #CCFBCC;
- }
+.playback-active {
+	margin-left: -4px;
+	margin-right: -4px;
+	border: 4px solid #CCFBCC;
+	background: #CCFBCC;
+}
+
+.chord-clickable .chord {
+	cursor: pointer;
+}

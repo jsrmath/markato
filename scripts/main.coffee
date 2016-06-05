@@ -40,23 +40,23 @@ audio.init (err, fns) ->
   # Playback
   currentChord = -> $('.chord').eq(state.playbackChordIndex);
   currentChordData = -> currentChord().text()
-  incrementChord = ->
-    currentChord().removeClass('playback-active')
+  refreshChordIndex = ->
+    $('.chord').removeClass('playback-active')
+    currentChord().addClass('playback-active')
 
+  incrementChord = ->
     state.playbackChordIndex += 1
     if state.playbackChordIndex == $('.chord').length
       state.playbackChordIndex = 0
 
-    currentChord().addClass('playback-active')
+    refreshChordIndex()
 
   decrementChord = ->
-    currentChord().removeClass('playback-active')
-
     state.playbackChordIndex -= 1
     if state.playbackChordIndex == -1
       state.playbackChordIndex = $('.chord').length - 1
 
-    currentChord().addClass('playback-active')
+    refreshChordIndex()
 
   playChord = ->
     play s11.chord.create(currentChordData())
@@ -87,11 +87,12 @@ audio.init (err, fns) ->
         $('#inputCol').show()
         $('#outputCol').addClass('col-md-6')
         currentChord().removeClass('playback-active')
-        state.playbackChordIndex = 0
+        $('#canvas').removeClass('chord-clickable')
       else
         $('#inputCol').hide()
         $('#outputCol').removeClass('col-md-6')
-        currentChord().addClass('playback-active')
+        refreshChordIndex()
+        $('#canvas').addClass('chord-clickable')
     
     #SWAP IN alts ON CLICK
     $('.alts').click ->
@@ -113,6 +114,11 @@ audio.init (err, fns) ->
         state.replacements = replacements
         $('#alternatesModal').modal('hide')
         refresh()
+
+    $('.chord').click (e) ->
+      unless state.isEditing
+        state.playbackChordIndex = $(this).index '.chord'
+        refreshChordIndex()
 
     if not state.isEditing
       currentChord().addClass('playback-active')
