@@ -21,11 +21,11 @@ h2{ margin-top:0px; }
 /*
  * PAGEWIDE
  */
+ #main { padding-top: 70px; }
 .sidebar{ float:right; padding:2px; background:white; }
 .section-header{ font-size: small; color:lightgray; text-transform:small-caps; }
 hr{ margin:0px; padding:0px; margin-bottom:5px; }
 br{ margin:10px; padding:10px;}
-#body{ margin-top:70px; }
 /*
  * EDIT
  */
@@ -68,4 +68,8 @@ button{ margin-bottom:4px; margin-top:4px;}
 
 .chord-clickable .chord {
 	cursor: pointer;
+}
+
+.section {
+	margin-bottom: 1.5em;
 }
