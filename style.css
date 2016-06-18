@@ -16,7 +16,7 @@
 .mute{ color:lightgrey; } 
 .alts{ color:#5bc0de; cursor: pointer; }
 .alts a{ text-decoration:underline; color:inherit; }
-.join span.string{ margin-left: -4px !important; } 
+.join .lyric{ margin-left: -4px !important; } 
 h2{ margin-top:0px; }
 /*
  * PAGEWIDE
@@ -30,7 +30,7 @@ br{ margin:10px; padding:10px;}
  * EDIT
  */
 textarea{ font-family: monospace;}
-#edit{ float:right;}
+.edit{ float:right;}
 /*
  * SETTINGS
  */

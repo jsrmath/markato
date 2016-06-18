@@ -53,7 +53,7 @@ module.exports = React.createClass
     lyric = S(token.string).trim().s
 
     if @props.showLyrics
-      <span className="string">{lyric || ' '}</span>
+      <div className="lyric">{lyric || ' '}</div>
 
   renderChord: (token) ->
     hasAlts = @props.song.alts[token.chord]?
@@ -82,7 +82,7 @@ module.exports = React.createClass
       join: token.wordExtension
     ]
 
-    <p className={classes}>{chord}{lyric}</p>
+    <div className={classes}>{chord}{lyric}</div>
 
   content: ->
     _.map @props.song.lyrics, (section, i) =>

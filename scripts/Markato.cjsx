@@ -4,6 +4,7 @@ parser = require './parser'
 Switches = require './Switches'
 MarkatoOutput = require './MarkatoOutput'
 MarkatoInput = require './MarkatoInput'
+EditButton = require './EditButton'
 
 module.exports = React.createClass
   getInitialState: ->
@@ -22,13 +23,18 @@ module.exports = React.createClass
   parsedInput: ->
     parser.parseString @state.input
 
+  toggleState: (key) ->
+    => @setState "#{key}": not @state[key]
+
   render: ->
     <div className="container">
       <div className="row">
+        <Transposer />
         <Switches />
       </div>
       <div className="row">
-        <div className="col-md-6">
+        <div className={if @state.isEditing then "col-md-6" else "col-md-12"}>
+          <EditButton isEditing={@state.isEditing} handleClick={@toggleState 'isEditing'} />
           <MarkatoOutput song={@parsedInput()}
                          showSections={@state.showSections}
                          fade={@state.fade}
@@ -37,10 +43,9 @@ module.exports = React.createClass
                          showAlts={@state.showAlts}
                          displayKey={@state.displayKey} />
         </div>
-        <div className="col-md-6">
-          <MarkatoInput show={@state.isEditing}
-                        input={@state.input}
+        {<div className="col-md-6">
+          <MarkatoInput input={@state.input}
                         handleInput={@handleInput} />
-        </div>
+        </div> if @state.isEditing}
       </div>
     </div>
