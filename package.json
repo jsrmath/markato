@@ -50,6 +50,7 @@
     "gulp-cjsx": "^4.1.0",
     "jquery": "^2.2.3",
     "react": "^15.1.0",
+    "react-bootstrap-switch": "^3.4.5",
     "react-dom": "^15.1.0",
     "sharp11": "^1.1.2",
     "sharp11-web-audio": "^1.0.1",

@@ -7,7 +7,7 @@ classNames = require 'classnames'
 
 module.exports = React.createClass
   title: ->
-    @props.song.meta.TITLE || 'Untitled'
+    @props.song.meta.TITLE or 'Untitled'
 
   key: ->
     validKeys = ['C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#','Ab','A','A#','Bb','B']
@@ -24,7 +24,7 @@ module.exports = React.createClass
     {}
 
   displayKey: ->
-    @props.displayKey || @key()
+    @props.displayKey or @key()
 
   lastInferredChord: ->
     try 
@@ -41,10 +41,11 @@ module.exports = React.createClass
       ''
 
   byline: ->
-    <h4>{@props.song.meta.ARTIST || "Unknown"} <i>{@props.song.meta.ALBUM}</i></h4>
+    <h4>{@props.song.meta.ARTIST or "Unknown"} <i>{@props.song.meta.ALBUM}</i></h4>
 
   renderSectionHeader: (section) ->
-    <div className="section-header">{section.section}<hr /></div> if @props.showSections
+    if @props.switches.showSections
+      <div className="section-header">{section.section}<hr /></div>
 
   renderLine: (line) ->
     <div>{_.map line, @renderToken}</div>
@@ -52,8 +53,8 @@ module.exports = React.createClass
   renderLyric: (token) ->
     lyric = S(token.string).trim().s
 
-    if @props.showLyrics
-      <div className="lyric">{lyric || ' '}</div>
+    if (lyric or @props.switches.showChords) and @props.switches.showLyrics
+      <div className="lyric">{lyric or ' '}</div>
 
   renderChord: (token) ->
     hasAlts = @props.song.alts[token.chord]?
@@ -65,18 +66,18 @@ module.exports = React.createClass
       chord = transpose(@key(), @displayKey(), chord)
 
     classes = classNames ['chord',
-      mute: @props.fade and not token.exception
-      alts: hasAlts and token.exception and @props.showAlts
+      mute: @props.switches.showFade and not token.exception
+      alts: hasAlts and token.exception and @props.switches.showAlternates
     ]
 
-    if chord? and @props.showChords
+    if chord and @props.switches.showChords
       <div className={classes}>{chord}</div>
 
   renderToken: (token) ->
     lyric = @renderLyric token
     chord = @renderChord token
 
-    return unless lyric? or chord?
+    return unless lyric or chord
 
     classes = classNames ['phrase',
       join: token.wordExtension

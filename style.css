@@ -37,9 +37,10 @@ textarea{ font-family: monospace;}
 #transpose{width:75px;}
 #transposeGroup{margin-top:-4px;}
 button{ margin-bottom:4px; margin-top:4px;}
-#switches .bootstrap-switch{ text-align: center; }
-#switches .bootstrap-switch-label{ width:100px; }
+.bootstrap-switch{ margin: 0 2px; }
 .bootstrap-switch-id-settingsSwitch{ float:right; margin-top:8px;}
+
+.center {text-align: center;}
 
 /*
  * ALTERNATES
