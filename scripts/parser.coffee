@@ -33,12 +33,12 @@ addSection = (state, sectionName) ->
   firstTime = not _.contains state.sections, sectionName
 
   state.sections.push sectionName
-  lyrics =
+  content =
     section: sectionName
     firstTime: firstTime
     lines: []
 
-  state.lyrics.push lyrics
+  state.content.push content
   
   if firstTime then state.chords[sectionName] = []
 
@@ -57,7 +57,7 @@ parseLyricChordLine = (state, line) ->
 
   # If we have a chord line
   if isChordLine line
-    _.last(state.lyrics).lines.push
+    _.last(state.content).lines.push
       chords: S(line.slice 1).trim().s.split ' '
       lyrics: ''
 
@@ -69,11 +69,11 @@ parseLyricChordLine = (state, line) ->
 
     # Otherwise, we have a solitary line of lyrics
     else
-      _.last(state.lyrics).lines.push
+      _.last(state.content).lines.push
         chords: []
         lyrics: line
 
-  state.current.lastLine = _.last(_.last(state.lyrics).lines)
+  state.current.lastLine = _.last(_.last(state.content).lines)
   state
 
 # Given a parse state, parses a line of Markato and returns updated state
@@ -100,7 +100,7 @@ interpretLyricChordLine = (state, section, lineObj, lineNum) ->
 
   addPhrase = (obj) ->
     phrases.push _.defaults obj,
-      string: ''
+      lyric: ''
       chord: ''
       exception: false
       wordExtension: false
@@ -143,7 +143,7 @@ interpretLyricChordLine = (state, section, lineObj, lineNum) ->
       # Special case first phrase
       if index is 0
         if phrase
-          addPhrase string: caretSplit[0]
+          addPhrase lyric: caretSplit[0]
         return
 
       lastPhrase = caretSplit[index - 1]
@@ -157,10 +157,10 @@ interpretLyricChordLine = (state, section, lineObj, lineNum) ->
           chord: chord
           exception: _.contains exceptionIndices, chordIndex
 
-        addPhrase string: S(phrase).trim().s,
+        addPhrase lyric: S(phrase).trim().s,
       else
         addPhrase
-          string: S(phrase).trim().s
+          lyric: S(phrase).trim().s
           chord: chord
           exception: _.contains exceptionIndices, chordIndex
 
@@ -178,7 +178,7 @@ interpretLyricSection = (state, section) ->
 
   # If this is an empty section, retrieve the lyrics/chords from the first instance of that section
   if not section.lines.length
-    section.lines = _.findWhere(state.lyrics, section: section.section).lines.concat()
+    section.lines = _.findWhere(state.content, section: section.section).lines.concat()
 
     # None of the phrases are exceptions since we're copying them
     # We also have to clone the phrase objects so that we don't overwrite the other versions
@@ -188,7 +188,7 @@ interpretLyricSection = (state, section) ->
   section
 
 # Given a finished parse state, return a markato object
-markatoObjectFromState = (state) -> _.omit state, 'current'
+markatoObjectFromState = (state) -> state = _.omit state, 'current'
 
 module.exports =
   # Parses a string of Markato and returns a Markato object
@@ -203,12 +203,12 @@ module.exports =
       alts: {}
       sections: []
       chords: {}
-      lyrics: []
+      content: []
 
     # Run parser
     parseState = _.reduce lines, parseLine, parseState
 
     # Interpret lyric/chord lines
-    parseState.lyrics = _.map parseState.lyrics, _.partial interpretLyricSection, parseState
+    parseState.content = _.map parseState.content, _.partial interpretLyricSection, parseState
 
     markatoObjectFromState parseState

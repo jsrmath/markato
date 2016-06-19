@@ -20,7 +20,7 @@ module.exports = React.createClass
     <div>{_.map line, @renderToken}</div>
 
   renderLyric: (token) ->
-    lyric = S(token.string).trim().s
+    lyric = S(token.lyric).trim().s
 
     if (lyric or @props.switches.showChords) and @props.switches.showLyrics
       <div className="lyric">{lyric or ' '}</div>
@@ -54,7 +54,7 @@ module.exports = React.createClass
     <div className={classes}>{chord}{lyric}</div>
 
   content: ->
-    _.map @props.song.lyrics, (section, i) =>
+    _.map @props.song.content, (section) =>
       <div>
         {@renderSectionHeader(section)}
         <div className="section">{_.map section.lines, @renderLine}</div>
