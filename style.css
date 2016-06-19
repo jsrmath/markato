@@ -45,7 +45,8 @@ button{ margin-bottom:4px; margin-top:4px;}
 /*
  * ALTERNATES
  */
-#alternatesModal .btn-link{ color: inherit; cursor: inherit; }
+.alts-modal .btn-link{ color: inherit; cursor: inherit; }
+.alts-modal .btn-link:hover{ color: inherit; cursor: inherit; }
 
 /*
  * NIGHT MODE
@@ -59,6 +60,10 @@ button{ margin-bottom:4px; margin-top:4px;}
  * .bootstrap-switch-container span.bootstrap-switch-label{ background-color: #37474f !important; }
  * .modal-content{ background-color: #37474f; }
  */
+
+.modal-visible {
+	display: block;
+}
 
 .playback-active {
 	margin-left: -4px;

@@ -7,6 +7,7 @@ Switches = require './Switches'
 MarkatoOutput = require './MarkatoOutput'
 MarkatoInput = require './MarkatoInput'
 EditButton = require './EditButton'
+ChordAltModal = require './ChordAltModal'
 
 module.exports = React.createClass
   getInitialState: ->
@@ -18,6 +19,10 @@ module.exports = React.createClass
     showAlternates: true
     displayKey: ''
     input: require './example'
+    showChordAltModal: false
+    chordReplacements: {} # Maps chord to index of alternate
+    altsModalChord: ''
+    altsModalAlts: []
 
   switchState: ->
     _.pick @state, 'showChords', 'showLyrics', 'showFade', 'showSections', 'showAlternates'
@@ -38,6 +43,16 @@ module.exports = React.createClass
       value: value
       handleChange: @toggleState key
 
+  showChordAltModal: (chord) ->
+    =>
+      @setState showChordAltModal: true, altsModalChord: chord
+
+  selectAlt: (index) ->
+    =>
+      chordReplacements = @state.chordReplacements
+      chordReplacements[@state.altsModalChord] = index
+      @setState chordReplacements: chordReplacements, showChordAltModal: false
+
   render: ->
     <div className="container">
       <div className="row">
@@ -50,11 +65,19 @@ module.exports = React.createClass
           <EditButton isEditing={@state.isEditing} handleClick={@toggleState 'isEditing'} />
           <MarkatoOutput song={@parsedInput()}
                          switches={@switchState()}
-                         displayKey={@state.displayKey} />
+                         displayKey={@state.displayKey}
+                         showChordAltModal={@showChordAltModal}
+                         chordReplacements={@state.chordReplacements} />
         </div>
         {<div className="col-md-6">
           <MarkatoInput input={@state.input}
                         handleInput={@handleInput} />
         </div> if @state.isEditing}
       </div>
+      <ChordAltModal show={@state.showChordAltModal}
+                     onHide={@toggleState 'showChordAltModal'}
+                     chord={@state.altsModalChord}
+                     alts={@parsedInput().alts[@state.altsModalChord]}
+                     selected={@state.chordReplacements[@state.altsModalChord]}
+                     selectAlt={@selectAlt} />
     </div>

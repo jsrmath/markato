@@ -20,9 +20,6 @@ module.exports = React.createClass
     #return first from possibleKeys where key is in validKeys
     _.find possibleKeys, (key) -> key in validKeys
 
-  chordReplacements: ->
-    {}
-
   displayKey: ->
     @props.displayKey or @key()
 
@@ -57,21 +54,22 @@ module.exports = React.createClass
       <div className="lyric">{lyric or ' '}</div>
 
   renderChord: (token) ->
-    hasAlts = @props.song.alts[token.chord]?
+    hasAlts = @props.song.alts[token.chord]? and token.exception and @props.switches.showAlternates
 
-    chord = token.chord
-    chord = @props.song.alts[chord][@chordReplacements[chord]] if @chordReplacements[chord]?
-    chord = chord.replace /'/g, ''
-    if chord and @displayKey() is not @key()
-      chord = transpose(@key(), @displayKey(), chord)
+    chord = displayChord = token.chord
+    
+    displayChord = @props.song.alts[chord][@props.chordReplacements[chord]] if @props.chordReplacements[chord]?
+    displayChord = displayChord.replace /'/g, ''
 
     classes = classNames ['chord',
       mute: @props.switches.showFade and not token.exception
-      alts: hasAlts and token.exception and @props.switches.showAlternates
+      alts: hasAlts
     ]
 
     if chord and @props.switches.showChords
-      <div className={classes}>{chord}</div>
+      <div className={classes} onClick={@props.showChordAltModal chord if hasAlts}>
+        {displayChord}
+      </div>
 
   renderToken: (token) ->
     lyric = @renderLyric token
