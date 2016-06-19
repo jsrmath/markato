@@ -15,6 +15,6 @@ module.exports = React.createClass
               inverse="true" />
 
   render: ->
-    <div>
+    <div className="switches">
       {@switches()}
     </div>

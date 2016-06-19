@@ -34,8 +34,8 @@ textarea{ font-family: monospace;}
 /*
  * SETTINGS
  */
-#transpose{width:75px;}
-#transposeGroup{margin-top:-4px;}
+.transpose-button{ width: 75px; }
+.transpose-toolbar{margin-top:-4px; margin-right: 2px;}
 button{ margin-bottom:4px; margin-top:4px;}
 .bootstrap-switch{ margin: 0 2px; }
 .bootstrap-switch-id-settingsSwitch{ float:right; margin-top:8px;}
@@ -78,4 +78,8 @@ button{ margin-bottom:4px; margin-top:4px;}
 
 .section {
 	margin-bottom: 1.5em;
+}
+
+.switches {
+	display: inline-block;
 }

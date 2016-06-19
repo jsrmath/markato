@@ -9,34 +9,6 @@ module.exports = React.createClass
   title: ->
     @props.song.meta.TITLE or 'Untitled'
 
-  key: ->
-    validKeys = ['C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#','Ab','A','A#','Bb','B']
-    possibleKeys = [
-      @props.song.meta.KEY,
-      @lastInferredChord(),
-      @lastDefinedChord(),
-      'C'
-    ]
-    #return first from possibleKeys where key is in validKeys
-    _.find possibleKeys, (key) -> key in validKeys
-
-  displayKey: ->
-    @props.displayKey or @key()
-
-  lastInferredChord: ->
-    try 
-      chord = _.last(_.last(_.last(@props.song.lyrics).lines)).chord
-      s11.note.create(chord).clean().name
-    catch e
-      ''
-
-  lastDefinedChord: ->
-    try
-      chord = _.last _.last @props.song.chords[_.last @props.song.sections]
-      s11.note.create(chord).clean().name
-    catch e
-      ''
-
   byline: ->
     <h4>{@props.song.meta.ARTIST or "Unknown"} <i>{@props.song.meta.ALBUM}</i></h4>
 
@@ -57,9 +29,7 @@ module.exports = React.createClass
     hasAlts = @props.song.alts[token.chord]? and token.exception and @props.switches.showAlternates
 
     chord = displayChord = token.chord
-    
     displayChord = @props.song.alts[chord][@props.chordReplacements[chord]] if @props.chordReplacements[chord]?
-    displayChord = displayChord.replace /'/g, ''
 
     classes = classNames ['chord',
       mute: @props.switches.showFade and not token.exception
@@ -68,7 +38,7 @@ module.exports = React.createClass
 
     if chord and @props.switches.showChords
       <div className={classes} onClick={@props.showChordAltModal chord if hasAlts}>
-        {displayChord}
+        {@props.formatChord displayChord}
       </div>
 
   renderToken: (token) ->
@@ -92,7 +62,7 @@ module.exports = React.createClass
 
   render: ->
     <div>
-      <h2>{@title()} <small>in {@key()}</small></h2>
+      <h2>{@title()} <small>in {@props.displayKey}</small></h2>
       {@byline()}
       {@content()}
     </div>
