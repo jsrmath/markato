@@ -7,7 +7,9 @@ classNames = require 'classnames'
 module.exports = React.createClass
   renderChord: (chord, isSelected, index) ->
     classes = classNames ['btn', 'btn-lg', 'btn-default': not isSelected, 'btn-info': isSelected]
-    <button className={classes} onClick={@props.selectAlt index}>{@props.formatChord chord}</button>
+    <button className={classes} onClick={@props.selectAlt index} key={chord}>
+      {@props.formatChord chord}
+    </button>
 
   renderAlts: ->
     _.map @props.alts, (alt, index) =>

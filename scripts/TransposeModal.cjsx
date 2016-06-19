@@ -7,12 +7,12 @@ classNames = require 'classnames'
 module.exports = React.createClass
   renderKeys: ->
     keys = [['C'],['C#','Db'],['D'],['D#','Eb'],['E'],['F'],['F#','Gb'],['G'],['G#','Ab'],['A'],['A#','Bb'],['B']]
-    _.map keys, (keyGroup) =>
-      <div className="btn-group">
+    _.map keys, (keyGroup, i) =>
+      <div className="btn-group" key={i}>
         {_.map keyGroup, (key) =>
           selected = key is @props.displayKey
           classes = classNames ['btn', 'btn-lg', 'btn-default': not selected, 'btn-info': selected]
-          <button className={classes} onClick={@props.setDisplayKey key}>{key}</button>
+          <button className={classes} key={key} onClick={@props.setDisplayKey key}>{key}</button>
         }
       </div>
 

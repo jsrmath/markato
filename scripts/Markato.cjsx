@@ -12,6 +12,8 @@ ChordAltModal = require './ChordAltModal'
 TransposeModal = require './TransposeModal'
 TransposeToolbar = require './TransposeToolbar'
 
+example = require './example'
+
 module.exports = React.createClass
   getInitialState: ->
     isEditing: true
@@ -21,7 +23,8 @@ module.exports = React.createClass
     showSections: true
     showAlternates: true
     displayKey: null
-    input: require './example'
+    input: example
+    parsedInput: parser.parseString example # Calculate this explicitly to save time
     showChordAltModal: false
     showTransposeModal: false
     chordReplacements: {} # Maps chord to index of alternate
@@ -31,7 +34,7 @@ module.exports = React.createClass
   key: ->
     validKeys = ['C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#','Ab','A','A#','Bb','B']
     possibleKeys = [
-      @parsedInput().meta.KEY,
+      @state.parsedInput.meta.KEY,
       @lastInferredChord(),
       @lastDefinedChord(),
       'C'
@@ -46,9 +49,14 @@ module.exports = React.createClass
     if chord
       transpose(@key(), @displayKey(), chord).replace(/'/g, '')
 
+  formatChordWithAlts: (chord) ->
+    if @state.chordReplacements[chord]?
+      chord = @state.parsedInput.alts[chord][@state.chordReplacements[chord]]
+    @formatChord chord
+
   lastInferredChord: ->
     try 
-      chord = _.last(_.last(_.last(@props.song.lyrics).lines)).chord
+      chord = _.last(_.last(_.last(@props.song.content).lines)).chord
       s11.note.create(chord).clean().name
     catch e
       ''
@@ -67,10 +75,7 @@ module.exports = React.createClass
     _.pick @state, 'showChords', 'showLyrics', 'showFade', 'showSections', 'showAlternates'
 
   handleInput: (e) ->
-    @setState input: e.target.value
-
-  parsedInput: ->
-    parser.parseString @state.input
+    @setState input: e.target.value, parsedInput: parser.parseString e.target.value
 
   toggleState: (key) ->
     => @setState "#{key}": not @state[key]
@@ -82,10 +87,6 @@ module.exports = React.createClass
       value: value
       handleChange: @toggleState key
 
-  showChordAltModal: (chord) ->
-    =>
-      @setState showChordAltModal: true, altsModalChord: chord
-
   selectAlt: (index) ->
     =>
       chordReplacements = @state.chordReplacements
@@ -95,6 +96,9 @@ module.exports = React.createClass
   setDisplayKey: (key) ->
     =>
       @setState displayKey: key, showTransposeModal: false
+
+  showChordAltModal: (chord) ->
+    @setState showChordAltModal: true, altsModalChord: chord
 
   render: ->
     <div className="container">
@@ -109,12 +113,14 @@ module.exports = React.createClass
       <div className="row">
         <div className={if @state.isEditing then "col-md-6" else "col-md-12"}>
           <EditButton isEditing={@state.isEditing} handleClick={@toggleState 'isEditing'} />
-          <MarkatoOutput song={@parsedInput()}
+          <MarkatoOutput song={@state.parsedInput}
                          switches={@switchState()}
                          displayKey={@displayKey()}
                          showChordAltModal={@showChordAltModal}
                          chordReplacements={@state.chordReplacements}
-                         formatChord={@formatChord} />
+                         formatChordWithAlts={@formatChordWithAlts}
+                         playback={not @state.isEditing}
+                         play={@props.play} />
         </div>
         {<div className="col-md-6">
           <MarkatoInput input={@state.input}
@@ -124,7 +130,7 @@ module.exports = React.createClass
       <ChordAltModal show={@state.showChordAltModal}
                      onHide={@toggleState 'showChordAltModal'}
                      chord={@state.altsModalChord}
-                     alts={@parsedInput().alts[@state.altsModalChord]}
+                     alts={@state.parsedInput.alts[@state.altsModalChord]}
                      selected={@state.chordReplacements[@state.altsModalChord]}
                      selectAlt={@selectAlt}
                      formatChord={@formatChord} />

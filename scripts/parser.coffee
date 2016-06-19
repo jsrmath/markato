@@ -188,7 +188,29 @@ interpretLyricSection = (state, section) ->
   section
 
 # Given a finished parse state, return a markato object
-markatoObjectFromState = (state) -> state = _.omit state, 'current'
+markatoObjectFromState = (state) -> 
+  state = _.omit state, 'current'
+
+  # Add ids for sections, lines, and phrases
+  sectionId = lineId = phraseId = lyricId = chordId = 0
+  _.each state.content, (section) ->
+    section.sectionId = sectionId++
+    _.each section.lines, (line) ->
+      line.lineId = lineId++
+      _.each line, (phrase) ->
+        phrase.phraseId = phraseId++
+        phrase.chordId = chordId++ if phrase.chord
+        phrase.lyricId = lyricId++ if phrase.lyric
+
+  state.count = 
+    sections: sectionId
+    lines: lineId
+    phrases: phraseId
+    lyrics: lyricId
+    chords: chordId
+
+  state
+
 
 module.exports =
   # Parses a string of Markato and returns a Markato object

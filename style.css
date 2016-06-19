@@ -66,13 +66,13 @@ button{ margin-bottom:4px; margin-top:4px;}
 }
 
 .playback-active {
-	margin-left: -4px;
-	margin-right: -4px;
+	margin: -4px;
 	border: 4px solid #CCFBCC;
 	background: #CCFBCC;
+	display: inline-block;
 }
 
-.chord-clickable .chord {
+.clickable {
 	cursor: pointer;
 }
 
