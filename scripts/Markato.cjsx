@@ -35,8 +35,7 @@ module.exports = React.createClass
     validKeys = ['C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#','Ab','A','A#','Bb','B']
     possibleKeys = [
       @state.parsedInput.meta.KEY,
-      @lastInferredChord(),
-      @lastDefinedChord(),
+      @lastChord(),
       'C'
     ]
     #return first from possibleKeys where key is in validKeys
@@ -54,19 +53,9 @@ module.exports = React.createClass
       chord = @state.parsedInput.alts[chord][@state.chordReplacements[chord]]
     @formatChord chord
 
-  lastInferredChord: ->
-    try 
-      chord = _.last(_.last(_.last(@props.song.content).lines)).chord
-      s11.note.create(chord).clean().name
-    catch e
-      ''
-
-  lastDefinedChord: ->
-    try
-      chord = _.last _.last @props.song.chords[_.last @props.song.sections]
-      s11.note.create(chord).clean().name
-    catch e
-      ''
+  lastChord: ->
+    chords = _.flatten _.pluck @state.parsedInput.content, 'lines'
+    return _.last(chords).chord if chords
 
   resetKey: ->
     @setState displayKey: null
