@@ -59,8 +59,11 @@ module.exports = React.createClass
     @formatChord chord
 
   lastChord: ->
-    chords = _.flatten _.pluck @parsedInput().content, 'lines'
-    return _.last(chords).chord if chords
+    try
+      chords = _.flatten _.pluck @parsedInput().content, 'lines'
+      _.last(chords).chord
+    catch err
+      ''
 
   resetKey: ->
     @setState displayKey: null
