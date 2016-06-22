@@ -48,6 +48,7 @@
     "bootstrap-switch": "^3.3.2",
     "classnames": "^2.2.5",
     "jquery": "^2.2.3",
+    "memoizee": "^0.3.10",
     "react": "^15.1.0",
     "react-bootstrap-modal": "^2.1.0",
     "react-bootstrap-switch": "^3.4.5",
