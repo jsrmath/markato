@@ -81,8 +81,8 @@ module.exports = React.createClass
     _.map @switchState(), (value, key) =>
       label: S(key).chompLeft('show').s
       key: key
-      value: value
-      handleChange: @toggleState key
+      active: value
+      handleClick: @toggleState key
 
   selectAlt: (index) ->
     =>
@@ -98,43 +98,46 @@ module.exports = React.createClass
     @setState showChordAltModal: true, altsModalChord: chord
 
   render: ->
-    <div className="container">
-      <div className="row">
-        <div className="jumbotron center">
+    <div>
+      <nav className="navbar navbar-default navbar-fixed-top">
+        <div className="container">
+          <a className="navbar-brand">Markato</a>
           <TransposeToolbar displayKey={@displayKey()}
                             showTransposeModal={@toggleState 'showTransposeModal'}
                             setDisplayKey={@setDisplayKey} />
           <Switches switches={@switches()} />
         </div>
-      </div>
-      <div className="row">
-        <div className={if @state.isEditing then "col-md-6" else "col-md-12"}>
-          <EditButton isEditing={@state.isEditing} handleClick={@toggleState 'isEditing'} />
-          <MarkatoOutput song={@parsedInput()}
-                         switches={@switchState()}
-                         displayKey={@displayKey()}
-                         showChordAltModal={@showChordAltModal}
-                         chordReplacements={@state.chordReplacements}
-                         formatChordWithAlts={@formatChordWithAlts}
-                         playback={not @state.isEditing}
-                         play={@props.play} />
+      </nav>
+      <div className="container">
+        <div className="row">
+          <div className={if @state.isEditing then "col-md-6" else "col-md-12"}>
+            <EditButton isEditing={@state.isEditing} handleClick={@toggleState 'isEditing'} />
+            <MarkatoOutput song={@parsedInput()}
+                           switches={@switchState()}
+                           displayKey={@displayKey()}
+                           showChordAltModal={@showChordAltModal}
+                           chordReplacements={@state.chordReplacements}
+                           formatChordWithAlts={@formatChordWithAlts}
+                           playback={not @state.isEditing}
+                           play={@props.play} />
+          </div>
+          {<div className="col-md-6">
+            <MarkatoInput input={@state.input}
+                          handleInput={@handleInput} />
+          </div> if @state.isEditing}
         </div>
-        {<div className="col-md-6">
-          <MarkatoInput input={@state.input}
-                        handleInput={@handleInput} />
-        </div> if @state.isEditing}
+        <ChordAltModal show={@state.showChordAltModal}
+                       onHide={@toggleState 'showChordAltModal'}
+                       chord={@state.altsModalChord}
+                       alts={@parsedInput().alts[@state.altsModalChord]}
+                       selected={@state.chordReplacements[@state.altsModalChord]}
+                       selectAlt={@selectAlt}
+                       formatChord={@formatChord} />
+        <TransposeModal show={@state.showTransposeModal}
+                        onHide={@toggleState 'showTransposeModal'}
+                        displayKey={@displayKey()}
+                        originalKey={@key()}
+                        setDisplayKey={@setDisplayKey}
+                        reset={@resetKey} />
       </div>
-      <ChordAltModal show={@state.showChordAltModal}
-                     onHide={@toggleState 'showChordAltModal'}
-                     chord={@state.altsModalChord}
-                     alts={@parsedInput().alts[@state.altsModalChord]}
-                     selected={@state.chordReplacements[@state.altsModalChord]}
-                     selectAlt={@selectAlt}
-                     formatChord={@formatChord} />
-      <TransposeModal show={@state.showTransposeModal}
-                      onHide={@toggleState 'showTransposeModal'}
-                      displayKey={@displayKey()}
-                      originalKey={@key()}
-                      setDisplayKey={@setDisplayKey}
-                      reset={@resetKey} />
     </div>

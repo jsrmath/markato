@@ -52,15 +52,14 @@ textarea {
   width: 75px;
 }
 
-.transpose-toolbar{
-  margin-top:-4px; margin-right: 2px;
+.switches, .transpose-toolbar {
+  margin-top: 10px;
+  float: left;
+  margin-left: 20px;
 }
 
-button {
-  margin-bottom:4px; margin-top:4px;
-}
-
-.bootstrap-switch {
+.toggle-button {
+  width: 105px;
   margin: 0 2px;
 }
 
@@ -93,8 +92,4 @@ button {
 
 .section {
   margin-bottom: 1.5em;
-}
-
-.switches {
-  display: inline-block;
 }
