@@ -101,3 +101,9 @@ textarea {
   display: inline-block;
   text-align: center;
 }
+
+@media print {
+  .switches, .edit, .markato-input, .transpose-down, .transpose-up {
+    display: none;
+  }
+}
