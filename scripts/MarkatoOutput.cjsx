@@ -4,6 +4,7 @@ s11 = require 'sharp11'
 React = require 'react'
 ReactDOM = require 'react-dom'
 classNames = require 'classnames'
+TransposeToolbar = require './TransposeToolbar'
 
 module.exports = React.createClass
   getInitialState: ->
@@ -37,7 +38,7 @@ module.exports = React.createClass
 
     classes = classNames ['chord',
       'mute': @props.switches.showFade and not phrase.exception
-      'alts': hasAlts
+      'clickable-color': hasAlts
       'clickable': @props.playback
       'playback-active': @props.playback and @state.currentChordId is phrase.chordId
     ]
@@ -99,7 +100,12 @@ module.exports = React.createClass
 
   render: ->
     <div>
-      <h2>{@title()} <small>in {@props.displayKey}</small></h2>
+      <h2>
+        {@title()}
+        <TransposeToolbar displayKey={@props.displayKey}
+                          showTransposeModal={@props.showTransposeModal}
+                          setDisplayKey={@props.setDisplayKey} />
+      </h2>
       {@byline()}
       {@content()}
     </div>

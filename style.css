@@ -20,7 +20,7 @@ h2 {
 }
 
 .mute { 
-  color:lightgrey;
+  color: lightgrey;
 }
 
 .join .lyric {
@@ -28,39 +28,29 @@ h2 {
 }
 
 .section-header {
-  font-size: small; color:lightgray; text-transform:small-caps;
-}
-
-.alts {
-  color:#5bc0de;
-  cursor: pointer;
+  font-size: small;
+  color: lightgray;
+  text-transform: small-caps;
 }
 
 hr {
-  margin:0px; padding:0px; margin-bottom:5px;
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 5px;
 }
 
 textarea {
   font-family: monospace;
 }
 
-.edit {
-  float:right;
+.btn {
+  margin-bottom: 4px;
 }
 
-.transpose-button {
-  width: 75px;
-}
-
-.switches, .transpose-toolbar {
-  margin-top: 10px;
-  float: left;
-  margin-left: 20px;
-}
-
-.toggle-button {
-  width: 105px;
-  margin: 0 2px;
+.switches button, .edit {
+  display: block;
+  clear: right;
+  float: right;
 }
 
 .center {
@@ -86,10 +76,28 @@ textarea {
   display: inline-block;
 }
 
-.clickable {
+.clickable, .clickable-color {
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.clickable-color {
+  color: #5bc0de;
 }
 
 .section {
   margin-bottom: 1.5em;
+}
+
+.transpose-toolbar {
+  white-space: nowrap;
+}
+
+.transpose-key {
+  width: 30px;
+  display: inline-block;
+  text-align: center;
 }

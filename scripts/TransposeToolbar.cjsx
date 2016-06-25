@@ -8,14 +8,9 @@ module.exports = React.createClass
     sharp = s11.note.create(@props.displayKey).sharp().clean().name
     flat = s11.note.create(@props.displayKey).flat().clean().name
 
-    <div className="transpose-toolbar btn-group">
-      <button onClick={@props.setDisplayKey flat} className="btn btn-default btn-sm">
-        <span className="glyphicon glyphicon-chevron-left" />
-      </button>
-      <button onClick={@props.showTransposeModal} className="btn btn-info btn-sm transpose-button">
-        <span>{@props.displayKey}</span>
-      </button>
-      <button onClick={@props.setDisplayKey sharp} className="btn btn-default btn-sm">
-        <span className="glyphicon glyphicon-chevron-right" />
-      </button>
-    </div>
+    <small className="transpose-toolbar">
+      <span> in</span>
+      <span onClick={@props.setDisplayKey flat} className="glyphicon glyphicon-triangle-left clickable-color" />
+      <span onClick={@props.showTransposeModal} className="transpose-key clickable-color">{@props.displayKey}</span>
+      <span onClick={@props.setDisplayKey sharp} className="glyphicon glyphicon-triangle-right clickable-color" />
+    </small>

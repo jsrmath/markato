@@ -7,7 +7,7 @@ module.exports = React.createClass
   switches: ->
     _.map @props.switches, (switchData) ->
       {key, label, active, handleClick} = switchData
-      buttonClasses = classNames 'btn', 'btn-default', 'btn-sm', 'toggle-button'
+      buttonClasses = classNames 'btn', 'btn-default', 'btn-md', 'toggle-button'
       glyphClasses = classNames 'glyphicon', 'glyphicon-ok': active, 'glyphicon-remove': not active
 
       <button className={buttonClasses} key={key} onClick={handleClick}>
