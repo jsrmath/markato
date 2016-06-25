@@ -4,8 +4,11 @@
 s11 = require 'sharp11'
 
 module.exports = (origKey, newKey, chordStr) ->
-  chord = s11.chord.create(chordStr)
-  interval = s11.note.create(origKey).getInterval(newKey)
-  newNote = chord.root.transpose(interval).clean()
+  try
+    chord = s11.chord.create(chordStr)
+    interval = s11.note.create(origKey).getInterval(newKey)
+    newNote = chord.root.transpose(interval).clean()
 
-  chordStr.replace(new RegExp('^' + chord.root), newNote)
+    chordStr.replace(new RegExp('^' + chord.root), newNote)
+  catch err
+    chordStr
