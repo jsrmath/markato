@@ -2,7 +2,7 @@ window.$ = window.jQuery = require 'jquery'
 audio = require 'sharp11-web-audio'
 React = require 'react'
 ReactDOM = require 'react-dom'
-Markato = require './Markato'
+MarkatoPage = require './MarkatoPage'
 
 require 'bootstrap/dist/js/bootstrap'
 
@@ -11,6 +11,6 @@ audio.init (err, fns) ->
   {play, stop} = fns
 
   ReactDOM.render(
-    <Markato play={play} stop={stop} />,
-    document.getElementById 'main'
+    <MarkatoPage play={play} stop={stop} />,
+    document.getElementById 'body'
   )

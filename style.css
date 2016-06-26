@@ -1,4 +1,4 @@
-#main {
+#body {
   padding-top: 70px;
 }
 
@@ -47,7 +47,7 @@ textarea {
   margin-bottom: 4px;
 }
 
-.switches button, .edit {
+.switches button, .edit, .delete {
   display: block;
   clear: right;
   float: right;
@@ -103,7 +103,7 @@ textarea {
 }
 
 @media print {
-  .switches, .edit, .markato-input, .transpose-down, .transpose-up {
+  .switches, .edit, .delete, .markato-input, .transpose-down, .transpose-up {
     display: none;
   }
 }

@@ -9,10 +9,9 @@ Switches = require './Switches'
 MarkatoOutput = require './MarkatoOutput'
 MarkatoInput = require './MarkatoInput'
 EditButton = require './EditButton'
+DeleteButton = require './DeleteButton'
 ChordAltModal = require './ChordAltModal'
 TransposeModal = require './TransposeModal'
-
-example = require './example'
 
 parsedInput = memoize parser.parseString, primitive: true
 
@@ -25,7 +24,6 @@ module.exports = React.createClass
     showSections: true
     showAlternates: true
     displayKey: null
-    input: example
     showChordAltModal: false
     showTransposeModal: false
     chordReplacements: {} # Maps chord to index of alternate
@@ -33,7 +31,7 @@ module.exports = React.createClass
     altsModalAlts: []
 
   parsedInput: ->
-    parsedInput @state.input
+    parsedInput @props.input
 
   key: ->
     validKeys = ['C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#','Ab','A','A#','Bb','B']
@@ -71,7 +69,11 @@ module.exports = React.createClass
     _.pick @state, 'showChords', 'showLyrics', 'showFade', 'showSections', 'showAlternates'
 
   handleInput: (e) ->
-    @setState input: e.target.value
+    @props.handleInput e.target.value
+
+  handleEditClick: ->
+    @setState isEditing: not @state.isEditing
+    @props.save()
 
   toggleState: (key) ->
     => @setState "#{key}": not @state[key]
@@ -100,7 +102,8 @@ module.exports = React.createClass
     <div className="container">
       <div className="row">
         <div className={if @state.isEditing then "col-md-6" else "col-md-12"}>
-          <EditButton isEditing={@state.isEditing} handleClick={@toggleState 'isEditing'} />
+          <EditButton isEditing={@state.isEditing} handleClick={@handleEditClick} />
+          <DeleteButton handleClick={@props.deleteSong} />
           <Switches switches={@switches()} />
           <MarkatoOutput song={@parsedInput()}
                          switches={@switchState()}
@@ -114,7 +117,7 @@ module.exports = React.createClass
                          setDisplayKey={@setDisplayKey} />
         </div>
         {<div className="col-md-6">
-          <MarkatoInput input={@state.input}
+          <MarkatoInput input={@props.input}
                         handleInput={@handleInput} />
         </div> if @state.isEditing}
       </div>
