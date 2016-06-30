@@ -14,6 +14,9 @@ module.exports = React.createClass
     ]
     currentSongIndex: 0
 
+  componentDidMount: ->
+    window.onunload = @save
+
   getSongNames: ->
     _.pluck @state.songs, 'name'
 
