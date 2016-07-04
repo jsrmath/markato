@@ -2,6 +2,7 @@ React = require 'react'
 ReactDOM = require 'react-dom'
 _ = require 'underscore'
 S = require 'string'
+s11 = require 'sharp11'
 transpose = require './transpose'
 Switches = require './Switches'
 MarkatoOutput = require './MarkatoOutput'
@@ -27,14 +28,20 @@ module.exports = React.createClass
     altsModalAlts: []
 
   key: ->
-    validKeys = ['C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#','Ab','A','A#','Bb','B']
     possibleKeys = [
-      @props.parsedInput.meta.KEY,
-      @lastChord(),
+      @extractKey @props.parsedInput.meta.KEY
+      @extractKey @lastChord()
       'C'
     ]
-    #return first from possibleKeys where key is in validKeys
-    _.find possibleKeys, (key) -> key in validKeys
+    # Return first from possibleKeys where key is not null
+    _.find possibleKeys
+
+  extractKey: (str) ->
+    try
+      chordStr = s11.chord.create str
+      chordStr.clean().root.name
+    catch err
+      null
 
   displayKey: ->
     @state.displayKey or @key()
