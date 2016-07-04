@@ -1,10 +1,14 @@
 _ = require 'underscore'
 React = require 'react'
 ReactDOM = require 'react-dom'
+memoize = require 'memoizee'
+parser = require './parser'
 Markato = require './Markato'
 MarkatoNav = require './MarkatoNav'
 example = require './example'
 storage = require './storage'
+
+parsedCurrentSong = memoize parser.parseString, primitive: true
 
 module.exports = React.createClass
   getInitialState: -> storage.defaults
@@ -31,7 +35,17 @@ module.exports = React.createClass
   updateCurrentSong: (content) ->
     song = @getCurrentSong()
     song.content = content
+    song.name = @parsedCurrentSong().meta.TITLE if @parsedCurrentSong().meta.TITLE
     @setCurrentSong(song)
+
+  newSongContent: (title) ->
+    """
+    ##TITLE  #{title}
+    ##ARTIST Me
+    ##KEY    C
+
+    #VERSE
+    """
 
   newSong: ->
     songs = @state.songs
@@ -39,7 +53,7 @@ module.exports = React.createClass
     if title
       songs.push
         name: title
-        content: "##TITLE #{title}\n##ARTIST Me\n##KEY C"
+        content: @newSongContent title
       @setState songs: songs, currentSongIndex: songs.length - 1, @save
 
   deleteSong: ->
@@ -48,6 +62,9 @@ module.exports = React.createClass
       songs = @state.songs
       songs.splice index, 1
       @setState songs: songs, currentSongIndex: index - 1, @save
+
+  parsedCurrentSong: ->
+    parsedCurrentSong @getCurrentSong().content
 
   save: ->
     storage.synchronize @state
@@ -63,9 +80,10 @@ module.exports = React.createClass
                   handleSongSelect={@handleSongSelect}
                   newSong={@newSong} />
       {<Markato play={@props.play}
-               stop={@props.stop}
-               save={@save}
-               input={@getCurrentSong().content}
-               handleInput={@updateCurrentSong}
-               deleteSong={@deleteSong} /> if @state.songs.length}
+                stop={@props.stop}
+                save={@save}
+                input={@getCurrentSong().content}
+                parsedInput={@parsedCurrentSong()}
+                handleInput={@updateCurrentSong}
+                deleteSong={@deleteSong} /> if @state.songs.length}
     </div>
