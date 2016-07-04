@@ -51,7 +51,7 @@ module.exports = React.createClass
       transpose(@key(), @displayKey(), chord).replace(/'/g, '')
 
   formatChordWithAlts: (chord) ->
-    if @state.chordReplacements[chord]?
+    if @props.parsedInput.alts[chord]? and @state.chordReplacements[chord]?
       chord = @props.parsedInput.alts[chord][@state.chordReplacements[chord]]
     @formatChord chord
 
