@@ -20,7 +20,7 @@ h2 {
 }
 
 .mute { 
-  color: lightgrey;
+  color: #ccc;
 }
 
 .join {
@@ -29,7 +29,7 @@ h2 {
 
 .section-header {
   font-size: small;
-  color: lightgray;
+  color: #ccc;
   text-transform: small-caps;
 }
 
