@@ -23,8 +23,8 @@ h2 {
   color: lightgrey;
 }
 
-.join .lyric {
-  margin-left: -4px;
+.join {
+  margin-left: -0.3em;
 }
 
 .section-header {
