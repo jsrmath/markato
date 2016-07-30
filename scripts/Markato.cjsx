@@ -38,8 +38,7 @@ module.exports = React.createClass
 
   extractKey: (str) ->
     try
-      chordStr = s11.chord.create str
-      chordStr.clean().root.name
+      s11.note.extract(str).name
     catch err
       null
 

@@ -13,8 +13,8 @@ module.exports = React.createClass
       <div className="container">
         <ul className="nav navbar-nav">
           <a className="navbar-brand">Markato</a>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <li className="dropdown">
+            <a href="#" className="dropdown-toggle" data-toggle="dropdown">
               Select Song<span className="caret" />
             </a>
             <ul className="dropdown-menu">

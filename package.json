@@ -52,7 +52,7 @@
     "react": "^15.1.0",
     "react-bootstrap-modal": "^2.1.0",
     "react-dom": "^15.1.0",
-    "sharp11": "^1.1.2",
+    "sharp11": "^1.1.4",
     "sharp11-web-audio": "^1.0.1",
     "string": "^3.3.1",
     "underscore": "^1.8.3"
