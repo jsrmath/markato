@@ -6,32 +6,43 @@ MarkatoApp = require './MarkatoApp'
 MarkatoSplash = require './MarkatoSplash'
 MarkatoNav = require './MarkatoNav'
 example = require './example'
-storage = require './storage'
-firebase = require 'firebase/app'
 
 parsedCurrentSong = memoize parser.parseString, primitive: true
 
-module.exports = React.createClass
-  getInitialState: -> storage.defaults
-    songs: [
-      name: "I Wanna Hold Your Hand [Example]"
-      content: example
-    ]
-    currentSongIndex: 0
+formatUserBucket = (userBucket) ->
+  songs: userBucket.songs ? []
+  currentSongIndex: userBucket.currentSongIndex
 
-  componentDidMount: ->
-    window.onunload = @save
+module.exports = React.createClass
+  getInitialState: ->
+    if @props.userBucket?
+      formatUserBucket @props.userBucket
+    else
+      songs: [
+        name: "I Wanna Hold Your Hand [Example]"
+        content: example
+      ]
+      currentSongIndex: 0
+
+  componentWillReceiveProps: (nextProps) ->
+    if nextProps.userBucket?
+      @setState formatUserBucket nextProps.userBucket
+
 
   getSongNames: ->
     _.pluck @state.songs, 'name'
 
   getCurrentSong: ->
-    @state.songs[@state.currentSongIndex]
+    if @state.currentSongIndex > -1
+      @state.songs[@state.currentSongIndex]
+    else
+      null
 
   setCurrentSong: (song) ->
     songs = @state.songs
     songs[@state.currentSongIndex] = song
     @setState songs: songs
+    @save()
 
   updateCurrentSong: (content) ->
     song = @getCurrentSong()
@@ -67,15 +78,15 @@ module.exports = React.createClass
   parsedCurrentSong: ->
     parsedCurrentSong @getCurrentSong().content
 
-  save: ->
-    storage.synchronize @state
-
   handleSongSelect: (index) ->
     =>
       @setState currentSongIndex: index, @save
 
+  save: ->
+    @props.setUserBucket @state
+
   content: ->
-    if @props.currentUser
+    if @props.currentUser and @getCurrentSong()
       <MarkatoApp play={@props.play}
                   stop={@props.stop}
                   save={@save}
@@ -84,7 +95,7 @@ module.exports = React.createClass
                   handleInput={@updateCurrentSong}
                   deleteSong={@deleteSong} />
     else
-      <MarkatoSplash />
+      <MarkatoSplash currentUser={@props.currentUser} />
 
   render: ->
     <div>

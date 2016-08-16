@@ -9,7 +9,7 @@ module.exports = React.createClass
       <li className={classes} key={index} onClick={@props.handleSongSelect index}><a href="#">{song}</a></li>
 
   songList: ->
-    if @props.currentUser and @props.getSongNames()
+    if @props.currentUser
       <li className="dropdown">
         <a href="#" className="dropdown-toggle" data-toggle="dropdown">
           Select Song<span className="caret" />

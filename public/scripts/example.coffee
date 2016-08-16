@@ -4,6 +4,12 @@ module.exports = '''
 ##ALBUM  A Hard Day's Night
 ##KEY    G
 
+#WELCOME
+Welcome to Markato!
+This is a sample song to help you
+get acquainted with the Markato format.
+Feel free to delete it or keep it as a reference.
+
 #INTRO
 :C D C D C D
 
