@@ -1,0 +1,109 @@
+#body {
+  padding-top: 70px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.phrase {
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  margin-right: 0.3em;
+  border-radius: 0px;
+  line-height: 100%;
+  display: inline-block;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+}
+
+.mute { 
+  color: #ccc;
+}
+
+.join {
+  margin-left: -0.3em;
+}
+
+.section-header {
+  font-size: small;
+  color: #ccc;
+  text-transform: small-caps;
+}
+
+hr {
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 5px;
+}
+
+textarea {
+  font-family: monospace;
+}
+
+.btn {
+  margin-bottom: 4px;
+}
+
+.switches button, .edit, .delete {
+  display: block;
+  clear: right;
+  float: right;
+}
+
+.center {
+  text-align: center;
+}
+
+.alts-modal .btn-link {
+  color: inherit; cursor: inherit;
+}
+
+.alts-modal .btn-link:hover {
+  color: inherit; cursor: inherit;
+}
+
+.modal-visible {
+  display: block;
+}
+
+.playback-active {
+  margin: -4px;
+  border: 4px solid #CCFBCC;
+  background: #CCFBCC;
+  display: inline-block;
+}
+
+.clickable, .clickable-color {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.clickable-color {
+  color: #5bc0de;
+}
+
+.section {
+  margin-bottom: 1.5em;
+}
+
+.transpose-toolbar {
+  white-space: nowrap;
+}
+
+.transpose-key {
+  width: 30px;
+  display: inline-block;
+  text-align: center;
+}
+
+@media print {
+  .switches, .edit, .delete, .markato-input, .transpose-down, .transpose-up {
+    display: none;
+  }
+}
