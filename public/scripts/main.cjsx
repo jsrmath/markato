@@ -3,6 +3,7 @@ audio = require 'sharp11-web-audio'
 React = require 'react'
 ReactDOM = require 'react-dom'
 MarkatoPage = require './MarkatoPage'
+Loading = require './Loading'
 firebase = require 'firebase/app'
 storageModule = require './storage'
 
@@ -16,16 +17,18 @@ firebase.initializeApp
   databaseURL: "https://markato-42764.firebaseio.com",
   storageBucket: "markato-42764.appspot.com"
 
+ReactDOM.render <Loading />, document.getElementById 'body'
+
 audio.init (err, fns) ->
   if err then alert err
-  {play, stop} = fns
+  {play} = fns
 
-  firebase.auth().onAuthStateChanged (user) =>
+  firebase.auth().getRedirectResult().then (result) =>
+    user = result.user
     storage = storageModule.init(firebase, user)
     storage.getUserBucket (userBucket) =>
       ReactDOM.render(
         <MarkatoPage play={play}
-                     stop={stop}
                      currentUser={user}
                      userBucket={userBucket}
                      setUserBucketKey={storage.setUserBucketKey} />,

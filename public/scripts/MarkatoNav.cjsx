@@ -22,7 +22,8 @@ module.exports = React.createClass
       </li>
 
   logout: ->
-    firebase.auth().signOut()
+    firebase.auth().signOut().then =>
+      window.location.reload()
 
   welcome: ->
     if @props.currentUser
