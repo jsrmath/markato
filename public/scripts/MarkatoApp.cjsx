@@ -71,7 +71,6 @@ module.exports = React.createClass
 
   handleEditClick: ->
     @setState isEditing: not @state.isEditing
-    @props.save()
 
   toggleState: (key) ->
     => @setState "#{key}": not @state[key]

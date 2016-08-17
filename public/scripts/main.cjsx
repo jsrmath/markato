@@ -28,6 +28,6 @@ audio.init (err, fns) ->
                      stop={stop}
                      currentUser={user}
                      userBucket={userBucket}
-                     setUserBucket={storage.setUserBucket} />,
+                     setUserBucketKey={storage.setUserBucketKey} />,
         document.getElementById 'body'
       )

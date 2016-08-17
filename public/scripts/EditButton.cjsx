@@ -4,7 +4,7 @@ module.exports = React.createClass
   render: ->
     if @props.isEditing
       <button className="btn btn-md btn-success edit" onClick={@props.handleClick}>
-        <span className="glyphicon glyphicon-play" /> Save
+        <span className="glyphicon glyphicon-play" /> Play
       </button>
     else
       <button className="btn btn-md btn-warning edit" onClick={@props.handleClick}>

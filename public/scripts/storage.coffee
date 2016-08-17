@@ -11,5 +11,5 @@ module.exports.init = (firebase, user) ->
       console.log err
       alert err
 
-  setUserBucket: (obj) ->
-    firebase.database().ref("/users/#{user.uid}").set(obj)
+  setUserBucketKey: (key, val) ->
+    firebase.database().ref("/users/#{user.uid}/#{key}").set(val)

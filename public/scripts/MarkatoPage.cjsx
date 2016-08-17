@@ -28,7 +28,6 @@ module.exports = React.createClass
     if nextProps.userBucket?
       @setState formatUserBucket nextProps.userBucket
 
-
   getSongNames: ->
     _.pluck @state.songs, 'name'
 
@@ -42,7 +41,7 @@ module.exports = React.createClass
     songs = @state.songs
     songs[@state.currentSongIndex] = song
     @setState songs: songs
-    @save()
+    @saveCurrentSong()
 
   updateCurrentSong: (content) ->
     song = @getCurrentSong()
@@ -55,8 +54,6 @@ module.exports = React.createClass
     ##TITLE  #{title}
     ##ARTIST #{@props.currentUser.displayName}
     ##KEY    C
-
-    #VERSE
     """
 
   newSong: ->
@@ -66,36 +63,52 @@ module.exports = React.createClass
       songs.push
         name: title
         content: @newSongContent title
-      @setState songs: songs, currentSongIndex: songs.length - 1, @save
+      @setState songs: songs, currentSongIndex: songs.length - 1, @saveCurrentSongAndIndex
 
   deleteSong: ->
     if confirm('Are you sure you want to delete this song?')
       index = @state.currentSongIndex
       songs = @state.songs
       songs.splice index, 1
-      @setState songs: songs, currentSongIndex: index - 1, @save
+
+      newIndex = index - 1
+      # Only decrement index to -1 if there are no songs
+      newIndex = 0 if newIndex is -1 and songs.length isnt 0
+
+      @setState songs: songs, currentSongIndex: newIndex, @saveUserBucket
 
   parsedCurrentSong: ->
     parsedCurrentSong @getCurrentSong().content
 
   handleSongSelect: (index) ->
-    =>
-      @setState currentSongIndex: index, @save
+    => @setState currentSongIndex: index, @saveCurrentSongIndex
 
-  save: ->
-    @props.setUserBucket @state
+  saveUserBucket: ->
+    @props.setUserBucketKey 'songs', @state.songs
+    @saveCurrentSongIndex()
+
+  saveCurrentSong: ->
+    @props.setUserBucketKey "songs/#{@state.currentSongIndex}", @getCurrentSong()
+
+  deleteCurrentSong: ->
+    @props.setUserBucketKey "songs/#{@state.currentSongIndex}", null
+
+  saveCurrentSongIndex: ->
+    @props.setUserBucketKey 'currentSongIndex', @state.currentSongIndex
 
   content: ->
-    if @props.currentUser and @getCurrentSong()
-      <MarkatoApp play={@props.play}
-                  stop={@props.stop}
-                  save={@save}
-                  input={@getCurrentSong().content}
-                  parsedInput={@parsedCurrentSong()}
-                  handleInput={@updateCurrentSong}
-                  deleteSong={@deleteSong} />
+    if @props.currentUser
+      if @getCurrentSong()
+        <MarkatoApp play={@props.play}
+                    stop={@props.stop}
+                    input={@getCurrentSong().content}
+                    parsedInput={@parsedCurrentSong()}
+                    handleInput={@updateCurrentSong}
+                    deleteSong={@deleteSong} />
+      else
+        <h1>You have no songs :(</h1>
     else
-      <MarkatoSplash currentUser={@props.currentUser} />
+      <MarkatoSplash />
 
   render: ->
     <div>

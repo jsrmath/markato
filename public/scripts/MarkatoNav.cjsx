@@ -28,7 +28,7 @@ module.exports = React.createClass
     if @props.currentUser
       <ul className="nav navbar-nav navbar-right">
         <li>
-          <p className="navbar-text">Welcome, {@props.currentUser.displayName}</p>
+          <p className="navbar-text">{@props.currentUser.displayName}</p>
         </li>
         <li>
           <a href="#" onClick={@logout}>Log Out</a>
@@ -39,7 +39,10 @@ module.exports = React.createClass
     <nav className="navbar navbar-default navbar-fixed-top">
       <div className="container">
         <ul className="nav navbar-nav">
-          <a className="navbar-brand">Markato</a>
+          <a className="navbar-brand">
+            <img src="icon.png" className="nav-icon" />
+            <span>Markato</span>
+          </a>
           {@songList()}
         </ul>
         {@welcome()}
