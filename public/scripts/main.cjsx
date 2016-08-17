@@ -23,8 +23,8 @@ audio.init (err, fns) ->
   if err then alert err
   {play} = fns
 
-  firebase.auth().getRedirectResult().then (result) =>
-    user = result.user
+  firebase.auth().getRedirectResult().then =>
+    user = firebase.auth().currentUser
     storage = storageModule.init(firebase, user)
     storage.getUserBucket (userBucket) =>
       ReactDOM.render(
