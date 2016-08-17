@@ -87,6 +87,10 @@ module.exports = React.createClass
     @props.setUserBucketKey 'songs', @state.songs
     @saveCurrentSongIndex()
 
+  saveCurrentSongAndIndex: ->
+    @saveCurrentSong()
+    @saveCurrentSongIndex()
+
   saveCurrentSong: ->
     @props.setUserBucketKey "songs/#{@state.currentSongIndex}", @getCurrentSong()
 
@@ -106,7 +110,9 @@ module.exports = React.createClass
                     handleInput={@updateCurrentSong}
                     deleteSong={@deleteSong} />
       else
-        <h1>You have no songs :(</h1>
+        <div className="container">
+          <p>You don't have any songs.  Why don't you create a <a href="#" onClick={@newSong}>new song</a>?</p>
+        </div>
     else
       <MarkatoSplash />
 
