@@ -5,6 +5,7 @@ parser = require './parser'
 MarkatoApp = require './MarkatoApp'
 MarkatoSplash = require './MarkatoSplash'
 MarkatoNav = require './MarkatoNav'
+MarkatoFooter = require './MarkatoFooter'
 example = require './example'
 
 parsedCurrentSong = memoize parser.parseString, primitive: true
@@ -124,4 +125,5 @@ module.exports = React.createClass
                   newSong={@newSong}
                   currentUser={@props.currentUser} />
       {@content()}
+      <MarkatoFooter />
     </div>

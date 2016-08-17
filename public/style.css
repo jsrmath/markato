@@ -3,6 +3,15 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+footer {
+  margin: 1em 0;
+}
+
+footer .row div {
+  border-top: 1px solid #eee;
+  padding-top: .5em;
+}
+
 h2 {
   margin-top: 0;
 }
@@ -147,7 +156,7 @@ ul.splash-list li {
 }
 
 @media print {
-  .switches, .edit, .delete, .markato-input, .transpose-down, .transpose-up {
+  .switches, .edit, .delete, .markato-input, .transpose-down, .transpose-up, footer {
     display: none;
   }
 }
