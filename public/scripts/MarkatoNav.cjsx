@@ -1,8 +1,15 @@
 _ = require 'underscore'
 React = require 'react'
 firebase = require 'firebase/app'
+TutorialModal = require './TutorialModal'
 
 module.exports = React.createClass
+  getInitialState: ->
+    showTutorial: false
+
+  toggleTutorial: ->
+    @setState showTutorial: not @state.showTutorial
+
   songListItems: ->
     _.map @props.getSongNames(), (song, index) =>
       classes = "active" if @props.currentSongIndex is index
@@ -45,7 +52,9 @@ module.exports = React.createClass
             <span>Markato</span>
           </a>
           {@songList()}
+          <li><a href="#" onClick={@toggleTutorial}>Tutorial</a></li>
         </ul>
         {@welcome()}
       </div>
+      <TutorialModal show={@state.showTutorial} onHide={@toggleTutorial} />
     </nav>

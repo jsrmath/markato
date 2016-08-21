@@ -22,7 +22,7 @@ module.exports = React.createClass
            className={classes}
     >
       <Modal.Header>
-        <Modal.Title id="ModalHeader">Alternates</Modal.Title>
+        <Modal.Title>Alternates</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <button className="btn btn-lg btn-link" disabled="disabled">Replace</button>

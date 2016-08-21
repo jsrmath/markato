@@ -23,7 +23,7 @@ module.exports = React.createClass
            className={classes}
     >
       <Modal.Header>
-        <Modal.Title id="ModalHeader">Transpose</Modal.Title>
+        <Modal.Title>Transpose</Modal.Title>
       </Modal.Header>
       <Modal.Body className="btn-toolbar">
         {@renderKeys()}

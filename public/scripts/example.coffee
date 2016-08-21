@@ -9,6 +9,8 @@ Welcome to Markato!
 This is a sample song to help you
 get acquainted with the Markato format.
 Feel free to delete it or keep it as a reference.
+To create a new song, use the "Select Song" menu above.
+If you need help, click "Tutorial".
 
 #INTRO
 :C D C D C D

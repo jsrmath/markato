@@ -112,6 +112,10 @@ textarea {
   text-align: center;
 }
 
+.transpose-key:hover {
+  text-decoration: underline;
+}
+
 .signin {
   cursor: pointer;
   width: 200px;
@@ -153,6 +157,10 @@ ul.splash-list li {
 
 .signin-well {
   text-align: center;
+}
+
+.tutorial-modal .modal-body {
+  padding: 2em;
 }
 
 @media print {
