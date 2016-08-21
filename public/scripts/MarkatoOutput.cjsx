@@ -1,8 +1,8 @@
 _ = require 'underscore'
-S = require 'string'
 s11 = require 'sharp11'
 React = require 'react'
 classNames = require 'classnames'
+MarkatoContent = require './MarkatoContent'
 TransposeToolbar = require './TransposeToolbar'
 
 module.exports = React.createClass
@@ -18,57 +18,10 @@ module.exports = React.createClass
   byline: ->
     <h4>{@props.song.meta.ARTIST or "Unknown"} <i>{@props.song.meta.ALBUM}</i></h4>
 
-  renderSectionHeader: (section) ->
-    if @props.switches.showSections
-      <div className="section-header">{section.section}<hr /></div>
-
-  renderLine: (line) ->
-    <div key={line.lineId}>{_.map line, @renderPhrase}</div>
-
-  renderLyric: (phrase) ->
-    lyric = S(phrase.lyric).trim().s
-
-    if (lyric or @props.switches.showChords) and @props.switches.showLyrics
-      <div className="lyric">{lyric or ' '}</div>
-
-  renderChord: (phrase) ->
-    hasAlts = @props.song.alts[phrase.chord]? and phrase.exception and @props.switches.showAlternates
-    chord = phrase.chord
-
-    classes = classNames ['chord',
-      'mute': @props.switches.showFade and not phrase.exception
-      'clickable-color': hasAlts
-      'clickable': @props.playback
-      'playback-active': @props.playback and @state.currentChordId is phrase.chordId
-    ]
-
-    handleChordClick = =>
-      @setState currentChordId: phrase.chordId if @props.playback
+  handleChordClick: (chordId) =>
+    =>
+      @setState currentChordId: chordId if @props.playback
       @props.showChordAltModal chord if hasAlts
-
-    if chord and @props.switches.showChords
-      <div className={classes} onClick={handleChordClick}>
-        {@props.formatChordWithAlts chord}
-      </div>
-
-  renderPhrase: (phrase) ->
-    lyric = @renderLyric phrase
-    chord = @renderChord phrase
-
-    return unless lyric or chord
-
-    classes = classNames ['phrase',
-      join: phrase.wordExtension
-    ]
-
-    <div className={classes} key={phrase.phraseId}>{chord}{lyric}</div>
-
-  content: ->
-    _.map @props.song.content, (section) =>
-      <div key={section.sectionId}>
-        {@renderSectionHeader(section)}
-        <div className="section">{_.map section.lines, @renderLine}</div>
-      </div>
 
   nextChord: ->
     chord = @state.currentChordId + 1
@@ -106,5 +59,10 @@ module.exports = React.createClass
                           setDisplayKey={@props.setDisplayKey} />
       </h2>
       {@byline()}
-      {@content()}
+      <MarkatoContent song={@props.song}
+                      playback={@props.playback}
+                      currentChordId={@state.currentChordId}
+                      switches={@props.switches}
+                      handleChordClick={@handleChordClick}
+                      formatChordWithAlts={@props.formatChordWithAlts} />
     </div>

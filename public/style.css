@@ -163,6 +163,12 @@ ul.splash-list li {
   padding: 2em;
 }
 
+.markato-snippet-help {
+  float: right;
+  color: #666;
+  font-family: 'Open Sans', sans-serif;
+}
+
 @media print {
   .switches, .edit, .delete, .markato-input, .transpose-down, .transpose-up, footer {
     display: none;

@@ -8,7 +8,7 @@ MarkatoNav = require './MarkatoNav'
 MarkatoFooter = require './MarkatoFooter'
 example = require './example'
 
-parsedCurrentSong = memoize parser.parseString, primitive: true
+parse = memoize parser.parseString, primitive: true
 
 formatUserBucket = (userBucket) ->
   songs: userBucket.songs ? []
@@ -79,7 +79,7 @@ module.exports = React.createClass
       @setState songs: songs, currentSongIndex: newIndex, @saveUserBucket
 
   parsedCurrentSong: ->
-    parsedCurrentSong @getCurrentSong().content
+    parse @getCurrentSong().content
 
   handleSongSelect: (index) ->
     => @setState currentSongIndex: index, @saveCurrentSongIndex

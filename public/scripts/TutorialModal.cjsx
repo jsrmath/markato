@@ -1,6 +1,7 @@
 React = require 'react'
 Modal = require 'react-bootstrap-modal'
 classNames = require 'classnames'
+MarkatoSnippet = require './MarkatoSnippet'
 
 module.exports = React.createClass
   tutorial: ->
@@ -14,65 +15,72 @@ module.exports = React.createClass
         Markato will automatically format the chords based on the <code>^</code> placement so that they line up.
         Chords can go at the beginning of a word, in the middle of a word, or before or between words.  For example:
       </p>
-      <p>
-        <pre>
-          :C D G Em 
-          ^ I wanna ^hold your ^ha^nd
-        </pre>
-      </p>
+      <MarkatoSnippet>
+        :C D G Em 
+        ^ I wanna ^hold your ^ha^nd
+      </MarkatoSnippet>
       <p><strong>Sections</strong></p>
       <p>
         Markato lets you define sections of your song using <code>#</code>.
         Section names are not predefined and can be whatever you want.
         In this example, let's define a section called <code>CHORUS</code>:
       </p>
-      <p>
-        <pre>
-          #CHORUS
-          :C D G Em 
-          ^ I wanna ^hold your ^ha^nd
-          :C D G
-          ^ I wanna ^hold your ^hand
-        </pre>
-      </p>
+      <MarkatoSnippet>
+        #CHORUS
+        :C D G Em 
+        ^ I wanna ^hold your ^ha^nd
+        :C D G
+        ^ I wanna ^hold your ^hand
+      </MarkatoSnippet>
       <p>
         Now, you can repeat the entire chorus just by typing <code>#CHORUS</code> again.
+      </p>
+      <MarkatoSnippet>
+        #CHORUS
+        :C D G Em 
+        ^ I wanna ^hold your ^ha^nd
+        :C D G
+        ^ I wanna ^hold your ^hand
+
+        #CHORUS
+      </MarkatoSnippet>
+      <p>
         If you want to repeat a section with the same chords and different lyrics, just write the new lyrics with the appropriate <code>^</code>s and Markato will render the chords automatically.
       </p>
-      <p>
-        <pre>
-          #VERSE
-          :G D
-          Oh yeah, ^I'll tell you ^something
-          :Em Bm
-          ^ I think you'll under^stand
-          :G D
-          When ^I'll say that ^something
-          :Em B
-          ^ I wanna hold your h^and
+      <MarkatoSnippet>
+        #VERSE
+        :G D
+        Oh yeah, ^I'll tell you ^something
+        :Em Bm
+        ^ I think you'll under^stand
+        :G D
+        When ^I'll say that ^something
+        :Em B
+        ^ I wanna hold your h^and
 
-          #VERSE
-          Oh ^please, say to ^me
-          ^ You'll let me be your ^man
-          And ^please, say to ^me
-          ^ You'll let me hold your h^and
-        </pre>
-      </p>
+        #VERSE
+        Oh ^please, say to ^me
+        ^ You'll let me be your ^man
+        And ^please, say to ^me
+        ^ You'll let me hold your h^and
+      </MarkatoSnippet>
       <p>
         You can also repeat some parts of a previous section but substitute others.
         Just redefine what you want to be different and everything else will be the same.
         If you want to reuse some but not all chords in a particular line, use <code>*</code>.
       </p>
-      <p>
-        <pre>
-          #CHORUS
-          ^ I wanna ^hold your ^ha^nd
-          :* * B
-          ^ I wanna ^hold your ^hand
-          :C D C G
-          ^I wanna ^hold your ^ha-a-^and
-        </pre>
-      </p>
+      <MarkatoSnippet>
+        #CHORUS
+        :C D G Em 
+        ^ I wanna ^hold your ^ha^nd
+        :C D G
+        ^ I wanna ^hold your ^hand
+
+        #CHORUS
+        ^ I wanna ^hold your ^ha^nd
+        :* * B
+        ^ I wanna ^hold your ^hand
+      </MarkatoSnippet>
       <p><strong>Playback</strong></p>
       <p>
         When you are in playback mode, you will see a green box around the current chord.
@@ -85,14 +93,12 @@ module.exports = React.createClass
         Metadata about your song like the title, artist, album, and key can be defined using <code>##</code>.
         For example:
       </p>
-      <p>
-        <pre>
-          ##TITLE  I Wanna Hold Your Hand
-          ##ARTIST The Beatles
-          ##ALBUM  A Hard Day's Night
-          ##KEY    G
-        </pre>
-      </p>
+      <pre>
+        ##TITLE  I Wanna Hold Your Hand
+        ##ARTIST The Beatles
+        ##ALBUM  A Hard Day's Night
+        ##KEY    G
+      </pre>
       <p>
         You can declare any metadata that you'd like, but <code>TITLE</code>, <code>ARTIST</code>, <code>ALBUM</code>, and <code>KEY</code> are the only ones that will be displayed.
       </p>
