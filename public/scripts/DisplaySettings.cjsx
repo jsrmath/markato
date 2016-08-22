@@ -3,6 +3,12 @@ _ = require 'underscore'
 classNames = require 'classnames'
 
 module.exports = React.createClass
+  getInitialState: ->
+    showSwitches: false
+
+  toggleSwitches: ->
+    @setState showSwitches: not @state.showSwitches
+
   switches: ->
     _.map @props.switches, (switchData) ->
       {key, label, active, handleClick} = switchData
@@ -14,6 +20,9 @@ module.exports = React.createClass
       </button>
 
   render: ->
-    <div className="switches">
-      {@switches()}
+    <div className={classNames 'switches', 'dropup': @state.showSwitches}>
+      <button className="btn btn-info btn-md" onClick={@toggleSwitches}>
+        Display <span className="caret"></span>
+      </button>
+      {@switches() if @state.showSwitches}
     </div>

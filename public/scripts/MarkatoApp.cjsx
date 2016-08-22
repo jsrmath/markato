@@ -3,7 +3,7 @@ _ = require 'underscore'
 S = require 'string'
 s11 = require 'sharp11'
 transpose = require './transpose'
-Switches = require './Switches'
+DisplaySettings = require './DisplaySettings'
 MarkatoOutput = require './MarkatoOutput'
 MarkatoInput = require './MarkatoInput'
 EditButton = require './EditButton'
@@ -101,7 +101,7 @@ module.exports = React.createClass
         <div className={if @state.isEditing then "col-md-6" else "col-md-12"}>
           <EditButton isEditing={@state.isEditing} handleClick={@handleEditClick} />
           <DeleteButton handleClick={@props.deleteSong} />
-          <Switches switches={@switches()} />
+          <DisplaySettings switches={@switches()} />
           <MarkatoOutput song={@props.parsedInput}
                          switches={@switchState()}
                          displayKey={@displayKey()}
