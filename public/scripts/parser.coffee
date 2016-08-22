@@ -11,11 +11,13 @@ parseFooterStartLine = (state, line) ->
   state
 
 parseMetaLine = (state, line) ->
-  prefix = line.split(' ')[0]
-  metaName = prefix.slice 2 # Remove ##
-  metaValue = S(line).chompLeft(prefix).trim().s
+  metaLine = S(line).chompLeft('##').s
 
-  state.meta[metaName] = metaValue
+  if metaLine[0] isnt ' ' # The `##KEY` case as opposed to the `## comment` case
+    metaName = metaLine.split(' ')[0]
+    metaValue = S(metaLine).chompLeft(metaName).trim().s
+    state.meta[metaName] = metaValue
+
   state
 
 parseFooterLine = (state, line) ->

@@ -88,10 +88,22 @@ module.exports = React.createClass
         Use the left and right arrow keys to navigate between chords or click a chord to jump to it.
         Markato makes it easy to play through your song the way you would on a piano or a guitar.
       </p>
-      <p><strong>Metadata</strong></p>
+      <p><strong>Comments</strong></p>
       <p>
-        Metadata about your song like the title, artist, album, and key can be defined using <code>##</code>.
+        Comments let you add information about your song that will not be displayed in the output.  Comment lines begin with <code>##</code>.
         For example:
+      </p>
+      <MarkatoSnippet>
+        #CHORUS
+        :C D G Em 
+        ^ I wanna ^hold your ^ha^nd
+        ## The word "hand" here is really drawn out
+        :C D G
+        ^ I wanna ^hold your ^hand
+      </MarkatoSnippet>
+      <p>
+        There are also special comments that provide information about the song and are displayed.
+        Markato currently supports four special comments, which look like this:
       </p>
       <pre>
         ##TITLE  I Wanna Hold Your Hand
@@ -99,9 +111,6 @@ module.exports = React.createClass
         ##ALBUM  A Hard Day's Night
         ##KEY    G
       </pre>
-      <p>
-        You can declare any metadata that you'd like, but <code>TITLE</code>, <code>ARTIST</code>, <code>ALBUM</code>, and <code>KEY</code> are the only ones that will be displayed.
-      </p>
     </div> 
 
   render: ->
