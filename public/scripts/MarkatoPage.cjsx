@@ -20,10 +20,15 @@ module.exports = React.createClass
       formatUserBucket @props.userBucket
     else
       songs: [
-        name: "I Wanna Hold Your Hand [Example]"
+        name: "I Wanna Hold Your Hand"
         content: example
       ]
       currentSongIndex: 0
+
+  componentDidMount: ->
+    # If we have a new account, save the default song that gets loaded
+    unless @props.userBucket?
+      @saveCurrentSong()
 
   componentWillReceiveProps: (nextProps) ->
     if nextProps.userBucket?
