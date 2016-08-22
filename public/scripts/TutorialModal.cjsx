@@ -8,7 +8,6 @@ module.exports = React.createClass
     <div>
       <p><strong>Lyrics and Chords</strong></p>
       <p>
-        There are two types of lines in Markato: lyric lines and chord lines.
         The chords for a particular lyric line go above the lyric line.
         Chord lines begin with a <code>:</code> and list the chords separated by spaces.
         Lyric lines contain text with <code>^</code>s to indicate where the corresponding chords fall in the lyrics.
@@ -23,7 +22,7 @@ module.exports = React.createClass
       <p>
         Markato lets you define sections of your song using <code>#</code>.
         Section names are not predefined and can be whatever you want.
-        In this example, let's define a section called <code>CHORUS</code>:
+        First, let's define a section called <code>CHORUS</code>:
       </p>
       <MarkatoSnippet>
         #CHORUS
@@ -33,7 +32,7 @@ module.exports = React.createClass
         ^ I wanna ^hold your ^hand
       </MarkatoSnippet>
       <p>
-        Now, you can repeat the entire chorus just by typing <code>#CHORUS</code> again.
+        You can repeat the entire chorus just by typing <code>#CHORUS</code> again.
       </p>
       <MarkatoSnippet>
         #CHORUS
