@@ -1,12 +1,11 @@
 React = require 'react'
+{ Button, Glyphicon } = require 'react-bootstrap'
 
 module.exports = React.createClass
+  ifEditing: (editing, notEditing) ->
+    if @props.isEditing then editing else notEditing
+
   render: ->
-    if @props.isEditing
-      <button className="btn btn-md btn-success edit" onClick={@props.handleClick}>
-        <span className="glyphicon glyphicon-play" /> Play
-      </button>
-    else
-      <button className="btn btn-md btn-warning edit" onClick={@props.handleClick}>
-        <span className="glyphicon glyphicon-pencil" /> Edit
-      </button>
+    <Button className="edit" bsStyle={@ifEditing 'success', 'warning'} onClick={@props.handleClick}>
+      <Glyphicon glyph={@ifEditing 'play', 'pencil'} /> {@ifEditing 'Play', 'Edit'}
+    </Button>

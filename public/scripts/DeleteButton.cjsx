@@ -1,7 +1,8 @@
 React = require 'react'
+{ Button, Glyphicon } = require 'react-bootstrap'
 
 module.exports = React.createClass
   render: ->
-    <button className="btn btn-md btn-danger delete" onClick={@props.handleClick}>
-      <span className="glyphicon glyphicon-trash" /> Delete
-    </button>
+    <Button bsStyle="danger" className="delete" onClick={@props.handleClick}>
+      <Glyphicon glyph="trash" /> Delete
+    </Button>

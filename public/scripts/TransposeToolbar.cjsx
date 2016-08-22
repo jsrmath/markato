@@ -1,6 +1,7 @@
 React = require 'react'
 _ = require 'underscore'
 s11 = require 'sharp11'
+{ Glyphicon } = require 'react-bootstrap'
 
 module.exports = React.createClass
   render: ->
@@ -9,7 +10,7 @@ module.exports = React.createClass
 
     <small className="transpose-toolbar">
       <span> in</span>
-      <span onClick={@props.setDisplayKey flat} className="glyphicon glyphicon-triangle-left clickable-color transpose-down" />
+      <Glyphicon onClick={@props.setDisplayKey flat} glyph="triangle-left" className="clickable-color transpose-down" />
       <span onClick={@props.showTransposeModal} className="transpose-key clickable-color">{@props.displayKey}</span>
-      <span onClick={@props.setDisplayKey sharp} className="glyphicon glyphicon-triangle-right clickable-color transpose-up" />
+      <Glyphicon onClick={@props.setDisplayKey sharp} glyph="triangle-right" className="clickable-color transpose-up" />
     </small>

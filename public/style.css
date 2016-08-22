@@ -7,7 +7,7 @@ footer {
   margin: 1em 0;
 }
 
-footer .row div {
+footer p {
   border-top: 1px solid #eee;
   padding-top: .5em;
 }
@@ -134,6 +134,10 @@ textarea {
   float: left;
 }
 
+.navbar-nav > .disabled.navbar-username > a {
+  color: #777;
+}
+
 ul.splash-list {
   padding-left: 5px;
   position: relative;
@@ -157,10 +161,6 @@ ul.splash-list li {
 
 .signin-well {
   text-align: center;
-}
-
-.tutorial-modal .modal-body {
-  padding: 2em;
 }
 
 .markato-snippet-help {

@@ -2,6 +2,7 @@ React = require 'react'
 _ = require 'underscore'
 S = require 'string'
 s11 = require 'sharp11'
+{ Grid, Row, Col } = require 'react-bootstrap'
 transpose = require './transpose'
 DisplaySettings = require './DisplaySettings'
 MarkatoOutput = require './MarkatoOutput'
@@ -96,9 +97,9 @@ module.exports = React.createClass
     @setState showChordAltModal: true, altsModalChord: chord
 
   render: ->
-    <div className="container">
-      <div className="row">
-        <div className={if @state.isEditing then "col-md-6" else "col-md-12"}>
+    <Grid>
+      <Row>
+        <Col md={if @state.isEditing then 6 else 12}>
           <EditButton isEditing={@state.isEditing} handleClick={@handleEditClick} />
           <DeleteButton handleClick={@props.deleteSong} />
           <DisplaySettings switches={@switches()} />
@@ -112,12 +113,12 @@ module.exports = React.createClass
                          play={@props.play}
                          showTransposeModal={@toggleState 'showTransposeModal'}
                          setDisplayKey={@setDisplayKey} />
-        </div>
-        {<div className="col-md-6">
+        </Col>
+        {<Col md=6>
           <MarkatoInput input={@props.input}
                         handleInput={@handleInput} />
-        </div> if @state.isEditing}
-      </div>
+        </Col> if @state.isEditing}
+      </Row>
       <ChordAltModal show={@state.showChordAltModal}
                      onHide={@toggleState 'showChordAltModal'}
                      chord={@state.altsModalChord}
@@ -131,4 +132,4 @@ module.exports = React.createClass
                       originalKey={@key()}
                       setDisplayKey={@setDisplayKey}
                       reset={@resetKey} />
-    </div>
+    </Grid>

@@ -1,10 +1,10 @@
 React = require 'react'
+{ Grid, Row, Col } = require 'react-bootstrap'
 
 module.exports = React.createClass
   render: ->
-    <footer className="container">
-      <div className="row container">
-        <div>Markato is written and maintained by <a href="http://julianrosenblum.com">Julian Rosenblum</a>.  Developers are encouraged to check out Markato on <a href="https://github.com/jsrmath/markato">GitHub</a>.</div>
-      </div>
-    </footer>
+    <Grid><Row><Col md=12><footer><p>
+      Markato is written and maintained by <a href="http://julianrosenblum.com">Julian Rosenblum</a>.
+      Developers are encouraged to check out Markato on <a href="https://github.com/jsrmath/markato">GitHub</a>.
+    </p></footer></Col></Row></Grid>
     

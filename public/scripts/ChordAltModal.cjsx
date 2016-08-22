@@ -1,38 +1,36 @@
 React = require 'react'
-Modal = require 'react-bootstrap-modal'
+{ Modal, Button, ButtonGroup } = require 'react-bootstrap'
 _ = require 'underscore'
-classNames = require 'classnames'
+SelectableButton = require './SelectableButton'
 
 module.exports = React.createClass
   renderChord: (chord, isSelected, index) ->
-    classes = classNames ['btn', 'btn-lg', 'btn-default': not isSelected, 'btn-info': isSelected]
-    <button className={classes} onClick={@props.selectAlt index} key={chord}>
+    <SelectableButton isSelected={isSelected} onClick={@props.selectAlt index} key={chord}>
       {@props.formatChord chord}
-    </button>
+    </SelectableButton>
 
   renderAlts: ->
     _.map @props.alts, (alt, index) =>
       @renderChord alt, index is @props.selected, index
 
   render: ->
-    classes = classNames ['alts-modal', 'modal-visible': @props.show]
     <Modal show={@props.show}
            onHide={@props.onHide}
            aria-labelledby="ModalHeader"
-           className={classes}
+           className="alts-modal"
     >
       <Modal.Header>
         <Modal.Title>Alternates</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <button className="btn btn-lg btn-link" disabled="disabled">Replace</button>
+        <Button bsStyle="link" bsSize="large" disabled>Replace</Button>
         {@renderChord @props.chord, not @props.selected?, null}
-        <button className="btn btn-lg btn-link" disabled="disabled">with</button>
-        <div className="btn-group">
+        <Button bsStyle="link" bsSize="large" disabled>with</Button>
+        <ButtonGroup>
           {@renderAlts()}
-        </div>
+        </ButtonGroup>
       </Modal.Body>
       <Modal.Footer>
-        <Modal.Dismiss className="btn btn-default">Cancel</Modal.Dismiss>
+        <Button onClick={@props.onHide}>Cancel</Button>
       </Modal.Footer>
     </Modal>

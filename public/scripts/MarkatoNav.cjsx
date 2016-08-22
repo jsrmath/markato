@@ -1,6 +1,7 @@
 _ = require 'underscore'
 React = require 'react'
 firebase = require 'firebase/app'
+{ Navbar, Nav, NavItem, NavDropdown, MenuItem } = require 'react-bootstrap'
 TutorialModal = require './TutorialModal'
 
 module.exports = React.createClass
@@ -17,16 +18,11 @@ module.exports = React.createClass
 
   songList: ->
     if @props.currentUser
-      <li className="dropdown">
-        <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-          Select Song<span className="caret" />
-        </a>
-        <ul className="dropdown-menu">
-          {@songListItems()}
-          <li role="separator" className="divider"></li>
-          <li onClick={@props.newSong}><a href="#">New Song</a></li>
-        </ul>
-      </li>
+      <NavDropdown title="Select Song">
+        {@songListItems()}
+        <li role="separator" className="divider"></li>
+        <NavItem href="#" onClick={@props.newSong}>New Song</NavItem>
+      </NavDropdown>
 
   logout: ->
     firebase.auth().signOut().then =>
@@ -34,27 +30,23 @@ module.exports = React.createClass
 
   welcome: ->
     if @props.currentUser
-      <ul className="nav navbar-nav navbar-right">
-        <li>
-          <p className="navbar-text">{@props.currentUser.displayName}</p>
-        </li>
-        <li>
-          <a href="#" onClick={@logout}>Log Out</a>
-        </li>
-      </ul>
+      <Nav className="navbar-right">
+        <NavItem disabled className="navbar-username">{@props.currentUser.displayName}</NavItem>
+        <NavItem href="#" onClick={@logout}>Log Out</NavItem>
+      </Nav>
 
   render: ->
-    <nav className="navbar navbar-default navbar-fixed-top">
-      <div className="container">
-        <ul className="nav navbar-nav">
-          <a className="navbar-brand">
-            <img src="icon.png" className="nav-icon" />
-            <span>Markato</span>
-          </a>
-          {@songList()}
-          <li><a href="#" onClick={@toggleTutorial}>Tutorial</a></li>
-        </ul>
-        {@welcome()}
-      </div>
+    <Navbar fixedTop>
+      <Navbar.Header>
+        <Navbar.Brand>
+          <img src="icon.png" className="nav-icon" />
+          <span>Markato</span>
+        </Navbar.Brand>
+      </Navbar.Header>
+      <Nav>
+        {@songList()}
+        <NavItem href="#" onClick={@toggleTutorial}>Tutorial</NavItem>
+      </Nav>
+      {@welcome()}
       <TutorialModal show={@state.showTutorial} onHide={@toggleTutorial} />
-    </nav>
+    </Navbar>

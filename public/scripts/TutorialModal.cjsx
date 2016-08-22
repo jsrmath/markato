@@ -1,12 +1,12 @@
 React = require 'react'
-Modal = require 'react-bootstrap-modal'
+{ Modal, Button } = require 'react-bootstrap'
 classNames = require 'classnames'
 MarkatoSnippet = require './MarkatoSnippet'
 
 module.exports = React.createClass
   tutorial: ->
     <div>
-      <p><strong>Lyrics and Chords</strong></p>
+      <h5>Lyrics and Chords</h5>
       <p>
         The chords for a particular lyric line go above the lyric line.
         Chord lines begin with a <code>:</code> and list the chords separated by spaces.
@@ -18,7 +18,7 @@ module.exports = React.createClass
         :C D G Em 
         ^ I wanna ^hold your ^ha^nd
       </MarkatoSnippet>
-      <p><strong>Sections</strong></p>
+      <h5>Sections</h5>
       <p>
         Markato lets you define sections of your song using <code>#</code>.
         Section names are not predefined and can be whatever you want.
@@ -80,19 +80,19 @@ module.exports = React.createClass
         :* * B
         ^ I wanna ^hold your ^hand
       </MarkatoSnippet>
-      <p><strong>Playback</strong></p>
+      <h5>Playback</h5>
       <p>
         When you are in playback mode, you will see a green box around the current chord.
         Pressing spacebar will play the current chord.
         Use the left and right arrow keys to navigate between chords or click a chord to jump to it.
         Markato makes it easy to play through your song the way you would on a piano or a guitar.
       </p>
-      <p><strong>Transposition</strong></p>
+      <h5>Transposition</h5>
       <p>
         Click the blue arrows next to your song title to transpose it up or down or click the key itself to select a new key.
         Note: transposing will not change the actual key your song is written in, just the key it is outputted in.
       </p>
-      <p><strong>Comments</strong></p>
+      <h5>Comments</h5>
       <p>
         Comments let you add information about your song that will not be displayed in the output.  Comment lines begin with <code>##</code>.
         For example:
@@ -115,7 +115,7 @@ module.exports = React.createClass
         ##ALBUM  A Hard Day's Night
         ##KEY    G
       </pre>
-      <p><strong>Alternates</strong></p>
+      <h5>Alternates</h5>
       <p>
         Alternates allow you to provide multiple options for a particular chord that someone viewing your song can select among.
         Alternates are written at the end of a song, after a line containing <code>###</code>.
@@ -135,19 +135,19 @@ module.exports = React.createClass
     </div> 
 
   render: ->
-    classes = classNames ['tutorial-modal', 'modal-visible': @props.show]
     <Modal show={@props.show}
            onHide={@props.onHide}
            aria-labelledby="ModalHeader"
-           className={classes}
+           bsSize="large"
+           className="tutorial-modal"
     >
       <Modal.Header>
         <Modal.Title>Markato Tutorial</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="btn-toolbar">
+      <Modal.Body>
         {@tutorial()}
       </Modal.Body>
       <Modal.Footer>
-        <Modal.Dismiss className="btn btn-default">Done</Modal.Dismiss>
+        <Button onClick={@props.onHide}>Done</Button>
       </Modal.Footer>
     </Modal>

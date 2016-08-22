@@ -1,26 +1,29 @@
 React = require 'react'
-Modal = require 'react-bootstrap-modal'
+{ Modal, Button, ButtonGroup } = require 'react-bootstrap'
 _ = require 'underscore'
-classNames = require 'classnames'
+SelectableButton = require './SelectableButton'
 
 module.exports = React.createClass
   renderKeys: ->
     keys = [['C'],['C#','Db'],['D'],['D#','Eb'],['E'],['F'],['F#','Gb'],['G'],['G#','Ab'],['A'],['A#','Bb'],['B']]
     _.map keys, (keyGroup, i) =>
-      <div className="btn-group" key={i}>
+      <ButtonGroup key={i}>
         {_.map keyGroup, (key) =>
-          selected = key is @props.displayKey
-          classes = classNames ['btn', 'btn-lg', 'btn-default': not selected, 'btn-info': selected]
-          <button className={classes} key={key} onClick={@props.setDisplayKey key}>{key}</button>
+          <SelectableButton isSelected={key is @props.displayKey} key={key} onClick={@props.setDisplayKey key}>
+            {key}
+          </SelectableButton>
         }
-      </div>
+      </ButtonGroup>
+
+  reset: ->
+    @props.reset()
+    @props.onHide()
 
   render: ->
-    classes = classNames ['transpose-modal', 'modal-visible': @props.show]
     <Modal show={@props.show}
            onHide={@props.onHide}
            aria-labelledby="ModalHeader"
-           className={classes}
+           className="transpose-modal"
     >
       <Modal.Header>
         <Modal.Title>Transpose</Modal.Title>
@@ -29,8 +32,8 @@ module.exports = React.createClass
         {@renderKeys()}
       </Modal.Body>
       <Modal.Footer>
-        <Modal.Dismiss className="btn btn-default" onClick={@props.reset}>
+        <Button onClick={@reset}>
           Reset to {@props.originalKey}
-        </Modal.Dismiss>
+        </Button>
       </Modal.Footer>
     </Modal>

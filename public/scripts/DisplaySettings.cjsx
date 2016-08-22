@@ -1,6 +1,7 @@
 React = require 'react'
 _ = require 'underscore'
 classNames = require 'classnames'
+{ Button, Glyphicon } = require 'react-bootstrap'
 
 module.exports = React.createClass
   getInitialState: ->
@@ -12,17 +13,15 @@ module.exports = React.createClass
   switches: ->
     _.map @props.switches, (switchData) ->
       {key, label, active, handleClick} = switchData
-      buttonClasses = classNames 'btn', 'btn-default', 'btn-md', 'toggle-button'
-      glyphClasses = classNames 'glyphicon', 'glyphicon-ok': active, 'glyphicon-remove': not active
 
-      <button className={buttonClasses} key={key} onClick={handleClick}>
-        <span className={glyphClasses}></span> {label}
-      </button>
+      <Button className="toggle-button" key={key} onClick={handleClick}>
+        <Glyphicon glyph={if active then 'ok' else 'remove'} /> {label}
+      </Button>
 
   render: ->
     <div className={classNames 'switches', 'dropup': @state.showSwitches}>
-      <button className="btn btn-info btn-md" onClick={@toggleSwitches}>
+      <Button bsStyle="info" onClick={@toggleSwitches}>
         Display <span className="caret"></span>
-      </button>
+      </Button>
       {@switches() if @state.showSwitches}
     </div>
