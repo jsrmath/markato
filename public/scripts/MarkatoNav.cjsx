@@ -13,15 +13,15 @@ module.exports = React.createClass
 
   songListItems: ->
     _.map @props.getSongNames(), (song, index) =>
-      classes = "active" if @props.currentSongIndex is index
-      <li className={classes} key={index} onClick={@props.handleSongSelect index}><a href="#">{song}</a></li>
+      classes = 'active' if @props.currentSongIndex is index
+      <MenuItem className={classes} key={index} onClick={@props.handleSongSelect index}>{song}</MenuItem>
 
   songList: ->
     if @props.currentUser
-      <NavDropdown title="Select Song">
+      <NavDropdown title="Select Song" id="select-song">
         {@songListItems()}
-        <li role="separator" className="divider"></li>
-        <NavItem href="#" onClick={@props.newSong}>New Song</NavItem>
+        <MenuItem role="separator" className="divider" />
+        <MenuItem onClick={@props.newSong}>New Song</MenuItem>
       </NavDropdown>
 
   logout: ->
