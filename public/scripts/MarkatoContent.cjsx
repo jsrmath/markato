@@ -36,8 +36,12 @@ module.exports = React.createClass
       'playback-active': @props.playback and @props.currentChordId is phrase.chordId
     ]
 
+    handleChordClick = =>
+      @props.selectChordId phrase.chordId if @props.selectChordId and @props.playback
+      @props.showChordAltModal chord if @props.showChordAltModal and hasAlts
+
     if chord and @switches().showChords
-      <div className={classes} onClick={@props.handleChordClick phrase.chordId if @props.handleChordClick}>
+      <div className={classes} onClick={handleChordClick}>
         {if @props.formatChordWithAlts then @props.formatChordWithAlts chord else chord}
       </div>
 

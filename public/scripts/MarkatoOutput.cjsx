@@ -18,10 +18,8 @@ module.exports = React.createClass
   byline: ->
     <h4>{@props.song.meta.ARTIST or "Unknown"} <i>{@props.song.meta.ALBUM}</i></h4>
 
-  handleChordClick: (chordId) =>
-    =>
-      @setState currentChordId: chordId if @props.playback
-      @props.showChordAltModal chord if hasAlts
+  selectChordId: (chordId) ->
+    @setState currentChordId: chordId
 
   nextChord: ->
     chord = @state.currentChordId + 1
@@ -64,5 +62,7 @@ module.exports = React.createClass
                       currentChordId={@state.currentChordId}
                       switches={@props.switches}
                       handleChordClick={@handleChordClick}
-                      formatChordWithAlts={@props.formatChordWithAlts} />
+                      formatChordWithAlts={@props.formatChordWithAlts}
+                      selectChordId={@selectChordId}
+                      showChordAltModal={@props.showChordAltModal} />
     </div>
