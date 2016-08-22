@@ -87,6 +87,11 @@ module.exports = React.createClass
         Use the left and right arrow keys to navigate between chords or click a chord to jump to it.
         Markato makes it easy to play through your song the way you would on a piano or a guitar.
       </p>
+      <p><strong>Transposition</strong></p>
+      <p>
+        Click the blue arrows next to your song title to transpose it up or down or click the key itself to select a new key.
+        Note: transposing will not change the actual key your song is written in, just the key it is outputted in.
+      </p>
       <p><strong>Comments</strong></p>
       <p>
         Comments let you add information about your song that will not be displayed in the output.  Comment lines begin with <code>##</code>.
@@ -109,6 +114,23 @@ module.exports = React.createClass
         ##ARTIST The Beatles
         ##ALBUM  A Hard Day's Night
         ##KEY    G
+      </pre>
+      <p><strong>Alternates</strong></p>
+      <p>
+        Alternates allow you to provide multiple options for a particular chord that someone viewing your song can select among.
+        Alternates are written at the end of a song, after a line containing <code>###</code>.
+        Specifying an alternate for a particular chord will apply to all instances of that chord throughout the song.
+        To single out particular instances of the chord to specify alternates for, denote those instances with a <code>'</code>.
+        If there are multiple conflicts on the same chord, a <code>''</code> or even triple <code>'''</code> can be used.
+        For example:
+      </p>
+      <pre>
+        :G' G C G
+        ^ It's been a ^hard ^day's ^night
+
+        ###
+        G  => G7
+        G' => G7sus4, D7sus4, Dm11
       </pre>
     </div> 
 
