@@ -2,6 +2,9 @@ React = require 'react'
 { Grid, Row, Col } = require 'react-bootstrap'
 
 module.exports = React.createClass
+  shouldComponentUpdate: ->
+    false
+
   render: ->
     <Grid><Row><Col md=12><footer><p>
       Markato is written and maintained by <a href="http://julianrosenblum.com">Julian Rosenblum</a>.

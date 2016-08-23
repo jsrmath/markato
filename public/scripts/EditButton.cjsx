@@ -2,6 +2,9 @@ React = require 'react'
 { Button, Glyphicon } = require 'react-bootstrap'
 
 module.exports = React.createClass
+  shouldComponentUpdate: (nextProps) ->
+    @props.isEditing isnt nextProps.isEditing
+
   ifEditing: (editing, notEditing) ->
     if @props.isEditing then editing else notEditing
 

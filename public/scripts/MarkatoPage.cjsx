@@ -169,10 +169,10 @@ module.exports = React.createClass
   render: ->
     <div>
       <MarkatoNav currentSongIndex={if @state.sharedSong then -1 else @state.currentSongIndex}
-                  getSongNames={@getSongNames}
+                  songNames={@getSongNames()}
                   handleSongSelect={@handleSongSelect}
                   newSong={@newSong}
-                  currentUser={@props.currentUser} />
+                  currentUserDisplayName={@props.currentUser?.displayName} />
       {@content()}
       <MarkatoFooter />
     </div>

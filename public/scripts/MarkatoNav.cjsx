@@ -5,6 +5,14 @@ firebase = require 'firebase/app'
 TutorialModal = require './TutorialModal'
 
 module.exports = React.createClass
+  shouldComponentUpdate: (nextProps, nextState) ->
+    _.some [
+      @props.currentSongIndex isnt nextProps.currentSongIndex
+      @props.songNames.toString() isnt nextProps.songNames.toString()
+      @props.currentUserDisplayName isnt nextProps.currentUserDisplayName
+      @state.showTutorial isnt nextState.showTutorial
+    ]
+
   getInitialState: ->
     showTutorial: false
 
@@ -12,12 +20,12 @@ module.exports = React.createClass
     @setState showTutorial: not @state.showTutorial
 
   songListItems: ->
-    _.map @props.getSongNames(), (song, index) =>
+    _.map @props.songNames, (song, index) =>
       classes = 'active' if @props.currentSongIndex is index
       <MenuItem className={classes} key={index} onClick={@props.handleSongSelect index}>{song}</MenuItem>
 
   songList: ->
-    if @props.currentUser
+    if @props.currentUserDisplayName
       <NavDropdown title="Select Song" id="select-song">
         {@songListItems()}
         <MenuItem role="separator" className="divider" />
@@ -29,9 +37,9 @@ module.exports = React.createClass
       window.location.reload()
 
   welcome: ->
-    if @props.currentUser
+    if @props.currentUserDisplayName
       <Nav className="navbar-right">
-        <NavItem disabled className="navbar-username">{@props.currentUser.displayName}</NavItem>
+        <NavItem disabled className="navbar-username">{@props.currentUserDisplayName}</NavItem>
         <NavItem href="#" onClick={@logout}>Log Out</NavItem>
       </Nav>
 
