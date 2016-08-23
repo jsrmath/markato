@@ -5,10 +5,15 @@ classNames = require 'classnames'
 
 module.exports = React.createClass
   getInitialState: ->
-    showSwitches: false
+    showSettings: false
 
-  toggleSwitches: ->
-    @setState showSwitches: not @state.showSwitches
+  toggleSettings: ->
+    @setState showSettings: not @state.showSettings
+
+  fontSize: ->
+    <Button onClick={@props.adjustFontSize}>
+      <Glyphicon glyph="text-size" /> Font Size
+    </Button>
 
   switches: ->
     _.map @props.switches, (switchData) ->
@@ -19,9 +24,10 @@ module.exports = React.createClass
       </Button>
 
   render: ->
-    <div className={classNames 'switches', 'dropup': @state.showSwitches}>
-      <Button bsStyle="info" onClick={@toggleSwitches}>
+    <div className={classNames 'switches', 'dropup': @state.showSettings}>
+      <Button bsStyle="info" onClick={@toggleSettings}>
         Display <span className="caret"></span>
       </Button>
-      {@switches() if @state.showSwitches}
+      {@fontSize() if @state.showSettings}
+      {@switches() if @state.showSettings}
     </div>

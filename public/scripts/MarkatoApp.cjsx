@@ -27,6 +27,7 @@ module.exports = React.createClass
     chordReplacements: {} # Maps chord to index of alternate
     altsModalChord: null
     altsModalAlts: []
+    fontSize: 'md'
 
   key: ->
     possibleKeys = [
@@ -97,6 +98,13 @@ module.exports = React.createClass
   showChordAltModal: (chord) ->
     @setState showChordAltModal: true, altsModalChord: chord
 
+  adjustFontSize: ->
+    oldFontSize = @state.fontSize
+    @setState fontSize: switch oldFontSize 
+      when 'md' then 'lg'
+      when 'lg' then 'sm'
+      else 'md'
+
   render: ->
     <Grid>
       <Row>
@@ -104,7 +112,7 @@ module.exports = React.createClass
           {<EditButton isEditing={@state.isEditing} handleClick={@handleEditClick} /> unless @props.readOnly}
           {<DeleteButton handleClick={@props.deleteSong} /> unless @props.readOnly}
           {<ShareButton songId={@props.shareableSongId} /> unless @props.readOnly}
-          <DisplaySettings switches={@switches()} />
+          <DisplaySettings switches={@switches()} adjustFontSize={@adjustFontSize} />
           <MarkatoOutput song={@props.parsedInput}
                          switches={@switchState()}
                          displayKey={@displayKey()}
@@ -114,7 +122,8 @@ module.exports = React.createClass
                          playback={not @state.isEditing}
                          play={@props.play}
                          showTransposeModal={@toggleState 'showTransposeModal'}
-                         setDisplayKey={@setDisplayKey} />
+                         setDisplayKey={@setDisplayKey}
+                         fontSize={@state.fontSize} />
         </Col>
         {<Col md=6>
           <MarkatoInput input={@props.input}

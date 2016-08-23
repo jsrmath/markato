@@ -1,6 +1,7 @@
 #body {
   padding-top: 70px;
   font-family: 'Open Sans', sans-serif;
+  font-size: small;
 }
 
 footer {
@@ -38,7 +39,6 @@ h2 {
 }
 
 .section-header {
-  font-size: small;
   color: #ccc;
   text-transform: small-caps;
 }
@@ -167,6 +167,14 @@ ul.splash-list li {
   float: right;
   color: #666;
   font-family: 'Open Sans', sans-serif;
+}
+
+.markato-output.font-sm {
+  font-size: x-small;
+}
+
+.markato-output.font-lg {
+  font-size: medium;
 }
 
 @media print {

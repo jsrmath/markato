@@ -49,7 +49,7 @@ module.exports = React.createClass
         @nextChord()
 
   render: ->
-    <div>
+    <div className={"markato-output font-#{@props.fontSize}"}>
       <h2>
         {@title()}
         <TransposeToolbar displayKey={@props.displayKey}
