@@ -53,6 +53,7 @@ module.exports = React.createClass
 
     classes = classNames ['phrase',
       join: phrase.wordExtension and lyric
+      noLyric: not S(phrase.lyric).trim().s
     ]
 
     <div className={classes} key={phrase.phraseId}>{chord}{lyric}</div>
