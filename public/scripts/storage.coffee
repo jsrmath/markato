@@ -8,8 +8,14 @@ module.exports.init = (firebase, user) ->
     .then (snapshot) =>
       callback snapshot.val()
     .catch (err) =>
-      console.log err
       alert err
 
   setUserBucketKey: (key, val) ->
     firebase.database().ref("/users/#{user.uid}/#{key}").set(val)
+
+  getSharedSong: (userId, songId, callback) ->
+    songs = firebase.database().ref("/users/#{userId}/songs").once('value')
+    .then (snapshot) =>
+      callback _.findWhere snapshot.val(), uid: songId
+    .catch (err) =>
+      alert err

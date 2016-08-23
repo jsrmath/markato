@@ -9,12 +9,13 @@ MarkatoOutput = require './MarkatoOutput'
 MarkatoInput = require './MarkatoInput'
 EditButton = require './EditButton'
 DeleteButton = require './DeleteButton'
+ShareButton = require './ShareButton'
 ChordAltModal = require './ChordAltModal'
 TransposeModal = require './TransposeModal'
 
 module.exports = React.createClass
   getInitialState: ->
-    isEditing: true
+    isEditing: not @props.readOnly
     showChords: true
     showLyrics: true
     showFade: true
@@ -100,8 +101,9 @@ module.exports = React.createClass
     <Grid>
       <Row>
         <Col md={if @state.isEditing then 6 else 12}>
-          <EditButton isEditing={@state.isEditing} handleClick={@handleEditClick} />
-          <DeleteButton handleClick={@props.deleteSong} />
+          {<EditButton isEditing={@state.isEditing} handleClick={@handleEditClick} /> unless @props.readOnly}
+          {<DeleteButton handleClick={@props.deleteSong} /> unless @props.readOnly}
+          {<ShareButton songId={@props.shareableSongId} /> unless @props.readOnly}
           <DisplaySettings switches={@switches()} />
           <MarkatoOutput song={@props.parsedInput}
                          switches={@switchState()}

@@ -170,7 +170,12 @@ ul.splash-list li {
 }
 
 @media print {
-  .switches, .edit, .delete, .markato-input, .transpose-down, .transpose-up, footer {
+  .switches, .edit, .delete, .markato-input, .transpose-down, .transpose-up, footer, .alert {
     display: none;
+  }
+
+  .playback-active {
+    border: none;
+    background: none;
   }
 }
