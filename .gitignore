@@ -30,3 +30,4 @@ node_modules
 *.swp
 
 public/bundle.js
+public/icon.psd

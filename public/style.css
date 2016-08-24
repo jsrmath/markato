@@ -138,8 +138,9 @@ textarea {
 }
 
 .nav-icon {
-  width: 20px;
+  width: 17px;
   float: left;
+  margin-right: 5px;
 }
 
 .navbar-nav > .disabled.navbar-username > a {
