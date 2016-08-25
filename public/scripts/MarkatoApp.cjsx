@@ -16,18 +16,12 @@ TransposeModal = require './TransposeModal'
 module.exports = React.createClass
   getInitialState: ->
     isEditing: not @props.readOnly
-    showChords: true
-    showLyrics: true
-    showFade: true
-    showSections: true
-    showAlternates: true
     displayKey: null
     showChordAltModal: false
     showTransposeModal: false
     chordReplacements: {} # Maps chord to index of alternate
     altsModalChord: null
     altsModalAlts: []
-    fontSize: 'md'
 
   key: ->
     possibleKeys = [
@@ -67,7 +61,7 @@ module.exports = React.createClass
     @setState displayKey: null
 
   switchState: ->
-    _.pick @state, 'showChords', 'showLyrics', 'showFade', 'showSections', 'showAlternates'
+    _.pick @props.displaySettings, 'showChords', 'showLyrics', 'showFade', 'showSections', 'showAlternates'
 
   handleInput: (e) ->
     @props.handleInput e.target.value
@@ -83,7 +77,7 @@ module.exports = React.createClass
       label: S(key).chompLeft('show').s
       key: key
       active: value
-      handleClick: @toggleState key
+      handleClick: @props.toggleDisplaySwitch key
 
   selectAlt: (index) ->
     =>
@@ -98,13 +92,6 @@ module.exports = React.createClass
   showChordAltModal: (chord) ->
     @setState showChordAltModal: true, altsModalChord: chord
 
-  adjustFontSize: ->
-    oldFontSize = @state.fontSize
-    @setState fontSize: switch oldFontSize 
-      when 'md' then 'lg'
-      when 'lg' then 'sm'
-      else 'md'
-
   render: ->
     <Grid>
       <Row>
@@ -112,7 +99,7 @@ module.exports = React.createClass
           {<EditButton isEditing={@state.isEditing} handleClick={@handleEditClick} /> unless @props.readOnly}
           {<DeleteButton handleClick={@props.deleteSong} /> unless @props.readOnly}
           {<ShareButton songId={@props.shareableSongId} /> unless @props.readOnly}
-          <DisplaySettings switches={@switches()} adjustFontSize={@adjustFontSize} />
+          <DisplaySettings switches={@switches()} adjustFontSize={@props.adjustFontSize} />
           <MarkatoOutput song={@props.parsedInput}
                          switches={@switchState()}
                          displayKey={@displayKey()}
@@ -123,7 +110,7 @@ module.exports = React.createClass
                          play={@props.play}
                          showTransposeModal={@toggleState 'showTransposeModal'}
                          setDisplayKey={@setDisplayKey}
-                         fontSize={@state.fontSize} />
+                         fontSize={@props.displaySettings.fontSize} />
         </Col>
         {<Col md=6>
           <MarkatoInput input={@props.input}

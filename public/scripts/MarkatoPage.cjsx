@@ -12,6 +12,14 @@ example = require './example'
 
 parse = memoize parser.parseString, primitive: true
 
+defaultDisplaySettings =
+  showChords: true
+  showLyrics: true
+  showFade: true
+  showSections: true
+  showAlternates: true
+  fontSize: 'md'
+
 formatUserBucket = (userBucket) ->
   songs: userBucket.songs ? []
   currentSongIndex: userBucket.currentSongIndex
@@ -30,6 +38,7 @@ module.exports = React.createClass
         currentSongIndex: 0
 
     state.sharedSong = @props.sharedSong
+    state.sharedSongDisplaySettings = defaultDisplaySettings
     state
 
   componentDidMount: ->
@@ -46,9 +55,26 @@ module.exports = React.createClass
 
   getCurrentSong: ->
     if @state.currentSongIndex > -1
-      @state.songs[@state.currentSongIndex]
+      song = @state.songs[@state.currentSongIndex]
     else
       null
+
+  getDisplaySettings: ->
+    if @state.sharedSong
+      @state.sharedSongDisplaySettings
+    else
+      @getCurrentSong()?.displaySettings ? defaultDisplaySettings
+
+  setDisplaySetting: (key, val) ->
+    if @state.sharedSong
+      displaySettings = @state.sharedSongDisplaySettings
+      displaySettings[key] = val
+      @setState sharedSongDisplaySettings: displaySettings
+    else
+      song = @getCurrentSong()
+      song.displaySettings = @getDisplaySettings()
+      song.displaySettings[key] = val
+      @setCurrentSong(song)
 
   setCurrentSong: (song) ->
     songs = @state.songs
@@ -61,6 +87,15 @@ module.exports = React.createClass
     song.content = content
     song.name = @parsedCurrentSong().meta.TITLE if @parsedCurrentSong().meta.TITLE
     @setCurrentSong(song)
+
+  toggleDisplaySwitch: (key) ->
+    => @setDisplaySetting key, not @getDisplaySettings()[key]
+
+  adjustFontSize: ->
+    @setDisplaySetting 'fontSize', switch @getDisplaySettings().fontSize
+      when 'md' then 'lg'
+      when 'lg' then 'sm'
+      else 'md'
 
   newSongContent: (title) ->
     """
@@ -141,6 +176,11 @@ module.exports = React.createClass
     }</Alert></Col></Row></Grid>
 
   content: ->
+    displaySettingsProps =
+      displaySettings: @getDisplaySettings()
+      toggleDisplaySwitch: @toggleDisplaySwitch
+      adjustFontSize: @adjustFontSize
+
     if @state.sharedSong
       sharedSongContent = @state.sharedSong.content
       <div>
@@ -148,6 +188,7 @@ module.exports = React.createClass
         <MarkatoApp play={@props.play}
                     input={sharedSongContent}
                     parsedInput={parse sharedSongContent}
+                    {...displaySettingsProps}
                     readOnly />
       </div>
     else
@@ -158,7 +199,8 @@ module.exports = React.createClass
                       parsedInput={@parsedCurrentSong()}
                       handleInput={@updateCurrentSong}
                       deleteSong={@deleteSong}
-                      shareableSongId={@shareableSongId()} />
+                      shareableSongId={@shareableSongId()}
+                      {...displaySettingsProps} />
         else
           <div className="container">
             <p>You don't have any songs.  Why don't you create a <a href="#" onClick={@newSong}>new song</a>?</p>
