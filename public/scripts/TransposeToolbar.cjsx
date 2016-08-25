@@ -10,7 +10,7 @@ module.exports = React.createClass
 
     <small className="transpose-toolbar">
       <span> in</span>
-      <Glyphicon onClick={@props.setDisplayKey flat} glyph="triangle-left" className="clickable-color transpose-down" />
+      <Glyphicon onClick={=> @props.setDisplayKey flat} glyph="triangle-left" className="clickable-color transpose-down" />
       <span onClick={@props.showTransposeModal} className="transpose-key clickable-color">{@props.displayKey}</span>
-      <Glyphicon onClick={@props.setDisplayKey sharp} glyph="triangle-right" className="clickable-color transpose-up" />
+      <Glyphicon onClick={=> @props.setDisplayKey sharp} glyph="triangle-right" className="clickable-color transpose-up" />
     </small>

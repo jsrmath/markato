@@ -89,7 +89,7 @@ module.exports = React.createClass
     @setCurrentSong(song)
 
   toggleDisplaySwitch: (key) ->
-    => @setDisplaySetting key, not @getDisplaySettings()[key]
+    @setDisplaySetting key, not @getDisplaySettings()[key]
 
   adjustFontSize: ->
     @setDisplaySetting 'fontSize', switch @getDisplaySettings().fontSize
@@ -130,7 +130,7 @@ module.exports = React.createClass
     parse @getCurrentSong().content
 
   handleSongSelect: (index) ->
-    => @setState currentSongIndex: index, @saveCurrentSongIndex
+    @setState currentSongIndex: index, @saveCurrentSongIndex
 
   saveUserBucket: ->
     @props.setUserBucketKey 'songs', @state.songs

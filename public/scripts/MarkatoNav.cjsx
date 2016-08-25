@@ -22,7 +22,7 @@ module.exports = React.createClass
   songListItems: ->
     _.map @props.songNames, (song, index) =>
       classes = 'active' if @props.currentSongIndex is index
-      <MenuItem className={classes} key={index} onClick={@props.handleSongSelect index}>{song}</MenuItem>
+      <MenuItem className={classes} key={index} onClick={=> @props.handleSongSelect index}>{song}</MenuItem>
 
   songList: ->
     if @props.currentUserDisplayName

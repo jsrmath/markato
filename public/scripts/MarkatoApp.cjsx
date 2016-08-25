@@ -70,24 +70,22 @@ module.exports = React.createClass
     @setState isEditing: not @state.isEditing
 
   toggleState: (key) ->
-    => @setState "#{key}": not @state[key]
+    @setState "#{key}": not @state[key]
 
   switches: ->
     _.map @switchState(), (value, key) =>
       label: S(key).chompLeft('show').s
       key: key
       active: value
-      handleClick: @props.toggleDisplaySwitch key
+      handleClick: => @props.toggleDisplaySwitch key
 
   selectAlt: (index) ->
-    =>
-      chordReplacements = @state.chordReplacements
-      chordReplacements[@state.altsModalChord] = index
-      @setState chordReplacements: chordReplacements, showChordAltModal: false
+    chordReplacements = @state.chordReplacements
+    chordReplacements[@state.altsModalChord] = index
+    @setState chordReplacements: chordReplacements, showChordAltModal: false
 
   setDisplayKey: (key) ->
-    =>
-      @setState displayKey: key, showTransposeModal: false
+    @setState displayKey: key, showTransposeModal: false
 
   showChordAltModal: (chord) ->
     @setState showChordAltModal: true, altsModalChord: chord
@@ -108,7 +106,7 @@ module.exports = React.createClass
                          formatChordWithAlts={@formatChordWithAlts}
                          playback={not @state.isEditing}
                          play={@props.play}
-                         showTransposeModal={@toggleState 'showTransposeModal'}
+                         showTransposeModal={=> @toggleState 'showTransposeModal'}
                          setDisplayKey={@setDisplayKey}
                          fontSize={@props.displaySettings.fontSize} />
         </Col>
@@ -118,14 +116,14 @@ module.exports = React.createClass
         </Col> if @state.isEditing}
       </Row>
       <ChordAltModal show={@state.showChordAltModal}
-                     onHide={@toggleState 'showChordAltModal'}
+                     onHide={=> @toggleState 'showChordAltModal'}
                      chord={@state.altsModalChord}
                      alts={@props.parsedInput.alts[@state.altsModalChord]}
                      selected={@state.chordReplacements[@state.altsModalChord]}
                      selectAlt={@selectAlt}
                      formatChord={@formatChord} />
       <TransposeModal show={@state.showTransposeModal}
-                      onHide={@toggleState 'showTransposeModal'}
+                      onHide={=> @toggleState 'showTransposeModal'}
                       displayKey={@displayKey()}
                       originalKey={@key()}
                       setDisplayKey={@setDisplayKey}

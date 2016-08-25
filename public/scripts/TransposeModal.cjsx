@@ -9,7 +9,7 @@ module.exports = React.createClass
     _.map keys, (keyGroup, i) =>
       <ButtonGroup key={i}>
         {_.map keyGroup, (key) =>
-          <SelectableButton isSelected={key is @props.displayKey} key={key} onClick={@props.setDisplayKey key}>
+          <SelectableButton isSelected={key is @props.displayKey} key={key} onClick={=> @props.setDisplayKey key}>
             {key}
           </SelectableButton>
         }

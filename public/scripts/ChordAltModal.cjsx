@@ -5,7 +5,7 @@ SelectableButton = require './SelectableButton'
 
 module.exports = React.createClass
   renderChord: (chord, isSelected, index) ->
-    <SelectableButton isSelected={isSelected} onClick={@props.selectAlt index} key={chord}>
+    <SelectableButton isSelected={isSelected} onClick={=> @props.selectAlt index} key={chord}>
       {@props.formatChord chord}
     </SelectableButton>
 
