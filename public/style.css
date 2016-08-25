@@ -65,7 +65,7 @@ textarea {
   margin-bottom: 4px;
 }
 
-.switches button, .edit, .delete {
+.switches button, .edit, .delete, .share {
   display: block;
   clear: right;
   float: right;
@@ -83,8 +83,8 @@ textarea {
   color: inherit; cursor: inherit;
 }
 
-.modal-visible {
-  display: block;
+.share-modal {
+  margin-top: 10%;
 }
 
 .playback-active {
@@ -187,7 +187,7 @@ ul.splash-list li {
 }
 
 @media print {
-  .switches, .edit, .delete, .markato-input, .transpose-down, .transpose-up, footer, .alert {
+  .switches, .edit, .delete, .share, .markato-input, .transpose-down, .transpose-up, footer, .alert {
     display: none;
   }
 
