@@ -10,7 +10,9 @@ This is a sample song to help you
 get acquainted with the Markato format.
 Feel free to delete it or keep it as a reference.
 To create a new song, use the "Select Song" menu above.
-If you need help, click "Tutorial" next to it.
+For playback, click the "Play" button and then use
+spacebar to play and arrow keys to navigate.
+If you need help, click "Tutorial" in the top bar.
 
 #INTRO
 :C D C D C D
