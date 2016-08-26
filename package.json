@@ -42,7 +42,8 @@
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
     "gulp-rename": "^1.2.2",
-    "gulp-shell": "^0.5.2"
+    "gulp-shell": "^0.5.2",
+    "gulp-uglify": "^2.0.0"
   },
   "dependencies": {
     "autosize": "^3.0.17",
