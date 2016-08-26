@@ -155,8 +155,7 @@ module.exports = React.createClass
 
   removeSharedSong: ->
     if @state.sharedSong
-      @setState sharedSong: null
-      window.history.pushState(null, null, '/') # Remove the query string from the URL without reload
+      window.location = '/'
 
   sharedSongAlert: ->
     <Grid><Row><Col md=12><Alert bsStyle="warning">{
@@ -164,14 +163,14 @@ module.exports = React.createClass
         <p>
           You are viewing a Markato song that someone has shared with you.
           To return to your own songs, select one from the "Select Song" dropdown or click 
-          <a href="#" onClick={@removeSharedSong}>here</a>.
+          <span className="clickable-color" onClick={@removeSharedSong}>here</span>.
         </p>
       else
         <p>
           This song was written with a free web app called Markato.
           Use the arrow keys and spacebar to play through the chords.
           To learn more about Markato, click 
-          <a href="#" onClick={@removeSharedSong}>here</a>.
+          <span className="clickable-color" onClick={@removeSharedSong}>here</span>.
         </p>
     }</Alert></Col></Row></Grid>
 

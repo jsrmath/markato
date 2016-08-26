@@ -102,7 +102,7 @@ textarea {
   user-select: none;
 }
 
-.clickable-color {
+a, a:hover, .clickable-color {
   color: #5bc0de;
 }
 
