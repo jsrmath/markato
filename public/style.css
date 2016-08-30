@@ -138,9 +138,7 @@ a, a:hover, .clickable-color {
 }
 
 .nav-icon {
-  width: 17px;
-  float: left;
-  margin-right: 5px;
+  width: 21px;
 }
 
 .navbar-nav > .disabled.navbar-username > a {

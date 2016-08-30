@@ -47,8 +47,7 @@ module.exports = React.createClass
     <Navbar fixedTop>
       <Navbar.Header>
         <Navbar.Brand>
-          <img src="icon.png" className="nav-icon" />
-          <span>Markato</span>
+          <a href="#"><img src="icon.png" className="nav-icon" /></a>
         </Navbar.Brand>
       </Navbar.Header>
       <Nav>
