@@ -8,6 +8,7 @@ Loading = require './Loading'
 firebase = require 'firebase/app'
 storageModule = require './storage'
 
+require 'object-assign-shim'
 require 'firebase/auth'
 require 'firebase/database'
 require 'bootstrap/dist/js/bootstrap'

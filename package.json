@@ -54,6 +54,7 @@
     "firebase": "^3.2.1",
     "jquery": "^2.2.3",
     "memoizee": "^0.3.10",
+    "object-assign-shim": "^1.0.0",
     "query-string": "^4.2.3",
     "react": "^15.3.1",
     "react-bootstrap": "^0.30.3",
