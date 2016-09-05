@@ -20,6 +20,7 @@ defaultDisplaySettings =
   showAlternates: true
   showUkulele: false
   fontSize: 'md'
+  displayKey: null
 
 formatUserBucket = (userBucket) ->
   songs: userBucket.songs ? []
@@ -180,6 +181,7 @@ module.exports = React.createClass
       displaySettings: @getDisplaySettings()
       toggleDisplaySwitch: @toggleDisplaySwitch
       adjustFontSize: @adjustFontSize
+      setDisplayKey: _.partial @setDisplaySetting, 'displayKey'
 
     if @state.sharedSong
       sharedSongContent = @state.sharedSong.content

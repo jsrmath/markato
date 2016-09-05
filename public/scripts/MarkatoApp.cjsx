@@ -29,7 +29,6 @@ transpose = (origKey, newKey, chordStr) ->
 module.exports = React.createClass
   getInitialState: ->
     isEditing: not @props.readOnly
-    displayKey: null
     showChordAltModal: false
     showTransposeModal: false
     chordReplacements: {} # Maps chord to index of alternate
@@ -52,7 +51,7 @@ module.exports = React.createClass
       null
 
   displayKey: ->
-    @state.displayKey or @key()
+    @props.displaySettings.displayKey or @key()
 
   formatChord: (chord) ->
     if chord
@@ -71,7 +70,7 @@ module.exports = React.createClass
       ''
 
   resetKey: ->
-    @setState displayKey: null
+    @setDisplayKey null
 
   switchState: ->
     _.pick @props.displaySettings, 'showChords', 'showLyrics', 'showFade', 'showSections', 'showAlternates', 'showUkulele'
@@ -98,7 +97,10 @@ module.exports = React.createClass
     @setState chordReplacements: chordReplacements, showChordAltModal: false
 
   setDisplayKey: (key) ->
-    @setState displayKey: key, showTransposeModal: false
+    # If a song is set to its original key, treat that as a "reset" to null
+    # Thus, if the song's key changes the display key will change as well
+    @props.setDisplayKey if key is @extractKey @props.parsedInput.meta.KEY then null else key
+    @setState showTransposeModal: false
 
   showChordAltModal: (chord) ->
     @setState showChordAltModal: true, altsModalChord: chord
