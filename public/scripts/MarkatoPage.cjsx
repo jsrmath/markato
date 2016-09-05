@@ -18,6 +18,7 @@ defaultDisplaySettings =
   showFade: true
   showSections: true
   showAlternates: true
+  showUkulele: false
   fontSize: 'md'
 
 formatUserBucket = (userBucket) ->
@@ -63,7 +64,7 @@ module.exports = React.createClass
     if @state.sharedSong
       @state.sharedSongDisplaySettings
     else
-      @getCurrentSong()?.displaySettings ? defaultDisplaySettings
+      _.defaults @getCurrentSong()?.displaySettings or {}, defaultDisplaySettings
 
   setDisplaySetting: (key, val) ->
     if @state.sharedSong

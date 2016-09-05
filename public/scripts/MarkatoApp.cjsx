@@ -74,7 +74,7 @@ module.exports = React.createClass
     @setState displayKey: null
 
   switchState: ->
-    _.pick @props.displaySettings, 'showChords', 'showLyrics', 'showFade', 'showSections', 'showAlternates'
+    _.pick @props.displaySettings, 'showChords', 'showLyrics', 'showFade', 'showSections', 'showAlternates', 'showUkulele'
 
   handleInput: (e) ->
     @props.handleInput e.target.value

@@ -184,8 +184,23 @@ ul.splash-list li {
   font-size: medium;
 }
 
+.ukulele-chord {
+  display: inline-block;
+  margin-right: .5em;
+  margin-bottom: 1em;
+}
+
+.ukulele-chord-name {
+  position: absolute;
+  text-align: center;
+  width: 61px;
+  background-color: white;
+  font-size: 13px;
+  font-weight: bold;
+}
+
 @media print {
-  .switches, .edit, .delete, .share, .markato-input, .transpose-down, .transpose-up, footer, .alert {
+  .switches, .edit, .delete, .share, .markato-input, .transpose-down, .transpose-up, footer, .alert, .ukulele-chord-name {
     display: none;
   }
 

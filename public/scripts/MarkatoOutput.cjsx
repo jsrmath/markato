@@ -4,6 +4,7 @@ React = require 'react'
 classNames = require 'classnames'
 MarkatoContent = require './MarkatoContent'
 TransposeToolbar = require './TransposeToolbar'
+UkuleleChords = require './UkuleleChords'
 
 module.exports = React.createClass
   getInitialState: ->
@@ -57,6 +58,7 @@ module.exports = React.createClass
                           setDisplayKey={@props.setDisplayKey} />
       </h2>
       {@byline()}
+      {<UkuleleChords song={@props.song} formatChordWithAlts={@props.formatChordWithAlts} /> if @props.switches.showUkulele}
       <MarkatoContent song={@props.song}
                       playback={@props.playback}
                       currentChordId={@state.currentChordId}
