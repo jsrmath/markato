@@ -19,7 +19,7 @@ chordSymbolMap =
   'sus2': 'sus2'
   'sus4': 'sus4'
   '7sus4': '7sus4'
-  'sus47': 'sus47'
+  'sus47': '7sus4'
 
 module.exports = React.createClass
   chordCharts: ->
