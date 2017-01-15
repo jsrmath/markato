@@ -120,7 +120,7 @@ interpretLyricChordLine = (state, section, lineObj, lineNum) ->
 
   # If there is no above line of chords, use the section chords
   if not chords.length
-    chords = sectionChords
+    chords = sectionChords ? []
 
   # Otherwise, substitute * from chords where necessary
   else
