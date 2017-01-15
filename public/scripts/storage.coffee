@@ -8,6 +8,7 @@ module.exports.init = (firebase, user) ->
     .then (snapshot) =>
       callback snapshot.val()
     .catch (err) =>
+      console.log err
       alert err
 
   setUserBucketKey: (key, val) ->
@@ -18,4 +19,5 @@ module.exports.init = (firebase, user) ->
     .then (snapshot) =>
       callback _.findWhere snapshot.val(), uid: songId
     .catch (err) =>
+      console.log err
       alert err

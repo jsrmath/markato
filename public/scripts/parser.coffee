@@ -213,26 +213,35 @@ markatoObjectFromState = (state) ->
 
   state
 
+# Parses a string of Markato and returns a Markato object
+parseString = (str) ->
+  lines = S(str).lines()
+
+  parseState =
+    current:
+      footer: false # Are we in the footer?
+      lastLine: null # Previous lyric/chord line in this section
+    meta: {}
+    alts: {}
+    sections: []
+    chords: {}
+    content: []
+
+  # Run parser
+  parseState = _.reduce lines, parseLine, parseState
+
+  # Interpret lyric/chord lines
+  parseState.content = _.map parseState.content, _.partial interpretLyricSection, parseState
+
+  markatoObjectFromState parseState
 
 module.exports =
-  # Parses a string of Markato and returns a Markato object
+  # In the ideally non-existent case that the parser throws an error, still return a Markato object
   parseString: (str) ->
-    lines = S(str).lines()
-
-    parseState =
-      current:
-        footer: false # Are we in the footer?
-        lastLine: null # Previous lyric/chord line in this section
-      meta: {}
-      alts: {}
-      sections: []
-      chords: {}
-      content: []
-
-    # Run parser
-    parseState = _.reduce lines, parseLine, parseState
-
-    # Interpret lyric/chord lines
-    parseState.content = _.map parseState.content, _.partial interpretLyricSection, parseState
-
-    markatoObjectFromState parseState
+    try
+      parseString str
+    catch err
+      errObject = parseString "#Error\nYour Markato input could not be parsed."
+      errObject.err = err
+      errObject
+  
