@@ -199,6 +199,12 @@ ul.splash-list li {
   font-weight: bold;
 }
 
+.select-song-nav .dropdown-menu {
+  height: auto;
+  max-height: 400px;
+  overflow-x: hidden;
+}
+
 @media print {
   .switches, .edit, .delete, .share, .markato-input, .transpose-down, .transpose-up, footer, .alert, .ukulele-chord-name {
     display: none;

@@ -26,7 +26,7 @@ module.exports = React.createClass
 
   songList: ->
     if @props.currentUserDisplayName
-      <NavDropdown title="Select Song" id="select-song">
+      <NavDropdown title="Select Song" id="select-song" className="select-song-nav">
         {@songListItems()}
         <MenuItem role="separator" className="divider" />
         <MenuItem onClick={@props.newSong}>New Song</MenuItem>
