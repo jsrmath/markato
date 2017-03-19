@@ -187,8 +187,7 @@ module.exports = React.createClass
       sharedSongContent = @state.sharedSong.content
       <div>
         {@sharedSongAlert()}
-        <MarkatoApp play={@props.play}
-                    input={sharedSongContent}
+        <MarkatoApp input={sharedSongContent}
                     parsedInput={parse sharedSongContent}
                     {...displaySettingsProps}
                     readOnly />
@@ -196,8 +195,7 @@ module.exports = React.createClass
     else
       if @props.currentUser
         if @getCurrentSong()
-          <MarkatoApp play={@props.play}
-                      input={@getCurrentSong().content}
+          <MarkatoApp input={@getCurrentSong().content}
                       parsedInput={@parsedCurrentSong()}
                       handleInput={@updateCurrentSong}
                       deleteSong={@deleteSong}

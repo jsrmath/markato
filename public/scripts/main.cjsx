@@ -1,5 +1,4 @@
 window.$ = window.jQuery = require 'jquery'
-audio = require 'sharp11-web-audio'
 React = require 'react'
 ReactDOM = require 'react-dom'
 queryString = require 'query-string'
@@ -33,25 +32,20 @@ handleSharedSongQueryString = (storage, callback) ->
   else
     callback()
 
-audio.init (err, fns) ->
-  if err then alert err
-  {play} = fns
+# Authenticate
+firebase.auth().getRedirectResult().then =>
+  user = firebase.auth().currentUser
+  storage = storageModule.init(firebase, user)
 
-  # Authenticate
-  firebase.auth().getRedirectResult().then =>
-    user = firebase.auth().currentUser
-    storage = storageModule.init(firebase, user)
+  # Get user data
+  storage.getUserBucket (userBucket) =>
 
-    # Get user data
-    storage.getUserBucket (userBucket) =>
-
-      # Handle possible shared song
-      handleSharedSongQueryString storage, (sharedSong) =>
-        ReactDOM.render(
-          <MarkatoPage play={play}
-                       currentUser={user}
-                       userBucket={userBucket}
-                       setUserBucketKey={storage.setUserBucketKey}
-                       sharedSong={sharedSong} />,
-          document.getElementById 'body'
-        )
+    # Handle possible shared song
+    handleSharedSongQueryString storage, (sharedSong) =>
+      ReactDOM.render(
+        <MarkatoPage currentUser={user}
+                     userBucket={userBucket}
+                     setUserBucketKey={storage.setUserBucketKey}
+                     sharedSong={sharedSong} />,
+        document.getElementById 'body'
+      )

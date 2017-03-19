@@ -2,6 +2,7 @@ React = require 'react'
 _ = require 'underscore'
 S = require 'string'
 s11 = require 'sharp11'
+audio = require 'sharp11-web-audio'
 { Grid, Row, Col } = require 'react-bootstrap'
 DisplaySettings = require './DisplaySettings'
 MarkatoOutput = require './MarkatoOutput'
@@ -11,6 +12,14 @@ DeleteButton = require './DeleteButton'
 ShareButton = require './ShareButton'
 ChordAltModal = require './ChordAltModal'
 TransposeModal = require './TransposeModal'
+
+# Lazily load play function
+play = null
+lazilyLoadPlay = ->
+  unless play
+    audio.init (err, fns) ->
+      if err then alert err
+      {play} = fns
 
 # TODO(jsrmath): Fix sharp11 issue #3 and then use plain chord.transpose
 transpose = (origKey, newKey, chordStr) ->
@@ -106,6 +115,7 @@ module.exports = React.createClass
     @setState showChordAltModal: true, altsModalChord: chord
 
   render: ->
+    lazilyLoadPlay()
     <Grid>
       <Row>
         <Col md={if @state.isEditing then 6 else 12}>
@@ -120,7 +130,7 @@ module.exports = React.createClass
                          chordReplacements={@state.chordReplacements}
                          formatChordWithAlts={@formatChordWithAlts}
                          playback={not @state.isEditing}
-                         play={@props.play}
+                         play={play}
                          showTransposeModal={=> @toggleState 'showTransposeModal'}
                          setDisplayKey={@setDisplayKey}
                          fontSize={@props.displaySettings.fontSize} />
