@@ -13,14 +13,6 @@ ShareButton = require './ShareButton'
 ChordAltModal = require './ChordAltModal'
 TransposeModal = require './TransposeModal'
 
-# Lazily load play function
-play = null
-lazilyLoadPlay = ->
-  unless play
-    audio.init (err, fns) ->
-      if err then alert err
-      {play} = fns
-
 # TODO(jsrmath): Fix sharp11 issue #3 and then use plain chord.transpose
 transpose = (origKey, newKey, chordStr) ->
   try
@@ -43,6 +35,12 @@ module.exports = React.createClass
     chordReplacements: {} # Maps chord to index of alternate
     altsModalChord: null
     altsModalAlts: []
+    play: null # Lazily load the play function before the component mounts
+
+  componentWillMount: ->
+    audio.init (err, fns) =>
+      if err then alert err
+      @setState play: fns.play
 
   key: ->
     possibleKeys = [
@@ -115,7 +113,6 @@ module.exports = React.createClass
     @setState showChordAltModal: true, altsModalChord: chord
 
   render: ->
-    lazilyLoadPlay()
     <Grid>
       <Row>
         <Col md={if @state.isEditing then 6 else 12}>
@@ -130,7 +127,7 @@ module.exports = React.createClass
                          chordReplacements={@state.chordReplacements}
                          formatChordWithAlts={@formatChordWithAlts}
                          playback={not @state.isEditing}
-                         play={play}
+                         play={@state.play}
                          showTransposeModal={=> @toggleState 'showTransposeModal'}
                          setDisplayKey={@setDisplayKey}
                          fontSize={@props.displaySettings.fontSize} />
