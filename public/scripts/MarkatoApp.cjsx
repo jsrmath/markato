@@ -13,17 +13,11 @@ ShareButton = require './ShareButton'
 ChordAltModal = require './ChordAltModal'
 TransposeModal = require './TransposeModal'
 
-# TODO(jsrmath): Fix sharp11 issue #3 and then use plain chord.transpose
 transpose = (origKey, newKey, chordStr) ->
   try
-    chord = s11.chord.create(chordStr)
     interval = s11.note.create(origKey).getInterval(newKey)
-    newRoot = chord.root.transpose(interval).clean()
-    newBass = '/' + chord.bass.transpose(interval).clean() if chord.bass
-
-    chordStr = chordStr.replace(new RegExp('^' + chord.root), newRoot)
-    chordStr = chordStr.replace(new RegExp('/' + chord.bass), newBass) if chord.bass
-    chordStr
+    chord = s11.chord.create(chordStr).transpose(interval)
+    chord.name
   catch err
     chordStr
 
