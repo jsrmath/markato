@@ -6,3 +6,5 @@ Software for songwriters
 * Play through the chords of your song with arrow keys and spacebar
 
 [markato.studio](https://markato.studio)
+
+Note: Markato is not being actively maintained so use at your own risk

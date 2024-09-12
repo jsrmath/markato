@@ -7,7 +7,8 @@ module.exports = React.createClass
 
   render: ->
     <Grid><Row><Col md=12><footer><p>
-      Markato is written and maintained by <a href="http://julianrosenblum.com">Julian Rosenblum</a>.
-      Developers are encouraged to check out Markato on <a href="https://github.com/jsrmath/markato">GitHub</a>.
+      Markato was written by <a href="http://julianrosenblum.com">Julian Rosenblum</a>.
+      It is not being actively maintained so use at your own risk.
+      Developers can check out Markato on <a href="https://github.com/jsrmath/markato">GitHub</a>.
     </p></footer></Col></Row></Grid>
     
