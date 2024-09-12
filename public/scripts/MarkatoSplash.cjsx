@@ -5,7 +5,7 @@ firebase = require 'firebase/app'
 module.exports = React.createClass
   login: ->
     provider = new firebase.auth.GoogleAuthProvider()
-    firebase.auth().signInWithRedirect(provider)
+    firebase.auth().signInWithPopup(provider).then(-> location.reload())
 
   render: ->
     <Grid className="splash">
